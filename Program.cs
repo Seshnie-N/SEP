@@ -1,6 +1,8 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using SEP.Areas.Identity.Data;
+using SEP.Models.DomainModels;
+
 namespace SEP
 {
     public class Program
@@ -16,13 +18,18 @@ namespace SEP
             builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
                 .AddEntityFrameworkStores<ApplicationDbContext>();
 
+            builder.Services.AddIdentityCore<Student>().AddEntityFrameworkStores<ApplicationDbContext>();
+            builder.Services.AddIdentityCore<Employer>().AddEntityFrameworkStores<ApplicationDbContext>();
+
             // Add services to the container.
             builder.Services.AddControllersWithViews();
             builder.Services.AddRazorPages();
-            builder.Services.Configure<IdentityOptions>(options =>
-            {
-                options.Password.RequireUppercase = false;
-            });
+
+            //configure default password validation
+            //builder.Services.Configure<IdentityOptions>(options =>
+            //{
+            //    options.Password.RequireUppercase = false;
+            //});
 
             var app = builder.Build();
 
