@@ -15,21 +15,22 @@ namespace SEP
             builder.Services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(connectionString));
 
-            builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
+            builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = false)
+                .AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
 
-            builder.Services.AddIdentityCore<Student>().AddEntityFrameworkStores<ApplicationDbContext>();
-            builder.Services.AddIdentityCore<Employer>().AddEntityFrameworkStores<ApplicationDbContext>();
+            //builder.Services.AddIdentityCore<Student>().AddEntityFrameworkStores<ApplicationDbContext>();
+            //builder.Services.AddIdentityCore<Employer>().AddEntityFrameworkStores<ApplicationDbContext>();
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
             builder.Services.AddRazorPages();
 
             //configure default password validation
-            //builder.Services.Configure<IdentityOptions>(options =>
-            //{
-            //    options.Password.RequireUppercase = false;
-            //});
+            builder.Services.Configure<IdentityOptions>(options =>
+            {
+                options.Password.RequireUppercase = false;
+            });
 
             var app = builder.Build();
 

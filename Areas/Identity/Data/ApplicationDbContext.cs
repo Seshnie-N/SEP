@@ -8,9 +8,6 @@ namespace SEP.Areas.Identity.Data;
 
 public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
 {
-    public DbSet<Student> Students { get; set; }
-    public DbSet<Employer> Employers { get; set; }
-
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
         : base(options)
     {
@@ -25,4 +22,6 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
         builder.Entity<Student>(entity => {entity.ToTable("Student"); }) ;
         builder.Entity<Employer>(entity => { entity.ToTable("Employer"); });
     }
+    public DbSet<Student> Students { get; set; }
+    public DbSet<Employer> Employers { get; set; }
 }
