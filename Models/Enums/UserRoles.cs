@@ -2,7 +2,7 @@
 {
     public enum UserRoles
     {
-        Employer,
-        Student
+        Employer = 1,
+        Student = 2
     }
 }

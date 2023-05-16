@@ -32,8 +32,8 @@
                 <span asp-validation-for="Input.PhoneNumber" class="text-danger"></span>
             </div>
             <div class="form-floating">
-                <select class="form-select" aria-label="Default select example" asp-for="Input.Role" asp-items="Html.GetEnumSelectList<UserRoles>()">
-                    <option selected="selected" value="">Please select a profile type</option>
+                <select class="form-select" aria-label="Default select example" asp-for="Input.Role" asp-items="@Html.GetEnumSelectList<UserRoles>()"> 
+                    <option value="">Select a profile type...</option>
                 </select>
                 <label asp-for="Input.Role"></label>
             </div>

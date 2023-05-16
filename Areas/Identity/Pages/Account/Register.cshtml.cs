@@ -32,13 +32,15 @@ namespace SEP.Areas.Identity.Pages.Account
         private readonly IUserEmailStore<ApplicationUser> _emailStore;
         private readonly ILogger<RegisterModel> _logger;
         private readonly IEmailSender _emailSender;
+        private readonly RoleManager<IdentityRole> _roleManager;
 
         public RegisterModel(
             UserManager<ApplicationUser> userManager,
             IUserStore<ApplicationUser> userStore,
             SignInManager<ApplicationUser> signInManager,
             ILogger<RegisterModel> logger,
-            IEmailSender emailSender)
+            IEmailSender emailSender,
+            RoleManager<IdentityRole> roleManager)
         {
             _userManager = userManager;
             _userStore = userStore;
@@ -46,6 +48,7 @@ namespace SEP.Areas.Identity.Pages.Account
             _signInManager = signInManager;
             _logger = logger;
             _emailSender = emailSender;
+            _roleManager = roleManager;
         }
 
         [BindProperty]
@@ -59,7 +62,7 @@ namespace SEP.Areas.Identity.Pages.Account
         {
             [Required]
             [EmailAddress]
-            [Display(Name = "Email")]
+            [Display(Name = "Username/Email")]
             public string Email { get; set; }
 
             [Required]
@@ -84,7 +87,6 @@ namespace SEP.Areas.Identity.Pages.Account
             public string LastName { get; set; }
 
             [Display(Name ="Profile type")]
-            [EnumDataType(typeof(UserRoles))]
             public UserRoles Role { get; set; }
         }
 
@@ -105,14 +107,23 @@ namespace SEP.Areas.Identity.Pages.Account
 
                 user.FirstName = Input.FirstName;
                 user.LastName = Input.LastName;
-
+                user.PhoneNumber = Input.PhoneNumber;
+                
                 await _userStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);
-                await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
+                await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);       
                
                 var result = await _userManager.CreateAsync(user, Input.Password);
 
                 if (result.Succeeded)
                 {
+                    var roleName = Input.Role.ToString();
+                    var defaultrole = _roleManager.FindByNameAsync(Input.Role.ToString()).Result;
+
+                    if (defaultrole != null)
+                    {
+                        IdentityResult roleresult = await _userManager.AddToRoleAsync(user, defaultrole.Name);
+                    }
+
                     _logger.LogInformation("User created a new account with password.");
 
                     var userId = await _userManager.GetUserIdAsync(user);

@@ -1,13 +1,14 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using SEP.Areas.Identity.Data;
+using SEP.Models;
 using SEP.Models.DomainModels;
 
 namespace SEP
 {
     public class Program
     {
-        public static void Main(string[] args)
+        public static async Task Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
                         var connectionString = builder.Configuration.GetConnectionString("ApplicationDbContextConnection") ?? throw new InvalidOperationException("Connection string 'ApplicationDbContextConnection' not found.");
@@ -46,6 +47,7 @@ namespace SEP
             app.UseStaticFiles();
 
             app.UseRouting();
+            
             app.UseAuthentication(); 
 
             app.UseAuthorization();
@@ -54,6 +56,22 @@ namespace SEP
                 name: "default",
                 pattern: "{controller=Home}/{action=Index}/{id?}");
             app.MapRazorPages();
+
+            //seeding roles
+            using (var scope = app.Services.CreateScope())
+            {
+                var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+
+                var roles = new[] { "Admin", "Approver", "Employer", "Student" };
+
+                foreach (var role in roles)
+                {
+                    //we want to add the roles to the system - only if role does not already exist in system
+                    //ensure main task is async*
+                    if (!await roleManager.RoleExistsAsync(role))
+                        await roleManager.CreateAsync(new IdentityRole(role));
+                }
+            }
 
             app.Run();
         }
