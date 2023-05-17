@@ -21,10 +21,9 @@ namespace SEP.Controllers
             _userManager = userManager;
         }
 
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
             
-
 			return View();
         }
 
@@ -32,21 +31,16 @@ namespace SEP.Controllers
         {
             ApplicationUser user = await _userManager.GetUserAsync(User);
 
-            //Student? student = await _db.Students.SingleOrDefaultAsync(s => s.User.Id.Equals(user.Id));
             var student = await _db.Students.Where(s => s.UserId == user.Id).SingleOrDefaultAsync();
 
             if (student == null)
             {
                 student = new Student
                 {
-                    User = user,
                     UserId = user.Id
                 };
             }
-            else
-            {
-               
-            }
+           
             return View(student);
         }
 

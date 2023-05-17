@@ -12,8 +12,8 @@ using SEP.Areas.Identity.Data;
 namespace SEP.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230517113147_Init")]
-    partial class Init
+    [Migration("20230517203107_init")]
+    partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

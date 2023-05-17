@@ -7,10 +7,10 @@ namespace SEP.Models.DomainModels
     [Table("Employer")]
     public class Employer 
     {
-        [Key]
-        public int EmployerId { get; set; }
+        //[Key]
+        //public int EmployerId { get; set; }
+        [ForeignKey(nameof(User))]
         public string UserId { get; set; }
-        [ForeignKey(nameof(UserId))]
         public virtual ApplicationUser User { get; set; }
         public string RegistrationNumber { get; set; }
     }
