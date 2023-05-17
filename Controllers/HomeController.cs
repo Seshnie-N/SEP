@@ -17,7 +17,6 @@ namespace SEP.Controllers
 
         public IActionResult Index()
         {
-
             return View();
         }
 

@@ -10,6 +10,10 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
 {
     public DbSet<Student> Students { get; set; }
     public DbSet<Employer> Employers { get; set; }
+    public DbSet<Post> Posts { get; set; }
+    public DbSet<Faculty> faculties { get; set; }
+    public DbSet<Department> Departments { get; set; }
+
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
         : base(options)
     {
