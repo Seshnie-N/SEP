@@ -4,10 +4,13 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SEP.Models.DomainModels
 {
+    [Table("Employer")]
     public class Employer 
     {
-        [Key, ForeignKey("ApplicationUser")]
-        public int Id { get; set; }
+        [Key]
+        public int EmployerId { get; set; }
+        public string UserId { get; set; }
+        [ForeignKey(nameof(UserId))]
         public virtual ApplicationUser User { get; set; }
         public string RegistrationNumber { get; set; }
     }

@@ -1,9 +1,12 @@
 ﻿namespace SEP.Models.Enums
 {
-    public enum Gender
+    public enum Race
     {
-        Male,
-        Female
+        Black,
+        White,
+        Coloured,
+        Indian,
+        Asian
     }
 
     //public enum BusinessType

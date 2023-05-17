@@ -62,7 +62,7 @@ namespace SEP.Areas.Identity.Pages.Account
         {
             [Required]
             [EmailAddress]
-            [Display(Name = "Username/Email")]
+            [Display(Name = "Email")]
             public string Email { get; set; }
 
             [Required]
@@ -116,12 +116,11 @@ namespace SEP.Areas.Identity.Pages.Account
 
                 if (result.Succeeded)
                 {
-                    var roleName = Input.Role.ToString();
-                    var defaultrole = _roleManager.FindByNameAsync(Input.Role.ToString()).Result;
+                    var selectedRole = _roleManager.FindByNameAsync(Input.Role.ToString()).Result;
 
-                    if (defaultrole != null)
+                    if (selectedRole != null)
                     {
-                        IdentityResult roleresult = await _userManager.AddToRoleAsync(user, defaultrole.Name);
+                        IdentityResult roleresult = await _userManager.AddToRoleAsync(user, selectedRole.Name);
                     }
 
                     _logger.LogInformation("User created a new account with password.");
