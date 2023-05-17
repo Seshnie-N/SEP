@@ -23,36 +23,41 @@ namespace SEP.Controllers
 
         public async Task<IActionResult> Index()
         {
-            ApplicationUser user = await _userManager.GetUserAsync(User);
             
-			Student? student = await _db.Students.SingleOrDefaultAsync(s => s.User.Id.Equals(user.Id));
 
-			if (student == null)
-			{
+			return View();
+        }
+
+        public async Task<IActionResult> UpdateAsync()
+        {
+            ApplicationUser user = await _userManager.GetUserAsync(User);
+
+            Student? student = await _db.Students.SingleOrDefaultAsync(s => s.User.Id.Equals(user.Id));
+
+            if (student == null)
+            {
                 student = new Student
                 {
                     User = user,
                     UserId = user.Id
                 };
             }
-			else
-			{
-				_logger.LogInformation($"student for {user.FirstName} exists");
-			}
-
-			return View(student);
+            else
+            {
+                _logger.LogInformation($"student for {user.FirstName} exists");
+            }
+            return View(student);
         }
 
         //POST
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Index(Student student)
+        public IActionResult Update(Student student)
         {
-           
-            _db.Students.Add(student);
+            _db.Students.Update(student);
             _db.SaveChanges();
-            
-            return View();
+            return RedirectToAction("Index", "Home");
         }
+
     }
 }

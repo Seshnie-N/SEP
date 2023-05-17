@@ -5,7 +5,7 @@ using System.Diagnostics;
 
 namespace SEP.Controllers
 {
- 
+    [Authorize]
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
@@ -17,6 +17,7 @@ namespace SEP.Controllers
 
         public IActionResult Index()
         {
+
             return View();
         }
 
