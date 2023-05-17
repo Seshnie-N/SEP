@@ -2,7 +2,7 @@
 
 namespace SEP.Models.Enums
 {
-    public enum DriverLicense
+    public enum DriversLicense
     {
         [Display(Name ="Code A: Motorcycles")]
         CodeA,

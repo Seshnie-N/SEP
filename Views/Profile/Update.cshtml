@@ -1,4 +1,5 @@
 ﻿@model SEP.Models.DomainModels.Student
+@using SEP.Models.Enums
 @{
 }
 
@@ -6,13 +7,90 @@
 
 <form method="post" asp-action="Update">
 
-    <input asp-for="UserId" />
+    <input asp-for="UserId" hidden/>
+    <input asp-for="User" hidden/>
 
     <div class="form-floating pb-3">
         <input asp-for="StudentNumber" class="form-control" />
         <label asp-for="StudentNumber" class="col-sm-auto col-form-label">Student Number</label>
         <span asp-validation-for="StudentNumber" class="text-danger"></span>
     </div>
+
+@*    <div class="form-floating pb-3">
+        <input asp-for="FirstName" class="form-control" />
+        <label asp-for="FirstName" class="col-sm-auto col-form-label">First name</label>
+        <span asp-validation-for="FirstName" class="text-danger"></span>
+    </div>
+
+    <div class="form-floating pb-3">
+        <input asp-for="LastName" class="form-control" />
+        <label asp-for="LastName" class="col-sm-auto col-form-label">Last name</label>
+        <span asp-validation-for="LastName" class="text-danger"></span>
+    </div>
+
+    <div class="form-floating pb-3">
+        <input asp-for="Address" class="form-control" />
+        <label asp-for="Address" class="col-sm-auto col-form-label">Address</label>
+        <span asp-validation-for="Address" class="text-danger"></span>
+    </div>
+
+    <div class="form-floating pb-3">
+        <input asp-for="PhoneNumber" class="form-control" />
+        <label asp-for="PhoneNumber" class="col-sm-auto col-form-label">Phone number</label>
+        <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+    </div>
+
+    <div class="form-floating pb-3">
+        <input asp-for="Email" class="form-control" />
+        <label asp-for="Email" class="col-sm-auto col-form-label">Email</label>
+        <span asp-validation-for="Email" class="text-danger"></span>
+    </div>
+
+    <div class="form-floating pb-3">
+        <input asp-for="IdNumber" class="form-control" />
+        <label asp-for="IdNumber" class="col-sm-auto col-form-label">ID Number</label>
+        <span asp-validation-for="IdNumber" class="text-danger"></span>
+    </div>
+
+    <div class="form-floating pb-3">
+        <select class="form-select" aria-label="Default select example" asp-for="DriversLicense" asp-items="@Html.GetEnumSelectList<DriversLicense>()">
+            <option value="">Select...</option>
+        </select>
+        <label asp-for="DriversLicense"></label>
+    </div>
+
+    <div class="form-floating pb-3">
+        <input asp-for="CarrerObjective" class="form-control" />
+        <label asp-for="CarrerObjective" class="col-sm-auto col-form-label">Career Objective</label>
+        <span asp-validation-for="CarrerObjective" class="text-danger"></span>
+    </div>
+
+    <div class="form-floating pb-3">
+        <select class="form-select" aria-label="Default select example" asp-for="Gender" asp-items="@Html.GetEnumSelectList<Gender>()">
+            <option value="">Select...</option>
+        </select>
+        <label asp-for="Gender"></label>
+    </div>
+
+    <div class="form-floating pb-3">
+        <select class="form-select" aria-label="Default select example" asp-for="Race" asp-items="@Html.GetEnumSelectList<Race>()">
+            <option value="">Select...</option>
+        </select>
+        <label asp-for="Race"></label>
+    </div>
+
+    <div class="form-floating pb-3">
+        <input asp-for="Nationality" class="form-control" />
+        <label asp-for="Nationality" class="col-sm-auto col-form-label">Nationality</label>
+        <span asp-validation-for="Nationality" class="text-danger"></span>
+    </div>
+
+    <div class="form-floating pb-3">
+        <select class="form-select" asp-for="Department" asp-items="">
+            <option value="">Select...</option>
+        </select>
+        <label asp-for="Department"></label>
+    </div>*@
 
     <button type="submit" class="btn btn-primary">Save</button>
 </form>

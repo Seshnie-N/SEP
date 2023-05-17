@@ -28,11 +28,12 @@ namespace SEP.Controllers
 			return View();
         }
 
-        public async Task<IActionResult> UpdateAsync()
+        public async Task<IActionResult> Update()
         {
             ApplicationUser user = await _userManager.GetUserAsync(User);
 
-            Student? student = await _db.Students.SingleOrDefaultAsync(s => s.User.Id.Equals(user.Id));
+            //Student? student = await _db.Students.SingleOrDefaultAsync(s => s.User.Id.Equals(user.Id));
+            var student = await _db.Students.Where(s => s.UserId == user.Id).SingleOrDefaultAsync();
 
             if (student == null)
             {
@@ -44,7 +45,7 @@ namespace SEP.Controllers
             }
             else
             {
-                _logger.LogInformation($"student for {user.FirstName} exists");
+               
             }
             return View(student);
         }
@@ -54,9 +55,21 @@ namespace SEP.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Update(Student student)
         {
+            //if (ModelState.IsValid)
+            //{
+            //    _db.Students.Update(student);
+            //    _db.SaveChanges();
+            //    return RedirectToAction("Index", "Home");
+            //}
+            //else
+            //{
+            //    return View();
+            //}
+
             _db.Students.Update(student);
             _db.SaveChanges();
             return RedirectToAction("Index", "Home");
+
         }
 
     }
