@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace SEP.Migrations
 {
-    public partial class init : Migration
+    public partial class OneToOneAdded : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -160,14 +160,12 @@ namespace SEP.Migrations
                 name: "Employer",
                 columns: table => new
                 {
-                    EmployerId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
                     UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     RegistrationNumber = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Employer", x => x.EmployerId);
+                    table.PrimaryKey("PK_Employer", x => x.UserId);
                     table.ForeignKey(
                         name: "FK_Employer_AspNetUsers_UserId",
                         column: x => x.UserId,
@@ -180,14 +178,12 @@ namespace SEP.Migrations
                 name: "Student",
                 columns: table => new
                 {
-                    StudentId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
                     UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     StudentNumber = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Student", x => x.StudentId);
+                    table.PrimaryKey("PK_Student", x => x.UserId);
                     table.ForeignKey(
                         name: "FK_Student_AspNetUsers_UserId",
                         column: x => x.UserId,
@@ -234,16 +230,6 @@ namespace SEP.Migrations
                 column: "NormalizedUserName",
                 unique: true,
                 filter: "[NormalizedUserName] IS NOT NULL");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Employer_UserId",
-                table: "Employer",
-                column: "UserId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Student_UserId",
-                table: "Student",
-                column: "UserId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

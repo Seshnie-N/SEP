@@ -12,8 +12,8 @@ using SEP.Areas.Identity.Data;
 namespace SEP.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230517203107_init")]
-    partial class init
+    [Migration("20230517230146_OneToOneAdded")]
+    partial class OneToOneAdded
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -236,46 +236,28 @@ namespace SEP.Migrations
 
             modelBuilder.Entity("SEP.Models.DomainModels.Employer", b =>
                 {
-                    b.Property<int>("EmployerId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("EmployerId"), 1L, 1);
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("RegistrationNumber")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("EmployerId");
-
-                    b.HasIndex("UserId");
+                    b.HasKey("UserId");
 
                     b.ToTable("Employer");
                 });
 
             modelBuilder.Entity("SEP.Models.DomainModels.Student", b =>
                 {
-                    b.Property<int>("StudentId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("StudentId"), 1L, 1);
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("StudentNumber")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("StudentId");
-
-                    b.HasIndex("UserId");
+                    b.HasKey("UserId");
 
                     b.ToTable("Student");
                 });
@@ -334,8 +316,8 @@ namespace SEP.Migrations
             modelBuilder.Entity("SEP.Models.DomainModels.Employer", b =>
                 {
                     b.HasOne("SEP.Areas.Identity.Data.ApplicationUser", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
+                        .WithOne("Employer")
+                        .HasForeignKey("SEP.Models.DomainModels.Employer", "UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -345,12 +327,21 @@ namespace SEP.Migrations
             modelBuilder.Entity("SEP.Models.DomainModels.Student", b =>
                 {
                     b.HasOne("SEP.Areas.Identity.Data.ApplicationUser", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
+                        .WithOne("Student")
+                        .HasForeignKey("SEP.Models.DomainModels.Student", "UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("SEP.Areas.Identity.Data.ApplicationUser", b =>
+                {
+                    b.Navigation("Employer")
+                        .IsRequired();
+
+                    b.Navigation("Student")
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

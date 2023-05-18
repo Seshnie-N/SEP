@@ -8,10 +8,7 @@ namespace SEP.Models.DomainModels
     [Table("Student")]
     public class Student 
     {
-        //[Key]
-        //public int StudentId { get; set; }
-
-        [ForeignKey(nameof(User))]
+        [Key,ForeignKey(nameof(User))]
         public string UserId { get; set; }
         //navigation property
         public virtual ApplicationUser User { get; set; }
