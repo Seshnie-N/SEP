@@ -10,6 +10,6 @@ namespace SEP.Models.DomainModels
 
 		public string departmentName { get; set; }
 
-		public Faculty faculty { get; set; }
+		public ICollection<Faculty> faculties { get; set; } = new List<Faculty>();	
 	}
 }
