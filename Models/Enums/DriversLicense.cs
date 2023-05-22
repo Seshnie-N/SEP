@@ -5,13 +5,13 @@ namespace SEP.Models.Enums
     public enum DriversLicense
     {
         [Display(Name ="Code A: Motorcycles")]
-        CodeA,
+        CodeA = 1,
         [Display(Name ="Code B: Light Motor Vehicles")]
-        CodeB,
+        CodeB = 2,
         [Display(Name ="Code C: Heavy Motor Vehicles")]
-        CodeC,
+        CodeC = 3,
         [Display(Name ="Code D: Combination and Articulated Vehicles")]
-        CodeD
+        CodeD = 4
     }
 
     //public enum BusinessType

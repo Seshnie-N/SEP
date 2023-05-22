@@ -20,9 +20,6 @@ namespace SEP
                 .AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
 
-            //builder.Services.AddIdentityCore<Student>().AddEntityFrameworkStores<ApplicationDbContext>();
-            //builder.Services.AddIdentityCore<Employer>().AddEntityFrameworkStores<ApplicationDbContext>();
-
             // Add services to the container.
             builder.Services.AddControllersWithViews();
             builder.Services.AddRazorPages();

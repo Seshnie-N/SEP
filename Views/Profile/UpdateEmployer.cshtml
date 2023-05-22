@@ -1,0 +1,93 @@
+﻿@model SEP.Models.DomainModels.Student
+@using SEP.Models.Enums
+@{
+}
+
+<h1>Personal Details</h1>
+
+<form method="post" asp-action="UpdateEmployer">
+
+    <input asp-for="UserId" hidden/>
+    <input asp-for="@Model.User" hidden />
+
+    <div class="form-floating pb-3">
+        <input asp-for="@Model.User.FirstName" class="form-control" />
+        <label asp-for="@Model.User.FirstName" class="col-sm-auto col-form-label">First name</label>
+        <span asp-validation-for="@Model.User.FirstName" class="text-danger"></span>
+    </div>
+
+    <div class="form-floating pb-3">
+        <input asp-for="@Model.User.LastName" class="form-control" />
+        <label asp-for="@Model.User.LastName" class="col-sm-auto col-form-label">Last name</label>
+        <span asp-validation-for="@Model.User.LastName" class="text-danger"></span>
+    </div>
+
+    <div class="form-floating pb-3">
+        <input asp-for="@Model.User.PhoneNumber" class="form-control" />
+        <label asp-for="@Model.User.PhoneNumber" class="col-sm-auto col-form-label">Phone number</label>
+        <span asp-validation-for="@Model.User.PhoneNumber" class="text-danger"></span>
+    </div>
+
+    <div class="form-floating pb-3">
+        <input asp-for="@Model.User.Email" class="form-control" />
+        <label asp-for="@Model.User.Email" class="col-sm-auto col-form-label">Email</label>
+        <span asp-validation-for="@Model.User.Email" class="text-danger"></span>
+    </div>
+
+    <div class="form-floating pb-3">
+        <input asp-for="Address" class="form-control" />
+        <label asp-for="Address" class="col-sm-auto col-form-label">Address</label>
+        <span asp-validation-for="Address" class="text-danger"></span>
+    </div>
+
+
+    <div class="form-floating pb-3">
+        <input asp-for="IdNumber" class="form-control" />
+        <label asp-for="IdNumber" class="col-sm-auto col-form-label">ID Number</label>
+        <span asp-validation-for="IdNumber" class="text-danger"></span>
+    </div>
+
+    <div class="form-floating pb-3">
+        <select class="form-select" aria-label="Default select example" asp-for="Gender" asp-items="@Html.GetEnumSelectList<Gender>()">
+            <option value="">Select...</option>
+        </select>
+        <label asp-for="Gender"></label>
+    </div>
+
+    <div class="form-floating pb-3">
+        <select class="form-select" aria-label="Default select example" asp-for="Race" asp-items="@Html.GetEnumSelectList<Race>()">
+            <option value="">Select...</option>
+        </select>
+        <label asp-for="Race"></label>
+    </div>
+
+    <div class="form-floating pb-3">
+        <select class="form-select" aria-label="Default select example" asp-for="DriversLicense" asp-items="@Html.GetEnumSelectList<DriversLicense>()">
+            <option value="">Select...</option>
+        </select>
+        <label asp-for="DriversLicense"></label>
+    </div>
+
+    <div class="form-floating pb-3">
+        <input asp-for="CareerObjective" class="form-control" />
+        <label asp-for="CareerObjective" class="col-sm-auto col-form-label">Career Objective</label>
+        <span asp-validation-for="CareerObjective" class="text-danger"></span>
+    </div>
+
+    <div class="form-check pb-3">
+        <input asp-for="isSouthAfrican" class="form-check-input" type="checkbox" value="true" id="isSouthAfrican">
+        <label class"="form-check-label" for="isSouthAfrican">
+            South African Citizen?
+        </label>
+    </div>
+
+
+    @*<div class="form-floating pb-3">
+        <select class="form-select" asp-for="Department" asp-items="">
+            <option value="">Select...</option>
+        </select>
+        <label asp-for="Department"></label>
+    </div>*@
+
+    <button type="submit" class="btn btn-primary">Save</button>
+</form>
