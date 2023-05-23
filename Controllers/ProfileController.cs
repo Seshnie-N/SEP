@@ -85,23 +85,23 @@ namespace SEP.Controllers
 
         }
 
-        //public async Task<IActionResult> UpdateEmployer()
-        //{
-        //    ApplicationUser user = await _userManager.GetUserAsync(User);
+        public async Task<IActionResult> UpdateEmployer()
+        {
+            ApplicationUser user = await _userManager.GetUserAsync(User);
 
-        //    var student = await _db.Students.Where(s => s.UserId == user.Id).SingleOrDefaultAsync();
+            //var student = await _db.Students.Where(s => s.UserId == user.Id).SingleOrDefaultAsync();
 
-        //    if (student == null)
-        //    {
-        //        student = new Student
-        //        {
-        //            User = user,
-        //            UserId = user.Id
-        //        };
-        //    }
+            //if (student == null)
+            //{
+            //    student = new Student
+            //    {
+            //        User = user,
+            //        UserId = user.Id
+            //    };
+            //}
 
-        //    return View(student);
-        //}
+            return View();
+        }
 
         ////POST
         //[HttpPost]
@@ -112,7 +112,7 @@ namespace SEP.Controllers
 
         //    if ( != null)
         //    {
-                
+
         //        _db.SaveChanges();
         //        return RedirectToAction("Index", "Home");
         //    }
@@ -122,7 +122,7 @@ namespace SEP.Controllers
         //        _db.SaveChanges();
         //        return RedirectToAction("Index", "Home");
         //    }
-            
+
 
         //}
     }
