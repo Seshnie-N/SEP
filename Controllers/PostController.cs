@@ -8,7 +8,7 @@ using SEP.Models.ViewModels;
 
 namespace SEP.Controllers
 {
-	[Authorize(Roles ="Employer")]
+	//[Authorize(Roles ="Employer")]
 	public class PostController : Controller
 	{
 		private readonly ApplicationDbContext _db;
@@ -32,7 +32,7 @@ namespace SEP.Controllers
 		public async Task<IActionResult> Create()
 		{
 
-			IEnumerable<Faculty> faculties = _db.faculties;
+			IEnumerable<Faculty> faculties = _db.Faculties;
 			IEnumerable<Department> departments = _db.Departments;
 
 			ApplicationUser user = await _userManager.GetUserAsync(User);
@@ -62,7 +62,7 @@ namespace SEP.Controllers
 		{
 
 			Post postObj = _db.Posts.Find(id);
-			IEnumerable<Faculty> faculties = _db.faculties;
+			IEnumerable<Faculty> faculties = _db.Faculties;
 			IEnumerable<Department> departments = _db.Departments;
 
 			PostViewModel postViewModel = new PostViewModel();
