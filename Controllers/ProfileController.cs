@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using SEP.Areas.Identity.Data;
@@ -89,40 +90,46 @@ namespace SEP.Controllers
         //{
         //    ApplicationUser user = await _userManager.GetUserAsync(User);
 
-        //    var student = await _db.Students.Where(s => s.UserId == user.Id).SingleOrDefaultAsync();
+        //    var employer = await _db.Employers.Where(e => e.UserId == user.Id).SingleOrDefaultAsync();
 
-        //    if (student == null)
+        //    if (employer == null)
         //    {
-        //        student = new Student
+        //        employer = new Employer
         //        {
         //            User = user,
         //            UserId = user.Id
         //        };
         //    }
 
-        //    return View(student);
+        //    EmployerProfileViewModel employerProfile = new EmployerProfileViewModel
+        //    {
+        //        Employer = employer,
+        //        User = user
+        //    };
+
+        //    return View(employer);
         //}
 
         ////POST
         //[HttpPost]
         //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> UpdateEmployer()
+        //public async Task<IActionResult> UpdateEmployer(EmployerProfileViewModel employerProfile)
         //{
-        //    var = _db..Find(student.UserId);
+        //    var employerRecord = _db.Employers.Find(employerProfile.Employer.UserId);
 
-        //    if ( != null)
-        //    {
-                
+        //    //if (employerRecord != null)
+        //    //{
+
+        //    //    _db.SaveChanges();
+        //    //    return RedirectToAction("Index", "Home");
+        //    //}
+        //    //else
+        //    //{
+        //        _db.Employers.Add(employerProfile.Employer);
         //        _db.SaveChanges();
         //        return RedirectToAction("Index", "Home");
-        //    }
-        //    else
-        //    {
-        //        _db..Add();
-        //        _db.SaveChanges();
-        //        return RedirectToAction("Index", "Home");
-        //    }
-            
+        //    //}
+
 
         //}
     }
