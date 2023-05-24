@@ -90,27 +90,27 @@ namespace SEP.Controllers
         {
             ApplicationUser user = await _userManager.GetUserAsync(User);
 
-        //    var employer = await _db.Employers.Where(e => e.UserId == user.Id).SingleOrDefaultAsync();
+            var employer = await _db.Employers.Where(e => e.UserId == user.Id).SingleOrDefaultAsync();
 
-        //    if (employer == null)
-        //    {
-        //        employer = new Employer
-        //        {
-        //            User = user,
-        //            UserId = user.Id
-        //        };
-        //    }
+            if (employer == null)
+            {
+                employer = new Employer
+                {
+                    User = user,
+                    UserId = user.Id
+                };
+            }
 
-        //    EmployerProfileViewModel employerProfile = new EmployerProfileViewModel
-        //    {
-        //        Employer = employer,
-        //        User = user
-        //    };
+            EmployerProfileViewModel employerProfile = new EmployerProfileViewModel
+            {
+                Employer = employer,
+                User = user
+            };
 
-        //    return View(employer);
-        //}
+            return View(employerProfile);
+        }
 
-        ////POST
+        //POST
         //[HttpPost]
         //[ValidateAntiForgeryToken]
         //public async Task<IActionResult> UpdateEmployer(EmployerProfileViewModel employerProfile)
@@ -125,9 +125,9 @@ namespace SEP.Controllers
         //    //}
         //    //else
         //    //{
-        //        _db.Employers.Add(employerProfile.Employer);
-        //        _db.SaveChanges();
-        //        return RedirectToAction("Index", "Home");
+        //    _db.Employers.Add(employerProfile.Employer);
+        //    _db.SaveChanges();
+        //    return RedirectToAction("Index", "Home");
         //    //}
 
 
