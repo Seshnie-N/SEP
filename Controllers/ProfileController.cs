@@ -86,9 +86,9 @@ namespace SEP.Controllers
 
         }
 
-        //public async Task<IActionResult> UpdateEmployer()
-        //{
-        //    ApplicationUser user = await _userManager.GetUserAsync(User);
+        public async Task<IActionResult> UpdateEmployer()
+        {
+            ApplicationUser user = await _userManager.GetUserAsync(User);
 
         //    var employer = await _db.Employers.Where(e => e.UserId == user.Id).SingleOrDefaultAsync();
 
