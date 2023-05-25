@@ -39,9 +39,6 @@ namespace SEP.Models.DomainModels
 		public int hourlyRate { get; set; }
 
 		[DisplayName("Limited to")]
-		public string limitedToLevel { get; set; }
-
-		[DisplayName("Limited to")]
 		public string limitedToCountry { get; set; }
 
 		[DisplayName("Minimum requirments")]
@@ -69,6 +66,26 @@ namespace SEP.Models.DomainModels
 		public string postStatus { get; set; }
 
 		public string departmentName { get; set; }
+
+		public bool limitedTo1stYear { get; set; }
+
+		public bool limitedTo2ndYear { get; set; }
+
+		public bool limitedTo3rdYear { get; set; }
+
+		public bool limitedToHonours { get; set; }
+
+		public bool limitedToGraduate { get; set; }
+
+		public bool limitedToMasters { get; set; }
+
+		public bool limitedToPhd { get; set; }
+
+		public bool limitedToPostdoc { get; set; }
+
+		public bool limitedToDepartment { get; set; }
+
+		public bool limitedToFaculty { get; set; }
 
 		public string UserID { get; set; }
 
