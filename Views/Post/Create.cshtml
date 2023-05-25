@@ -53,50 +53,58 @@
 		<input  asp-for="@Model.post.hourlyRate" />
 	</div>
 	<div class="col pb-2">
-		<label asp-for="@Model.post.hourlyRate" ></label>
-		<div class="col-4">
+		<label >Limited to</label>
+		<div class="col-5">
 			<div class="form-check form-check-inline">
-				 <input class="form-check-input" type="radio" asp-for="@Model.post.limitedToLevel" value="1st Year" id="1stYear">
+				 <input class="form-check-input" type="checkbox" asp-for="@Model.post.limitedTo1stYear" value="true" id="1stYear">
 				 <label class="form-check-label" for="1stYear">1st Year</label>
 			</div>
 			<div class="form-check form-check-inline">
-				 <input class="form-check-input" type="radio" asp-for="@Model.post.limitedToLevel" value="2nd Year" id="2ndYear">
+				 <input class="form-check-input" type="checkbox" asp-for="@Model.post.limitedTo2ndYear" value="true" id="2ndYear">
 				 <label class="form-check-label" for="2ndYear">2nd Year</label>
 			</div>
 			<div class="form-check form-check-inline">
-				 <input class="form-check-input" type="radio" asp-for="@Model.post.limitedToLevel" value="3rd Year" id="3rdYear">
+				 <input class="form-check-input" type="checkbox" asp-for="@Model.post.limitedTo3rdYear" value="true" id="3rdYear">
 				 <label class="form-check-label" for="3rdYear">3rd Year</label>
 			</div>
 			<div class="form-check form-check-inline">
-				 <input class="form-check-input" type="radio" asp-for="@Model.post.limitedToLevel" value="Honours" id="Honours">
+				 <input class="form-check-input" type="checkbox" asp-for="@Model.post.limitedToHonours" value="true" id="Honours">
 				 <label class="form-check-label" for="Honours">Honours</label>
 			</div>
 			<div class="form-check form-check-inline">
-				 <input class="form-check-input" type="radio" asp-for="@Model.post.limitedToLevel" value="Graduates" id="Graduates">
-				 <label class="form-check-label" for="1stYear">Graduates</label>
+				 <input class="form-check-input" type="checkbox" asp-for="@Model.post.limitedToGraduate" value="true" id="Graduates">
+				 <label class="form-check-label" for="Graduates">Graduates</label>
 			</div>
 			<div class="form-check form-check-inline">
-				 <input class="form-check-input" type="radio" asp-for="@Model.post.limitedToLevel" value="Masters" id="Masters">
-				 <label class="form-check-label" for="2ndYear">Masters</label>
+				 <input class="form-check-input" type="checkbox" asp-for="@Model.post.limitedToMasters" value="true" id="Masters">
+				 <label class="form-check-label" for="Masters">Masters</label>
 			</div>
 			<div class="form-check form-check-inline">
-				 <input class="form-check-input" type="radio" asp-for="@Model.post.limitedToLevel" value="PHD" id="PHD">
+				 <input class="form-check-input" type="checkbox" asp-for="@Model.post.limitedToPhd" value="true" id="PHD">
 				 <label class="form-check-label" for="PHD">PHD</label>
 			</div>
-			<div class="form-check">
-				 <input class="form-check-input" type="radio" asp-for="@Model.post.limitedToLevel" value="Postdoc" id="Postdoc">
+			<div class="form-check form-check-inline">
+				 <input class="form-check-input" type="checkbox" asp-for="@Model.post.limitedToPostdoc" value="true" id="Postdoc">
 				 <label class="form-check-label" for="Postdoc">Postdoc</label>
+			</div>
+			<div class="form-check form-check-inline">
+				 <input class="form-check-input" type="checkbox" asp-for="@Model.post.limitedToFaculty" value="true" id="Faculty">
+				 <label class="form-check-label" for="Faculty">Faculty</label>
+			</div>
+			<div class="form-check form-check-inline">
+				 <input class="form-check-input" type="checkbox" asp-for="@Model.post.limitedToDepartment" value="true" id="Department">
+				 <label class="form-check-label" for="Department">Department</label>
 			</div>
 		</div>
 	</div>
 	<div class="col pb-2">
 		<label asp-for="@Model.post.limitedToCountry"></label>
 		<div class="form-check">
-			 <input class="form-check-input" type="radio" asp-for="@Model.post.limitedToCountry" value="PHD" id="SAonly">
+			 <input class="form-check-input" type="radio" asp-for="@Model.post.limitedToCountry" value="South African citizens or" id="SAonly">
 			 <label class="form-check-label" for="SAonly">South African citizens or</label>
 		</div>
 		<div class="form-check">
-			 <input class="form-check-input" type="radio" asp-for="@Model.post.limitedToCountry" value="Postdoc" id="everyone">
+			 <input class="form-check-input" type="radio" asp-for="@Model.post.limitedToCountry" value="Open to everyone" id="everyone">
 			 <label class="form-check-label" for="everyone">Open to everyone</label>
 		</div>
 	</div>
