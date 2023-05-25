@@ -1,14 +1,11 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Hosting;
 using SEP.Areas.Identity.Data;
 using SEP.Models.DomainModels;
 using SEP.Models.ViewModels;
 
 namespace SEP.Controllers
 {
-	//[Authorize(Roles ="Employer")]
 	public class PostController : Controller
 	{
 		private readonly ApplicationDbContext _db;
@@ -22,9 +19,10 @@ namespace SEP.Controllers
 			_db = db;
 			_userManager = userManager;
 		}
-		public IActionResult Index()
+		public async Task<IActionResult> Index()
 		{
-			IEnumerable<Post> posts = _db.Posts;
+			ApplicationUser user = await _userManager.GetUserAsync(User);
+			IEnumerable<Post> posts = _db.Posts.Where(p => p.UserID.Equals(user.Id));
 
 			return View(posts);
 		}
@@ -41,6 +39,9 @@ namespace SEP.Controllers
 			PostViewModel postViewModel = new PostViewModel();
 			Post newPost = new Post();
 			newPost.UserID = user.Id;
+			newPost.startDate = DateTime.Now;
+			newPost.endDate = DateTime.Now;
+			newPost.applicationClosingDate = DateTime.Now;
 			postViewModel.post = newPost;
 			postViewModel.faculty = faculties;
 			postViewModel.department = departments;
