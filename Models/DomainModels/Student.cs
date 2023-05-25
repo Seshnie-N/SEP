@@ -1,5 +1,6 @@
 ﻿using SEP.Areas.Identity.Data;
 using SEP.Models.Enums;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -12,8 +13,9 @@ namespace SEP.Models.DomainModels
         public string UserId { get; set; }
         //navigation property
         public virtual ApplicationUser User { get; set; }
-        
+       
         public string Address { get; set; }
+        [DisplayName("ID Number")]
         public string IdNumber { get; set; }
         //public string Department { get; set; }
         public Gender Gender { get; set; }

@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using SEP.Areas.Identity.Data;
 using SEP.Models;
 using SEP.Models.DomainModels;
+using SEP.SeedData;
 
 namespace SEP
 {
@@ -54,21 +55,7 @@ namespace SEP
                 pattern: "{controller=Home}/{action=Index}/{id?}");
             app.MapRazorPages();
 
-            //seeding roles 
-            using (var scope = app.Services.CreateScope())
-            {
-                var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
-
-                var roles = new[] { "Admin", "Approver", "Employer", "Student" };
-
-                foreach (var role in roles)
-                {
-                    //we want to add the roles to the system - only if role does not already exist in system
-                    //ensure main task is async*
-                    if (!await roleManager.RoleExistsAsync(role))
-                        await roleManager.CreateAsync(new IdentityRole(role));
-                }
-            }
+            await app.SeedDataAsync();
 
             app.Run();
         }
