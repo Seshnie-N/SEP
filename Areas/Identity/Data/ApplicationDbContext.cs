@@ -10,6 +10,10 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
 {
     public DbSet<Student> Students { get; set; }
     public DbSet<Employer> Employers { get; set; }
+    public DbSet<Post> Posts { get; set; }
+    public DbSet<Faculty> Faculties { get; set; }
+    public DbSet<Department> Departments { get; set; }
+
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
         : base(options)
     {
@@ -21,7 +25,7 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
         // Customize the ASP.NET Identity model and override the defaults if needed.
         // For example, you can rename the ASP.NET Identity table names and more.
         // Add your customizations after calling base.OnModelCreating(builder);
-        
+
     }
 
 }
