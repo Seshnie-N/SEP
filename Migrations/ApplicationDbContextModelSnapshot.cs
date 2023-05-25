@@ -308,7 +308,7 @@ namespace SEP.Migrations
 
                     b.HasKey("facultyId");
 
-                    b.ToTable("faculties");
+                    b.ToTable("Faculties");
                 });
 
             modelBuilder.Entity("SEP.Models.DomainModels.Post", b =>
@@ -368,13 +368,39 @@ namespace SEP.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<bool>("limitedTo1stYear")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("limitedTo2ndYear")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("limitedTo3rdYear")
+                        .HasColumnType("bit");
+
                     b.Property<string>("limitedToCountry")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("limitedToLevel")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<bool>("limitedToDepartment")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("limitedToFaculty")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("limitedToGraduate")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("limitedToHonours")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("limitedToMasters")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("limitedToPhd")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("limitedToPostdoc")
+                        .HasColumnType("bit");
 
                     b.Property<string>("minimumRequirment")
                         .IsRequired()

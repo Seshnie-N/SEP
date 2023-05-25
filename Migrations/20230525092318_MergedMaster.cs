@@ -5,12 +5,12 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace SEP.Migrations
 {
-    public partial class PostsAdded : Migration
+    public partial class MergedMaster : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "faculties",
+                name: "Faculties",
                 columns: table => new
                 {
                     facultyId = table.Column<int>(type: "int", nullable: false)
@@ -19,7 +19,7 @@ namespace SEP.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_faculties", x => x.facultyId);
+                    table.PrimaryKey("PK_Faculties", x => x.facultyId);
                 });
 
             migrationBuilder.CreateTable(
@@ -37,7 +37,6 @@ namespace SEP.Migrations
                     startDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     endDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     hourlyRate = table.Column<int>(type: "int", nullable: false),
-                    limitedToLevel = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     limitedToCountry = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     minimumRequirment = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     applicationInstruction = table.Column<string>(type: "nvarchar(max)", nullable: false),
@@ -48,6 +47,16 @@ namespace SEP.Migrations
                     postreviewComment = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     postStatus = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     departmentName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    limitedTo1stYear = table.Column<bool>(type: "bit", nullable: false),
+                    limitedTo2ndYear = table.Column<bool>(type: "bit", nullable: false),
+                    limitedTo3rdYear = table.Column<bool>(type: "bit", nullable: false),
+                    limitedToHonours = table.Column<bool>(type: "bit", nullable: false),
+                    limitedToGraduate = table.Column<bool>(type: "bit", nullable: false),
+                    limitedToMasters = table.Column<bool>(type: "bit", nullable: false),
+                    limitedToPhd = table.Column<bool>(type: "bit", nullable: false),
+                    limitedToPostdoc = table.Column<bool>(type: "bit", nullable: false),
+                    limitedToDepartment = table.Column<bool>(type: "bit", nullable: false),
+                    limitedToFaculty = table.Column<bool>(type: "bit", nullable: false),
                     UserID = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
@@ -68,9 +77,9 @@ namespace SEP.Migrations
                 {
                     table.PrimaryKey("PK_Departments", x => x.departmentId);
                     table.ForeignKey(
-                        name: "FK_Departments_faculties_facultyId",
+                        name: "FK_Departments_Faculties_facultyId",
                         column: x => x.facultyId,
-                        principalTable: "faculties",
+                        principalTable: "Faculties",
                         principalColumn: "facultyId",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -90,7 +99,7 @@ namespace SEP.Migrations
                 name: "Posts");
 
             migrationBuilder.DropTable(
-                name: "faculties");
+                name: "Faculties");
         }
     }
 }

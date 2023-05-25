@@ -12,8 +12,8 @@ using SEP.Areas.Identity.Data;
 namespace SEP.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230518082109_AddSomeFaculties")]
-    partial class AddSomeFaculties
+    [Migration("20230525092318_MergedMaster")]
+    partial class MergedMaster
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -258,23 +258,40 @@ namespace SEP.Migrations
 
             modelBuilder.Entity("SEP.Models.DomainModels.Employer", b =>
                 {
-                    b.Property<int>("EmployerId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("EmployerId"), 1L, 1);
-
-                    b.Property<string>("RegistrationNumber")
+                    b.Property<string>("Address")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("UserId")
+                    b.Property<string>("ApproverNote")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("BusinessName")
                         .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("EmployerId");
+                    b.Property<string>("CompanyRegistrationNumber")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
-                    b.HasIndex("UserId");
+                    b.Property<string>("JobTitle")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("TradingName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("isApproved")
+                        .HasColumnType("bit");
+
+                    b.HasKey("UserId");
 
                     b.ToTable("Employer");
                 });
@@ -293,24 +310,7 @@ namespace SEP.Migrations
 
                     b.HasKey("facultyId");
 
-                    b.ToTable("faculties");
-
-                    b.HasData(
-                        new
-                        {
-                            facultyId = 1,
-                            facultyName = "Commerce, Law and Management"
-                        },
-                        new
-                        {
-                            facultyId = 2,
-                            facultyName = "Engineering and the Built Environment"
-                        },
-                        new
-                        {
-                            facultyId = 3,
-                            facultyName = "Health Sciences"
-                        });
+                    b.ToTable("Faculties");
                 });
 
             modelBuilder.Entity("SEP.Models.DomainModels.Post", b =>
@@ -370,13 +370,39 @@ namespace SEP.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<bool>("limitedTo1stYear")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("limitedTo2ndYear")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("limitedTo3rdYear")
+                        .HasColumnType("bit");
+
                     b.Property<string>("limitedToCountry")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("limitedToLevel")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<bool>("limitedToDepartment")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("limitedToFaculty")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("limitedToGraduate")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("limitedToHonours")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("limitedToMasters")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("limitedToPhd")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("limitedToPostdoc")
+                        .HasColumnType("bit");
 
                     b.Property<string>("minimumRequirment")
                         .IsRequired()
@@ -406,23 +432,33 @@ namespace SEP.Migrations
 
             modelBuilder.Entity("SEP.Models.DomainModels.Student", b =>
                 {
-                    b.Property<int>("StudentId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("StudentId"), 1L, 1);
-
-                    b.Property<string>("StudentNumber")
+                    b.Property<string>("Address")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("UserId")
+                    b.Property<string>("CareerObjective")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("DriversLicense")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Gender")
+                        .HasColumnType("int");
+
+                    b.Property<string>("IdNumber")
                         .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("StudentId");
+                    b.Property<int>("Race")
+                        .HasColumnType("int");
 
-                    b.HasIndex("UserId");
+                    b.Property<bool>("isSouthAfrican")
+                        .HasColumnType("bit");
+
+                    b.HasKey("UserId");
 
                     b.ToTable("Student");
                 });
@@ -492,8 +528,8 @@ namespace SEP.Migrations
             modelBuilder.Entity("SEP.Models.DomainModels.Employer", b =>
                 {
                     b.HasOne("SEP.Areas.Identity.Data.ApplicationUser", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
+                        .WithOne("Employer")
+                        .HasForeignKey("SEP.Models.DomainModels.Employer", "UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -503,12 +539,21 @@ namespace SEP.Migrations
             modelBuilder.Entity("SEP.Models.DomainModels.Student", b =>
                 {
                     b.HasOne("SEP.Areas.Identity.Data.ApplicationUser", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
+                        .WithOne("Student")
+                        .HasForeignKey("SEP.Models.DomainModels.Student", "UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("SEP.Areas.Identity.Data.ApplicationUser", b =>
+                {
+                    b.Navigation("Employer")
+                        .IsRequired();
+
+                    b.Navigation("Student")
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }
