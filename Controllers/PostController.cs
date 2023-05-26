@@ -104,7 +104,11 @@ namespace SEP.Controllers
 			_db.SaveChanges();
 			return RedirectToAction("Index");
 		}
-
+		// get Departments by Id
+		public JsonResult GetDepartmentById(int id)
+		{
+			return Json( _db.Departments.Where(d => d.FacultyId.Equals(id)) );
+		}
 
 	}
 }

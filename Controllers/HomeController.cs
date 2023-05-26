@@ -26,10 +26,16 @@ namespace SEP.Controllers
                 if (User.IsInRole("Student"))
                 {
                     return RedirectToAction("StudentHome");
-                } else if (User.IsInRole("Employer"))
+                } 
+                else if (User.IsInRole("Employer"))
                 {
                     return RedirectToAction("EmployerHome");
                 }
+                else if (User.IsInRole("Admin"))
+                {
+                    return RedirectToAction("AdminHome");
+                }
+
             } 
 
             return View();
@@ -41,6 +47,10 @@ namespace SEP.Controllers
         }
 
         public IActionResult EmployerHome()
+        {
+            return View();
+        }
+        public IActionResult AdminHome()
         {
             return View();
         }

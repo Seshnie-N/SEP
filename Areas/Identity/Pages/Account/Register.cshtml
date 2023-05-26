@@ -1,6 +1,9 @@
 ﻿@page
 @using SEP.Models.Enums;
 @model RegisterModel
+
+@inject SignInManager<ApplicationUser> SignInManager
+
 @{
     ViewData["Title"] = "Register";
 }
@@ -32,13 +35,25 @@
                 <span asp-validation-for="Input.PhoneNumber" class="text-danger"></span>
             </div>
 
-            <div class="form-floating pb-3">
-                <select class="form-select" aria-label="Default select example" asp-for="Input.Role" asp-items="@Html.GetEnumSelectList<UserRoles>()"> 
-                    <option value="">Select a profile type...</option>
-                </select>
-                <label asp-for="Input.Role"></label>
-            </div>
-
+           @* @if (SignInManager.IsSignedIn(User))
+            {
+                *@
+                <div class="form-floating pb-3">
+                <select class="form-select" aria-label="Default select example" asp-for="Input.Role" asp-items="@Html.GetEnumSelectList<UserRoles>()">
+                        <option value="">Select a profile type...</option>
+                    </select>
+                    <label asp-for="Input.Role"></label>
+                </div>
+            @*}
+            else
+            {
+                <div class="form-floating pb-3">
+                    <select class="form-select" aria-label="Default select example" asp-for="Input.Role" asp-items="@Html.GetEnumSelectList<UserRoles>()">
+                        <option value="">Select a profile type...</option>
+                    </select>
+                    <label asp-for="Input.Role"></label>
+                </div>
+            }*@
             <div class="form-floating pb-3">
                 <input asp-for="Input.Password" class="form-control" autocomplete="new-password" aria-required="true" />
                 <label asp-for="Input.Password"></label>

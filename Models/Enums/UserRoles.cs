@@ -10,6 +10,7 @@
     {
         Employer = 1,
         Student = 2,
-        Approver = 3
+        Approver = 3,
+        Admin = 4
     }
 }

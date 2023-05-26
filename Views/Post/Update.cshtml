@@ -117,19 +117,16 @@
 	</div>
 
 	<div class="col pb-2">
-		<select asp-for="@Model.post.jobType" class="col-2">
+		<select  id="facultyNameID" asp-for="@Model.post.facultyName" >
 			<option value="" selected disabled>Select faculty</option>
 			@foreach(var faculty in @Model.faculty){
-				<option value="@faculty.facultyName" >@faculty.facultyName</option>
+				<option value="@faculty.facultyId" >@faculty.facultyName</option>
 			}
 		</select>
 	</div>
 	<div class="col pb-2">
-		<select asp-for="@Model.post.departmentName" class="col-2">
+		<select id="departmentNameID" asp-for="@Model.post.departmentName" >
 			<option value=""  selected disabled>Select department</option>
-			@foreach(var departments in @Model.department){
-				<option value="@departments.departmentName" >@departments.departmentName</option>
-			}
 		</select>
 	</div>
 
@@ -171,3 +168,26 @@
 
 </form>
 
+@section scripts{
+	<script type="text/javascript">
+		$(document).ready(function(){
+			$('#facultyNameID').change(function(){
+				var obId = this.value
+				//alert(obId);
+				$('#departmentNameID').empty();
+				$.ajax({
+					type:'GET',
+					url: '@Url.Action("GetDepartmentById")',
+					dataType: 'json',
+					data: {id : obId},
+					success: function(dep){
+						$.each(dep,function(index,item){
+							$('#departmentNameID').append('<option value="'+item.departmentName+'">' +item.departmentName+ '</option>')
+						});
+					}
+				});
+
+			});
+		});
+	</script>
+}
