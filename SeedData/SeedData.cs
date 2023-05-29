@@ -26,7 +26,6 @@ namespace SEP.SeedData
                 faculties.Add(new Faculty { facultyName = "Health Sciences" });
                 faculties.Add(new Faculty { facultyName = "Humanities" });
                 faculties.Add(new Faculty { facultyName = "Science" });
-                faculties.Add(new Faculty { facultyName = "Scientology" });
                 foreach (var faculty in faculties)
                 {
                     if (!context.Faculties.Any(f => f.facultyName == faculty.facultyName))
