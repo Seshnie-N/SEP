@@ -11,6 +11,11 @@
     <input asp-for="@Model.User" hidden />
     <input asp-for="@Model.Employer.isApproved" hidden />
 
+    <div class="form-check form-check-inline">
+        <input class="form-check-input" type="checkbox" asp-for="@Model.Employer.isInternal" value="true" id="isInternal">
+        <label class="form-check-label" for="isInternal">Internal?</label>
+    </div>
+
     <div class="form-floating pb-3">
         <input asp-for="@Model.Employer.Title" class="form-control" />
         <label asp-for="@Model.Employer.Title" class="col-sm-auto col-form-label">Title</label>

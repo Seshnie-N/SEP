@@ -80,6 +80,9 @@ namespace SEP.Areas.Identity.Pages.Account
             [Display(Name = "Phone number")]
             public string PhoneNumber { get; set; }
 
+            [Display(Name = "Are you a member of staff at Wits?")]
+            public bool isInternal { get; set; } 
+
             [Display(Name ="First name")]
             public string FirstName { get; set; }
 

@@ -20,6 +20,7 @@ namespace SEP.Models.DomainModels
         //public BusinessType BusinessType { get; set; }
         public bool isApproved { get; set; }
         public string? ApproverNote { get; set; }
+		public bool isInternal { get; set; }
 
-    }
+	}
 }
