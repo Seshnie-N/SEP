@@ -63,8 +63,11 @@ namespace SEP.Controllers
 		{
 
 			Post postObj = _db.Posts.Find(id);
+			var facId = postObj.facultyName;
+
+
 			IEnumerable<Faculty> faculties = _db.Faculties;
-			IEnumerable<Department> departments = _db.Departments;
+			IEnumerable<Department> departments = _db.Departments.Where(d => d.FacultyId.Equals(facId));
 
 			PostViewModel postViewModel = new PostViewModel();
 

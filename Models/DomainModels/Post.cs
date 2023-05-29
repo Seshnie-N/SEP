@@ -67,7 +67,7 @@ namespace SEP.Models.DomainModels
 
 		public string departmentName { get; set; }
 
-		public string facultyName { get; set; }
+		public int facultyName { get; set; }
 
 		public bool limitedTo1stYear { get; set; }
 
