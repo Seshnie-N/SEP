@@ -47,6 +47,12 @@
     </div>
 
     <div class="form-floating pb-3">
+        <input asp-for="@Model.Employer.JobTitle" class="form-control" />
+        <label asp-for="@Model.Employer.JobTitle" class="col-sm-auto col-form-label">Job Title</label>
+        <span asp-validation-for="@Model.Employer.JobTitle" class="text-danger"></span>
+    </div>
+
+    <div class="form-floating pb-3">
         <input asp-for="@Model.Employer.CompanyRegistrationNumber" class="form-control" />
         <label asp-for="@Model.Employer.CompanyRegistrationNumber" class="col-sm-auto col-form-label">Company Registration Number</label>
         <span asp-validation-for="@Model.Employer.CompanyRegistrationNumber" class="text-danger"></span>
@@ -70,12 +76,12 @@
         <span asp-validation-for="@Model.Employer.Address" class="text-danger"></span>
     </div>
 
-    @*<div class="form-floating pb-3">
-        <select class="form-select" aria-label="Default select example" asp-for="BusinessType" asp-items="@Html.GetEnumSelectList<BusinessType>()">
+    <div class="form-floating pb-3">
+        <select class="form-select" aria-label="Default select example" asp-for="@Model.Employer.BusinessType" asp-items="@Html.GetEnumSelectList<BusinessType>()">
             <option value="">Select...</option>
         </select>
-        <label asp-for="BusinessType"></label>
-    </div>*@
+        <label asp-for="@Model.Employer.BusinessType"></label>
+    </div>
 
     <button type="submit" class="btn btn-primary">Save</button>
 </form>

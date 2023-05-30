@@ -1,4 +1,5 @@
 ﻿using SEP.Areas.Identity.Data;
+using SEP.Models.Enums;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -17,7 +18,7 @@ namespace SEP.Models.DomainModels
         public string BusinessName { get; set; }
         public string Address { get; set; }
 
-        //public BusinessType BusinessType { get; set; }
+        public BusinessType BusinessType { get; set; }
         public bool isApproved { get; set; }
         public string? ApproverNote { get; set; }
 		public bool isInternal { get; set; }
