@@ -6,7 +6,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace SEP.Models.DomainModels
 {
     [Table("Employer")]
-    public class Employer 
+    public class Employer
     {
         [Key,ForeignKey(nameof(User))]
         public string UserId { get; set; }
@@ -21,6 +21,7 @@ namespace SEP.Models.DomainModels
         public BusinessType BusinessType { get; set; }
         public bool isApproved { get; set; }
         public string? ApproverNote { get; set; }
+		public string? ApprovalStatus { get; set; }
 		public bool isInternal { get; set; }
 
 	}

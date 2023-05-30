@@ -1,11 +1,17 @@
-﻿
-@{
+﻿@{
     ViewData["Title"] = "ApproverHome";
 }
-
-<div>
-    <button>Review External Employers</button>
-    <button>Review Posts</button>
-    <button>View Stats</button>
+<div class="flex-column align-items-center ">
+    <div class="pb-2">
+        <a class="btn btn-light" asp-controller="Approver" asp-action="pendingEmployers">Review Pending External Employers</a>
+    </div>
+    <div class="pb-2">
+        <button class="btn btn-light">Review Employers</button>
+    </div>
+    <div class="pb-2">
+        <button class="btn btn-light">Review Posts</button>
+    </div>
+    <div class="pb-2">
+        <button class="btn btn-light">View Stats</button>
+    </div>
 </div>
-
