@@ -31,7 +31,11 @@ namespace SEP.Controllers
                 {
                     return RedirectToAction("EmployerHome");
                 }
-                else if (User.IsInRole("Admin"))
+				else if (User.IsInRole("Approver"))
+				{
+					return RedirectToAction("ApproverHome");
+				}
+				else if (User.IsInRole("Admin"))
                 {
                     return RedirectToAction("AdminHome");
                 }
@@ -48,6 +52,9 @@ namespace SEP.Controllers
 
         public IActionResult EmployerHome()
         {
+            return View();
+        }
+        public IActionResult ApproverHome() { 
             return View();
         }
         public IActionResult AdminHome()

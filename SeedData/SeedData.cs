@@ -106,6 +106,28 @@ namespace SEP.SeedData
 					}
 				}
 
+				//seed approver
+				// userManager = scope.ServiceProvider.GetService<UserManager<ApplicationUser>>();
+				if (userManager.FindByEmailAsync("approver0@gmail.com").Result == null)
+				{
+					ApplicationUser user = new ApplicationUser
+					{
+						UserName = "approver0@gmail.com",
+						Email = "approver0@gmail.com",
+						FirstName = "approver",
+						LastName = "approver",
+						EmailConfirmed = true,
+						PhoneNumberConfirmed = true
+					};
+
+					var result = await userManager.CreateAsync(user, "123Pa$app");
+
+					if (result.Succeeded)
+					{
+						userManager.AddToRoleAsync(user, "Approver").Wait();
+					}
+				}
+
 				return app;
 			}
 		}
