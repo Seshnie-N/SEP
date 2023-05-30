@@ -17,6 +17,7 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.Extensions.Logging;
 using SEP.Areas.Identity.Data;
 using SEP.Models.DomainModels;
@@ -33,6 +34,7 @@ namespace SEP.Areas.Identity.Pages.Account
         private readonly ILogger<RegisterModel> _logger;
         private readonly IEmailSender _emailSender;
         private readonly RoleManager<IdentityRole> _roleManager;
+        private readonly ApplicationDbContext _db;
 
         public RegisterModel(
             UserManager<ApplicationUser> userManager,
@@ -40,7 +42,8 @@ namespace SEP.Areas.Identity.Pages.Account
             SignInManager<ApplicationUser> signInManager,
             ILogger<RegisterModel> logger,
             IEmailSender emailSender,
-            RoleManager<IdentityRole> roleManager)
+            RoleManager<IdentityRole> roleManager,
+            ApplicationDbContext db)
         {
             _userManager = userManager;
             _userStore = userStore;
@@ -49,6 +52,7 @@ namespace SEP.Areas.Identity.Pages.Account
             _logger = logger;
             _emailSender = emailSender;
             _roleManager = roleManager;
+            _db = db;
         }
 
         [BindProperty]
@@ -91,6 +95,10 @@ namespace SEP.Areas.Identity.Pages.Account
 
             [Display(Name ="Profile type")]
             public UserRoles Role { get; set; }
+
+            //public Student? Student { get; set; }
+            //public Employer? Employer { get; set; }
+
         }
 
 
@@ -117,15 +125,28 @@ namespace SEP.Areas.Identity.Pages.Account
                
                 var result = await _userManager.CreateAsync(user, Input.Password);
 
+                //if user created successfully in AspnetUsers table
                 if (result.Succeeded)
                 {
+                    //assign role to user
                     var selectedRole = _roleManager.FindByNameAsync(Input.Role.ToString()).Result;
 
                     if (selectedRole != null)
                     {
-                        IdentityResult roleresult = await _userManager.AddToRoleAsync(user, selectedRole.Name);
+                        await _userManager.AddToRoleAsync(user, selectedRole.Name);
                     }
 
+                    //create specific user type object 
+                    //if (Input.Role.ToString() == "Student")
+                    //{
+                    //    //create student record 
+                    //} else
+                    //{
+
+                    //}
+
+
+                    //auto-generated identity code
                     _logger.LogInformation("User created a new account with password.");
 
                     var userId = await _userManager.GetUserIdAsync(user);
@@ -182,5 +203,7 @@ namespace SEP.Areas.Identity.Pages.Account
             }
             return (IUserEmailStore<ApplicationUser>)_userStore;
         }
+
+
     }
 }

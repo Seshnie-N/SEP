@@ -13,20 +13,20 @@ namespace SEP.Controllers
     public class ProfileController : Controller
     {
         private readonly ApplicationDbContext _db;
-		private readonly UserManager<ApplicationUser> _userManager;
+        private readonly UserManager<ApplicationUser> _userManager;
         private readonly ILogger<ProfileController> _logger;
 
-		public ProfileController(ILogger<ProfileController> logger, ApplicationDbContext db, UserManager<ApplicationUser> userManager)
+        public ProfileController(ILogger<ProfileController> logger, ApplicationDbContext db, UserManager<ApplicationUser> userManager)
         {
-			_logger = logger;
-			_db = db;
+            _logger = logger;
+            _db = db;
             _userManager = userManager;
         }
 
         public IActionResult Index()
         {
-            
-			return View();
+
+            return View();
         }
 
         public async Task<IActionResult> UpdateStudent()
@@ -49,7 +49,7 @@ namespace SEP.Controllers
                 Student = student,
                 User = user
             };
-           
+
             return View(studentProfile);
         }
 
@@ -111,26 +111,40 @@ namespace SEP.Controllers
         }
 
         //POST
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> UpdateEmployer(EmployerProfileViewModel employerProfile)
-        //{
-        //    var employerRecord = _db.Employers.Find(employerProfile.Employer.UserId);
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> UpdateEmployer(EmployerProfileViewModel employerProfile)
+        {
+            var employerRecord = _db.Employers.Find(employerProfile.Employer.UserId);
+            ApplicationUser userRecord = await _userManager.GetUserAsync(User);
 
-        //    //if (employerRecord != null)
-        //    //{
+            if (employerRecord != null)
+            {
+                userRecord.FirstName = employerProfile.User.FirstName;
+                userRecord.LastName = employerProfile.User.LastName;
+                userRecord.PhoneNumber = employerProfile.User.PhoneNumber;
+                userRecord.Email = employerProfile.User.Email;
+                employerRecord.Title = employerProfile.Employer.Title;
+                employerRecord.JobTitle = employerProfile.Employer.JobTitle;
+                employerRecord.CompanyRegistrationNumber = employerProfile.Employer.CompanyRegistrationNumber;
+                employerRecord.TradingName = employerProfile.Employer.TradingName;
+                employerRecord.BusinessName = employerProfile.Employer.BusinessName;
+                employerRecord.Address = employerProfile.Employer.Address;
+                employerRecord.BusinessType = employerProfile.Employer.BusinessType;
+                employerRecord.isApproved = employerProfile.Employer.isApproved;
+                employerRecord.ApproverNote = employerProfile.Employer.ApproverNote;
+                employerRecord.isInternal = employerProfile.Employer.isInternal;
+                _db.SaveChanges();
+                return RedirectToAction("Index", "Home");
+            }
+            else
+            {
+                _db.Employers.Add(employerProfile.Employer);
+                _db.SaveChanges();
+                return RedirectToAction("Index", "Home");
+            }
 
-        //    //    _db.SaveChanges();
-        //    //    return RedirectToAction("Index", "Home");
-        //    //}
-        //    //else
-        //    //{
-        //    _db.Employers.Add(employerProfile.Employer);
-        //    _db.SaveChanges();
-        //    return RedirectToAction("Index", "Home");
-        //    //}
 
-
-        //}
+        }
     }
 }
