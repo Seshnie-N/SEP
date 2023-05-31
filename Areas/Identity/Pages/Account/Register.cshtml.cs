@@ -96,9 +96,6 @@ namespace SEP.Areas.Identity.Pages.Account
             [Display(Name ="Profile type")]
             public UserRoles Role { get; set; }
 
-            //public Student? Student { get; set; }
-            //public Employer? Employer { get; set; }
-
         }
 
 
@@ -135,16 +132,6 @@ namespace SEP.Areas.Identity.Pages.Account
                     {
                         await _userManager.AddToRoleAsync(user, selectedRole.Name);
                     }
-
-                    //create specific user type object 
-                    //if (Input.Role.ToString() == "Student")
-                    //{
-                    //    //create student record 
-                    //} else
-                    //{
-
-                    //}
-
 
                     //auto-generated identity code
                     _logger.LogInformation("User created a new account with password.");
