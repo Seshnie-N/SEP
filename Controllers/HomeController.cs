@@ -66,7 +66,12 @@ namespace SEP.Controllers
             return View();
         }
 
-        public IActionResult EmployerHome()
+		public IActionResult AwaitingApproval()
+		{
+			return View();
+		}
+
+		public IActionResult EmployerHome()
         {
             return View();
         }
