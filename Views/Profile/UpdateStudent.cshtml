@@ -5,90 +5,201 @@
 
 <h1>Personal Details</h1>
 
-<form method="post" asp-action="UpdateStudent">
+<form method="post" asp-action="UpdateStudent" class="pb-2">
 
-    <input asp-for="@Model.User.Id" hidden/>
-    <input asp-for="@Model.Student.UserId" hidden/>
-    <input asp-for="@Model.Student.User" hidden/>
+	<input asp-for="@Model.User.Id" hidden />
+	<input asp-for="@Model.Student.UserId" hidden />
+	<input asp-for="@Model.Student.User" hidden />
 
-    <div class="form-floating pb-3">
-        <input asp-for="@Model.User.FirstName" class="form-control" />
-        <label asp-for="@Model.User.FirstName" class="col-sm-auto col-form-label">First name</label>
-        <span asp-validation-for="@Model.User.FirstName" class="text-danger"></span>
-    </div>
+	<div class="col pb-2">
+		<input asp-for="@Model.User.FirstName" class="form-control" />
+		<label asp-for="@Model.User.FirstName" class="col-sm-auto col-form-label">First name</label>
+		<span asp-validation-for="@Model.User.FirstName" class="text-danger"></span>
+	</div>
 
-    <div class="form-floating pb-3">
-        <input asp-for="@Model.User.LastName" class="form-control" />
-        <label asp-for="@Model.User.LastName" class="col-sm-auto col-form-label">Last name</label>
-        <span asp-validation-for="@Model.User.LastName" class="text-danger"></span>
-    </div>
+	<div class="col pb-2">
+		<input asp-for="@Model.User.LastName" class="form-control" />
+		<label asp-for="@Model.User.LastName" class="col-sm-auto col-form-label">Last name</label>
+		<span asp-validation-for="@Model.User.LastName" class="text-danger"></span>
+	</div>
 
-    <div class="form-floating pb-3">
-        <input asp-for="@Model.User.PhoneNumber" class="form-control" />
-        <label asp-for="@Model.User.PhoneNumber" class="col-sm-auto col-form-label">Phone number</label>
-        <span asp-validation-for="@Model.User.PhoneNumber" class="text-danger"></span>
-    </div>
+	<div class="col pb-2">
+		<input asp-for="@Model.User.PhoneNumber" class="form-control" />
+		<label asp-for="@Model.User.PhoneNumber" class="col-sm-auto col-form-label">Phone number</label>
+		<span asp-validation-for="@Model.User.PhoneNumber" class="text-danger"></span>
+	</div>
 
-    <div class="form-floating pb-3">
-        <input asp-for="@Model.User.Email" class="form-control" />
-        <label asp-for="@Model.User.Email" class="col-sm-auto col-form-label">Email</label>
-        <span asp-validation-for="@Model.User.Email" class="text-danger"></span>
-    </div>
+	<div class="col pb-2">
+		<input asp-for="@Model.User.Email" class="form-control" />
+		<label asp-for="@Model.User.Email" class="col-sm-auto col-form-label">Email</label>
+		<span asp-validation-for="@Model.User.Email" class="text-danger"></span>
+	</div>
 
-    <div class="form-floating pb-3">
-        <input asp-for="@Model.Student.Address" class="form-control" />
-        <label asp-for="@Model.Student.Address" class="col-sm-auto col-form-label">Address</label>
-        <span asp-validation-for="@Model.Student.Address" class="text-danger"></span>
-    </div>
-
-
-    <div class="form-floating pb-3">
-        <input asp-for="@Model.Student.IdNumber" class="form-control" />
-        <label asp-for="@Model.Student.IdNumber" class="col-sm-auto col-form-label">ID Number</label>
-        <span asp-validation-for="@Model.Student.IdNumber" class="text-danger"></span>
-    </div>
-
-    <div class="form-floating pb-3">
-        <select class="form-select" aria-label="Default select example" asp-for="@Model.Student.Gender" asp-items="@Html.GetEnumSelectList<Gender>()">
-            <option value="">Select...</option>
-        </select>
-        <label asp-for="@Model.Student.Gender"></label>
-    </div>
-
-    <div class="form-floating pb-3">
-        <select class="form-select" aria-label="Default select example" asp-for="@Model.Student.Race" asp-items="@Html.GetEnumSelectList<Race>()">
-            <option value="">Select...</option>
-        </select>
-        <label asp-for="@Model.Student.Race"></label>
-    </div>
-
-    <div class="form-floating pb-3">
-        <select class="form-select" aria-label="Default select example" asp-for="@Model.Student.DriversLicense" asp-items="@Html.GetEnumSelectList<DriversLicense>()">
-            <option value="">Select...</option>
-        </select>
-        <label asp-for="@Model.Student.DriversLicense"></label>
-    </div>
-
-    <div class="form-floating pb-3">
-        <input asp-for="@Model.Student.CareerObjective" class="form-control" />
-        <label asp-for="@Model.Student.CareerObjective" class="col-sm-auto col-form-label">Career Objective</label>
-        <span asp-validation-for="@Model.Student.CareerObjective" class="text-danger"></span>
-    </div>
-
-    <div class="form-check pb-3">
-        <input asp-for="@Model.Student.isSouthAfrican" class="form-check-input" type="checkbox" value="true" id="isSouthAfrican">
-        <label class"="form-check-label" for="isSouthAfrican">
-            South African Citizen?
-        </label>
-    </div>
+	<div class="col pb-2">
+		<input asp-for="@Model.Student.Address" class="form-control" />
+		<label asp-for="@Model.Student.Address" class="col-sm-auto col-form-label">Address</label>
+		<span asp-validation-for="@Model.Student.Address" class="text-danger"></span>
+	</div>
 
 
-    @*<div class="form-floating pb-3">
-        <select class="form-select" asp-for="Department" asp-items="">
-            <option value="">Select...</option>
-        </select>
-        <label asp-for="Department"></label>
-    </div>*@
+	<div class="col pb-2">
+		<input asp-for="@Model.Student.IdNumber" class="form-control" />
+		<label asp-for="@Model.Student.IdNumber" class="col-sm-auto col-form-label">ID Number</label>
+		<span asp-validation-for="@Model.Student.IdNumber" class="text-danger"></span>
+	</div>
 
-    <button type="submit" class="btn btn-primary">Save</button>
+	<div class="col pb-2">
+		<select class="form-select" asp-for="@Model.Student.Gender" asp-items="@Html.GetEnumSelectList<Gender>()">
+			<option value="">Select...</option>
+		</select>
+		<label asp-for="@Model.Student.Gender"></label>
+	</div>
+
+	<div class="col pb-2">
+		<select class="form-select" asp-for="@Model.Student.Race" asp-items="@Html.GetEnumSelectList<Race>()">
+			<option value="">Select...</option>
+		</select>
+		<label asp-for="@Model.Student.Race"></label>
+	</div>
+
+	<div class="col pb-2">
+		<select class="form-select" asp-for="@Model.Student.DriversLicense" asp-items="@Html.GetEnumSelectList<DriversLicense>()">
+			<option value="">Select...</option>
+		</select>
+		<label asp-for="@Model.Student.DriversLicense"></label>
+	</div>
+
+	<div class="col pb-2">
+		<input asp-for="@Model.Student.CareerObjective" class="form-control" />
+		<label asp-for="@Model.Student.CareerObjective" class="col-sm-auto col-form-label">Career Objective</label>
+		<span asp-validation-for="@Model.Student.CareerObjective" class="text-danger"></span>
+	</div>
+
+	<div class="col pb-2">
+		<input asp-for="@Model.Student.isSouthAfrican" class="form-check-input" type="checkbox" value="true" id="isSouthAfrican">
+		<label class"="form-check-label" for="isSouthAfrican">
+			South African Citizen?
+		</label>
+	</div>
+
+	<div class="col pb-2">
+		<select class="form-select" asp-for="@Model.Student.YOS" asp-items="@Html.GetEnumSelectList<YearOfStudy>()">
+			<option value="">Select...</option>
+		</select>
+		<label asp-for="@Model.Student.YOS"></label>
+	</div>
+
+	<div class="col pb-2">
+		<select id="facultyNameID" asp-for="@Model.Student.Faculty">
+			<option value="" selected disabled>Select faculty</option>
+			@foreach (var faculty in @Model.faculty)
+			{
+				<option value="@faculty.facultyId">@faculty.facultyName</option>
+			}
+		</select>
+	</div>
+	<div class="col pb-2">
+		<select id="departmentNameID" asp-for="@Model.Student.Department">
+			<option value="" selected disabled>Select department</option>
+		</select>
+	</div>
+
+	<div class="col pb-2">
+		<label asp-for="@Model.Student.Skills" class="col-3">Skills</label>
+		<textarea asp-for="@Model.Student.Skills"></textarea>
+		<span asp-validation-for="@Model.Student.Skills" class="text-danger"></span>
+	</div>
+
+	<div class="col pb-2">
+		<label asp-for="@Model.Student.Achievements" class="col-3">Achievements</label>
+		<textarea asp-for="@Model.Student.Achievements"></textarea>
+		<span asp-validation-for="@Model.Student.Achievements" class="text-danger"></span>
+	</div>
+
+	<div class="col pb-2">
+		<label asp-for="@Model.Student.Interests" class="col-3">Interests</label>
+		<textarea asp-for="@Model.Student.Interests"></textarea>
+		<span asp-validation-for="@Model.Student.Interests" class="text-danger"></span>
+	</div>
+
+	<div>
+		<h1>Education</h1>
+		<a class="btn btn-light" asp-action="AddQualification">Add</a>
+		<table class="table">
+			<tbody>
+				@foreach (var qualification in @Model.Qualifications)
+				{
+					<tr>
+						<td>@qualification.QualificationName</td>
+						<td>
+							<a class="btn btn-primary" asp-action="ViewQualification" asp-route-id="@qualification.QualificationId">View</a>
+						</td>
+					</tr>
+				}
+			</tbody>
+		</table>
+	</div>
+
+	<div>
+		<h1>Employment</h1>
+		<a class="btn btn-light">Add</a>
+		<table class="table">
+			<tbody>
+				@foreach (var workExp  in @Model.WorkExperience)
+				{
+					<tr>
+						<td>@workExp.JobTitle</td>
+						<td>
+							<a class="btn btn-primary">Edit</a>
+							<a class="btn btn-danger">Delete</a>
+						</td>
+					</tr>
+				}
+			</tbody>
+		</table>
+	</div>
+
+	<div>
+		<h1>Referees</h1>
+		<a class="btn btn-light">Add</a>
+		<table class="table">
+			<tbody>
+				@foreach (var referee in @Model.Referee)
+				{
+					<tr>
+						<td>@referee.Name</td>
+						<td>
+							<a class="btn btn-primary">Edit</a>
+							<a class="btn btn-danger">Delete</a>
+						</td>
+					</tr>
+				}
+			</tbody>
+		</table>
+	</div>
+
+	<button type="submit" class="btn btn-primary">Save Profile</button>
 </form>
+
+@section scripts{
+	<script type="text/javascript">
+		$(document).ready(function () {
+			$('#facultyNameID').change(function () {
+				var obId = this.value
+				//alert(obId);
+				$('#departmentNameID').empty();
+				$.ajax({
+					type: 'GET',
+					url: '@Url.Action("GetDepartmentById")',
+					dataType: 'json',
+					data: { id: obId },
+					success: function (dep) {
+						$.each(dep, function (index, item) {
+							$('#departmentNameID').append('<option value="' + item.departmentName + '">' + item.departmentName + '</option>')
+						});
+					}
+				});
+			});
+		});
+	</script>
+}

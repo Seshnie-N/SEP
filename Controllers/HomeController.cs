@@ -43,7 +43,7 @@ namespace SEP.Controllers
                         {
                             return RedirectToAction("EmployerHome");
                         }
-                        return RedirectToAction("AwaitingApproval");
+                        return RedirectToAction("AwaitingApproval", "Profile");
 
                     } else
                     {
@@ -65,11 +65,6 @@ namespace SEP.Controllers
         {
             return View();
         }
-
-		public IActionResult AwaitingApproval()
-		{
-			return View();
-		}
 
 		public IActionResult EmployerHome()
         {

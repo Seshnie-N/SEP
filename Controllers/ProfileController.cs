@@ -66,11 +66,18 @@ namespace SEP.Controllers
 
         public async Task<IActionResult> UpdateStudent()
         {
+            IEnumerable<Faculty> faculties = _db.Faculties;
+            IEnumerable<Department> departments = _db.Departments;
+
             ApplicationUser user = await _userManager.GetUserAsync(User);
 
             var student = await _db.Students.Where(s => s.UserId == user.Id).SingleOrDefaultAsync();
 
-            if (student == null)
+            IEnumerable<Qualification> qualifications = _db.Qualifications.Where(q => q.StudentId == user.Id);
+			IEnumerable<WorkExperience> workExperiences = _db.WorkExperiences.Where(w => w.StudentId == user.Id);
+			IEnumerable<Referee> referees = _db.Referees.Where(r => r.StudentId == user.Id);
+
+			if (student == null)
             {
                 student = new Student
                 {
@@ -82,7 +89,12 @@ namespace SEP.Controllers
             StudentProfileViewModel studentProfile = new StudentProfileViewModel
             {
                 Student = student,
-                User = user
+                User = user,
+                faculty = faculties,
+                department = departments,
+                Qualifications= qualifications,
+                WorkExperience = workExperiences,
+                Referee = referees
             };
 
             return View(studentProfile);
@@ -109,6 +121,12 @@ namespace SEP.Controllers
                 studentRecord.Gender = studentProfile.Student.Gender;
                 studentRecord.Race = studentProfile.Student.Race;
                 studentRecord.isSouthAfrican = studentProfile.Student.isSouthAfrican;
+                studentRecord.YOS = studentProfile.Student.YOS;
+                studentRecord.Faculty = studentProfile.Student.Faculty;
+                studentRecord.Department = studentProfile.Student.Department;
+                studentRecord.Skills = studentProfile.Student.Skills;
+                studentRecord.Achievements = studentProfile.Student.Achievements;
+                studentRecord.Interests = studentProfile.Student.Interests;
                 _db.SaveChanges();
                 return RedirectToAction("Index", "Home");
             }
@@ -121,6 +139,11 @@ namespace SEP.Controllers
 
         }
 
+        //cascading drop-down
+        public JsonResult GetDepartmentById(int id)
+        {
+            return Json(_db.Departments.Where(d => d.FacultyId.Equals(id)));
+        }
         public async Task<IActionResult> UpdateEmployer()
         {
             ApplicationUser user = await _userManager.GetUserAsync(User);
@@ -180,6 +203,68 @@ namespace SEP.Controllers
             }
 
 
+        }
+		public IActionResult AwaitingApproval()
+		{
+			return View();
+		}
+
+        //GET
+        public IActionResult AddQualification()
+        {
+            return View();
+        }
+        //POST
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> AddQualificationAsync(Qualification qualification)
+        {
+            ApplicationUser user = await _userManager.GetUserAsync(User);
+            qualification.StudentId = user.Id;
+            _db.Qualifications.Add(qualification);
+            _db.SaveChanges();
+            return RedirectToAction("UpdateStudent");
+        }
+        //GET
+        public IActionResult ViewQualification(int id)
+        {
+            var SelectedQualification = _db.Qualifications.Find(id);
+            return View(SelectedQualification);
+        }
+
+        //POST
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult EditQualification(Qualification qualification) 
+        {
+            var qualificationRecord = _db.Qualifications.Find(qualification.QualificationId);
+            if (qualificationRecord != null)
+            {
+                qualificationRecord.Institution = qualification.Institution;
+                qualificationRecord.StartDate = qualification.StartDate;
+                qualificationRecord.EndDate = qualification.EndDate;
+                qualificationRecord.QualificationName = qualification.QualificationName;
+                qualificationRecord.Subjects = qualification.Subjects;
+                qualificationRecord.Majors = qualification.Majors;
+                qualificationRecord.SubMajors = qualification.SubMajors;
+                qualificationRecord.Research = qualification.Research;
+                _db.SaveChanges();
+                return RedirectToAction("UpdateStudent");
+            }
+            
+            return View();
+        }
+        [HttpPost]
+        public IActionResult DeleteQualification(Qualification qualification) 
+        {
+            var qualificationRecord = _db.Qualifications.Find(qualification.QualificationId);
+            if (qualificationRecord != null)
+            {
+                _db.Qualifications.Remove(qualificationRecord);
+                _db.SaveChanges();
+                return RedirectToAction("UpdateStudent");
+            }
+			return RedirectToAction("UpdateStudent"); ;
         }
     }
 }

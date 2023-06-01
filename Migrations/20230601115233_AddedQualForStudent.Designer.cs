@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SEP.Areas.Identity.Data;
 
@@ -11,9 +12,10 @@ using SEP.Areas.Identity.Data;
 namespace SEP.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230601115233_AddedQualForStudent")]
+    partial class AddedQualForStudent
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -483,7 +485,7 @@ namespace SEP.Migrations
 
                     b.HasIndex("StudentId");
 
-                    b.ToTable("Qualifications");
+                    b.ToTable("Qualification");
                 });
 
             modelBuilder.Entity("SEP.Models.DomainModels.Referee", b =>
@@ -522,7 +524,7 @@ namespace SEP.Migrations
 
                     b.HasIndex("StudentId");
 
-                    b.ToTable("Referees");
+                    b.ToTable("Referee");
                 });
 
             modelBuilder.Entity("SEP.Models.DomainModels.Student", b =>
@@ -615,7 +617,7 @@ namespace SEP.Migrations
 
                     b.HasIndex("StudentId");
 
-                    b.ToTable("WorkExperiences");
+                    b.ToTable("WorkExperience");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -694,7 +696,7 @@ namespace SEP.Migrations
             modelBuilder.Entity("SEP.Models.DomainModels.Qualification", b =>
                 {
                     b.HasOne("SEP.Models.DomainModels.Student", "Student")
-                        .WithMany()
+                        .WithMany("Qualifications")
                         .HasForeignKey("StudentId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -705,7 +707,7 @@ namespace SEP.Migrations
             modelBuilder.Entity("SEP.Models.DomainModels.Referee", b =>
                 {
                     b.HasOne("SEP.Models.DomainModels.Student", "Student")
-                        .WithMany()
+                        .WithMany("Referees")
                         .HasForeignKey("StudentId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -727,7 +729,7 @@ namespace SEP.Migrations
             modelBuilder.Entity("SEP.Models.DomainModels.WorkExperience", b =>
                 {
                     b.HasOne("SEP.Models.DomainModels.Student", "Student")
-                        .WithMany()
+                        .WithMany("WorkExperiences")
                         .HasForeignKey("StudentId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -742,6 +744,15 @@ namespace SEP.Migrations
 
                     b.Navigation("Student")
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("SEP.Models.DomainModels.Student", b =>
+                {
+                    b.Navigation("Qualifications");
+
+                    b.Navigation("Referees");
+
+                    b.Navigation("WorkExperiences");
                 });
 #pragma warning restore 612, 618
         }

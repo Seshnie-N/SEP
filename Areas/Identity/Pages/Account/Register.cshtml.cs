@@ -34,7 +34,6 @@ namespace SEP.Areas.Identity.Pages.Account
         private readonly ILogger<RegisterModel> _logger;
         private readonly IEmailSender _emailSender;
         private readonly RoleManager<IdentityRole> _roleManager;
-        private readonly ApplicationDbContext _db;
 
         public RegisterModel(
             UserManager<ApplicationUser> userManager,
@@ -52,7 +51,6 @@ namespace SEP.Areas.Identity.Pages.Account
             _logger = logger;
             _emailSender = emailSender;
             _roleManager = roleManager;
-            _db = db;
         }
 
         [BindProperty]
@@ -81,6 +79,7 @@ namespace SEP.Areas.Identity.Pages.Account
             public string ConfirmPassword { get; set; }
 
             [Phone]
+            //[RegularExpression("^(\\+27|0)[6-8][0-9]{8}$", ErrorMessage = "Invalid phone number")]
             [Display(Name = "Phone number")]
             public string PhoneNumber { get; set; }
 

@@ -17,15 +17,19 @@ namespace SEP.Models.DomainModels
         public string Address { get; set; }
         [DisplayName("ID Number")]
         public string IdNumber { get; set; }
+        public DriversLicense DriversLicense { get; set; }
+        public string? CareerObjective { get; set; }
+
         //public string Department { get; set; }
         public Gender Gender { get; set; }
         public Race Race { get; set; }
         public bool isSouthAfrican { get; set; }
-        public DriversLicense DriversLicense { get; set; }
-        public string? CareerObjective { get; set; }
-        public ICollection<Referee> Referees { get; set; }
-		public ICollection<WorkExperience> WorkExperiences { get; set; }
-		public ICollection<Qualification> Qualifications { get; set; }
+        public YearOfStudy YOS { get; set; }
+        public string Faculty { get; set; }
+        public string Department { get; set; }
+        public string Skills { get; set; }
+        public string Achievements { get; set; }
+        public string Interests { get; set; }
 
 	}
 }
