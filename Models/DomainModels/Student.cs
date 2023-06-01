@@ -23,6 +23,9 @@ namespace SEP.Models.DomainModels
         public bool isSouthAfrican { get; set; }
         public DriversLicense DriversLicense { get; set; }
         public string? CareerObjective { get; set; }
+        public ICollection<Referee> Referees { get; set; }
+		public ICollection<WorkExperience> WorkExperiences { get; set; }
+		public ICollection<Qualification> Qualifications { get; set; }
 
-    }
+	}
 }

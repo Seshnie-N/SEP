@@ -29,6 +29,41 @@ namespace SEP.Controllers
             return View();
         }
 
+        //GET
+        public async Task<IActionResult> CreateEmployer()
+        {
+            ApplicationUser user = await _userManager.GetUserAsync(User);
+
+            var employer = await _db.Employers.Where(e => e.UserId == user.Id).SingleOrDefaultAsync();
+
+            if (employer == null)
+            {
+                employer = new Employer
+                {
+                    User = user,
+                    UserId = user.Id
+                };
+            }
+
+            EmployerProfileViewModel employerProfile = new EmployerProfileViewModel
+            {
+                Employer = employer,
+                User = user
+            };
+
+            return View(employerProfile);
+        }
+
+        //POST
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult CreateEmployer(EmployerProfileViewModel employerProfile)
+        {
+            _db.Employers.Add(employerProfile.Employer);
+            _db.SaveChanges();
+            return RedirectToAction("Index", "Home");
+        }
+
         public async Task<IActionResult> UpdateStudent()
         {
             ApplicationUser user = await _userManager.GetUserAsync(User);

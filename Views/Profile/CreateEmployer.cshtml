@@ -1,6 +1,8 @@
 ﻿@model SEP.Models.ViewModels.EmployerProfileViewModel
 @using SEP.Models.Enums
+
 @{
+    ViewData["Title"] = "Please complete your profile";
 }
 
 <h1>Personal Details</h1>
@@ -83,9 +85,9 @@
         <label asp-for="@Model.Employer.BusinessType"></label>
     </div>
 
-    <div>
-        <button type="submit" class="btn btn-primary">Save</button>
-        <a class="btn btn-primary" asp-controller="Home" asp-action="EmployerHome">Back</a>
-    </div>
-    
+    <button type="submit" class="btn btn-primary">Save</button>
 </form>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

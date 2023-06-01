@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 using SEP.Areas.Identity.Data;
 using SEP.Models;
 using System.Diagnostics;
@@ -12,14 +13,18 @@ namespace SEP.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private readonly SignInManager<ApplicationUser> _signInManager;
+        private readonly UserManager<ApplicationUser> _userManager;
+        private readonly ApplicationDbContext _db;
 
-        public HomeController(ILogger<HomeController> logger, SignInManager<ApplicationUser> signInManager)
+        public HomeController(ILogger<HomeController> logger, SignInManager<ApplicationUser> signInManager, UserManager<ApplicationUser> userManager, ApplicationDbContext db)
         {
             _logger = logger;
             _signInManager = signInManager;
+            _userManager = userManager;
+            _db = db;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> IndexAsync()
         {
             if (_signInManager.IsSignedIn(User))
             {
@@ -29,7 +34,14 @@ namespace SEP.Controllers
                 } 
                 else if (User.IsInRole("Employer"))
                 {
-                    return RedirectToAction("EmployerHome");
+					ApplicationUser user = await _userManager.GetUserAsync(User);
+                    if (_db.Employers.Any(e => e.UserId == user.Id))
+                    {
+						return RedirectToAction("EmployerHome");
+					} else
+                    {
+						return RedirectToAction("CreateEmployer", "Profile");
+					}
                 }
                 else if (User.IsInRole("Admin"))
                 {
