@@ -35,11 +35,19 @@ namespace SEP.Controllers
                 else if (User.IsInRole("Employer"))
                 {
 					ApplicationUser user = await _userManager.GetUserAsync(User);
-                    if (_db.Employers.Any(e => e.UserId == user.Id))
+                    var employer = await _db.Employers.FindAsync(user.Id);
+                    if (employer != null)
                     {
-						return RedirectToAction("EmployerHome");
-					} else
+                        //employer profile  created
+                        if (employer.isApproved)
+                        {
+                            return RedirectToAction("EmployerHome");
+                        }
+                        return RedirectToAction("AwaitingApproval");
+
+                    } else
                     {
+                        //direct to complete profile 
 						return RedirectToAction("CreateEmployer", "Profile");
 					}
                 }
