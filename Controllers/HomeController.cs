@@ -30,7 +30,16 @@ namespace SEP.Controllers
             {
                 if (User.IsInRole("Student"))
                 {
-                    return RedirectToAction("StudentHome");
+                    ApplicationUser user = await _userManager.GetUserAsync(User);
+                    var student = await _db.Students.FindAsync(user.Id);
+                    if (student != null)
+                    {
+                        return RedirectToAction("StudentHome");
+                    } else
+                    {
+                        //direct to complete profile 
+                        return RedirectToAction("CreateStudent", "Profile");
+                    }  
                 } 
                 else if (User.IsInRole("Employer"))
                 {

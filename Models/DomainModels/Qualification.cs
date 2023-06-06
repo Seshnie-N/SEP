@@ -12,7 +12,9 @@ namespace SEP.Models.DomainModels
 		public string StudentId { get; set; }
 		public Student Student { get; set; }
         public string Institution { get; set; }
-        public DateTime StartDate { get; set; }
+		[DataType(DataType.Date)]
+		public DateTime StartDate { get; set; }
+		[DataType(DataType.Date)]
 		public DateTime EndDate { get; set;}
 		[Display(Name ="Qualification")]
         public string QualificationName { get; set; }

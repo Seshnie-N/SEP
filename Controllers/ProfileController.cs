@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using NuGet.Protocol.Plugins;
 using SEP.Areas.Identity.Data;
 using SEP.Models.DomainModels;
 using SEP.Models.ViewModels;
@@ -63,17 +64,57 @@ namespace SEP.Controllers
             _db.SaveChanges();
             return RedirectToAction("Index", "Home");
         }
-
-        public async Task<IActionResult> UpdateStudent()
+        //GET
+        public async Task<IActionResult> CreateStudentAsync()
         {
-            IEnumerable<Faculty> faculties = _db.Faculties;
-            IEnumerable<Department> departments = _db.Departments;
+			IEnumerable<Faculty> faculties = _db.Faculties;
+			IEnumerable<Department> departments = _db.Departments;
 
+			ApplicationUser user = await _userManager.GetUserAsync(User);
+
+			var student = await _db.Students.Where(e => e.UserId == user.Id).SingleOrDefaultAsync();
+
+			if (student == null)
+			{
+				student = new Student
+				{
+					User = user,
+					UserId = user.Id
+				};
+			}
+
+			StudentProfileViewModel studentProfile = new StudentProfileViewModel
+			{
+				Student = student,
+				User = user,
+				faculty = faculties,
+				department = departments
+			};
+
+			return View(studentProfile);
+		}
+        //POST
+        [HttpPost]
+		[ValidateAntiForgeryToken]
+		public IActionResult CreateStudent(Student student)
+		{
+			_db.Students.Add(student);
+			_db.SaveChanges();
+			return RedirectToAction("Index", "Home");
+		}
+
+		public async Task<IActionResult> UpdateStudent()
+        {
             ApplicationUser user = await _userManager.GetUserAsync(User);
 
             var student = await _db.Students.Where(s => s.UserId == user.Id).SingleOrDefaultAsync();
 
-            IEnumerable<Qualification> qualifications = _db.Qualifications.Where(q => q.StudentId == user.Id);
+            var facId = student.Faculty;
+
+			IEnumerable<Faculty> faculties = _db.Faculties;
+			IEnumerable<Department> departments = _db.Departments.Where(d => d.FacultyId.Equals(facId));
+
+			IEnumerable<Qualification> qualifications = _db.Qualifications.Where(q => q.StudentId == user.Id);
 			IEnumerable<WorkExperience> workExperiences = _db.WorkExperiences.Where(w => w.StudentId == user.Id);
 			IEnumerable<Referee> referees = _db.Referees.Where(r => r.StudentId == user.Id);
 
@@ -86,18 +127,17 @@ namespace SEP.Controllers
                 };
             }
 
-            StudentProfileViewModel studentProfile = new StudentProfileViewModel
-            {
-                Student = student,
-                User = user,
-                faculty = faculties,
-                department = departments,
-                Qualifications= qualifications,
-                WorkExperience = workExperiences,
-                Referee = referees
-            };
+            StudentProfileViewModel studentProfile = new StudentProfileViewModel();
+            studentProfile.Student = student;
+            studentProfile.User = user;
+            studentProfile.faculty = faculties;
+            studentProfile.department = departments;
+            studentProfile.Qualifications = qualifications;
+            studentProfile.WorkExperience = workExperiences;
+            studentProfile.Referee = referees;
 
-            return View(studentProfile);
+
+			return View(studentProfile);
         }
 
         //POST
@@ -128,14 +168,14 @@ namespace SEP.Controllers
                 studentRecord.Achievements = studentProfile.Student.Achievements;
                 studentRecord.Interests = studentProfile.Student.Interests;
                 _db.SaveChanges();
-                return RedirectToAction("Index", "Home");
             }
-            else
-            {
-                _db.Students.Add(studentProfile.Student);
-                _db.SaveChanges();
-                return RedirectToAction("Index", "Home");
-            }
+            return RedirectToAction("Index", "Home");
+            //else
+            //{
+            //    _db.Students.Add(studentProfile.Student);
+            //    _db.SaveChanges();
+            //    return RedirectToAction("Index", "Home");
+            //}
 
         }
 

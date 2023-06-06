@@ -548,9 +548,8 @@ namespace SEP.Migrations
                     b.Property<int>("DriversLicense")
                         .HasColumnType("int");
 
-                    b.Property<string>("Faculty")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("Faculty")
+                        .HasColumnType("int");
 
                     b.Property<int>("Gender")
                         .HasColumnType("int");

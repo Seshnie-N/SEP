@@ -12,8 +12,8 @@ using SEP.Areas.Identity.Data;
 namespace SEP.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230524130941_EmployerDetailsAdded")]
-    partial class EmployerDetailsAdded
+    [Migration("20230605103733_ChangeFacultyId")]
+    partial class ChangeFacultyId
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -234,6 +234,28 @@ namespace SEP.Migrations
                     b.ToTable("AspNetUsers", (string)null);
                 });
 
+            modelBuilder.Entity("SEP.Models.DomainModels.Department", b =>
+                {
+                    b.Property<int>("departmentId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("departmentId"), 1L, 1);
+
+                    b.Property<int>("FacultyId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("departmentName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("departmentId");
+
+                    b.HasIndex("FacultyId");
+
+                    b.ToTable("Departments");
+                });
+
             modelBuilder.Entity("SEP.Models.DomainModels.Employer", b =>
                 {
                     b.Property<string>("UserId")
@@ -249,6 +271,9 @@ namespace SEP.Migrations
                     b.Property<string>("BusinessName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("BusinessType")
+                        .HasColumnType("int");
 
                     b.Property<string>("CompanyRegistrationNumber")
                         .IsRequired()
@@ -269,15 +294,247 @@ namespace SEP.Migrations
                     b.Property<bool>("isApproved")
                         .HasColumnType("bit");
 
+                    b.Property<bool>("isInternal")
+                        .HasColumnType("bit");
+
                     b.HasKey("UserId");
 
                     b.ToTable("Employer");
+                });
+
+            modelBuilder.Entity("SEP.Models.DomainModels.Faculty", b =>
+                {
+                    b.Property<int>("facultyId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("facultyId"), 1L, 1);
+
+                    b.Property<string>("facultyName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("facultyId");
+
+                    b.ToTable("Faculties");
+                });
+
+            modelBuilder.Entity("SEP.Models.DomainModels.Post", b =>
+                {
+                    b.Property<int>("postId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("postId"), 1L, 1);
+
+                    b.Property<string>("UserID")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("applicationClosingDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("applicationInstruction")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("conatctPersonEmail")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("conatctPersonName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("conatctPersonNumber")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("departmentName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("endDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("facultyName")
+                        .HasColumnType("int");
+
+                    b.Property<int>("hourlyRate")
+                        .HasColumnType("int");
+
+                    b.Property<string>("jobDescription")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("jobLocation")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("jobTitle")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("jobType")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("limitedTo1stYear")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("limitedTo2ndYear")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("limitedTo3rdYear")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("limitedToCountry")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("limitedToDepartment")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("limitedToFaculty")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("limitedToGraduate")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("limitedToHonours")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("limitedToMasters")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("limitedToPhd")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("limitedToPostdoc")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("minimumRequirment")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("partTimeHour")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("postStatus")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("postreviewComment")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("resposibilities")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("startDate")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("postId");
+
+                    b.ToTable("Posts");
+                });
+
+            modelBuilder.Entity("SEP.Models.DomainModels.Qualification", b =>
+                {
+                    b.Property<int>("QualificationId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("QualificationId"), 1L, 1);
+
+                    b.Property<DateTime>("EndDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Institution")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Majors")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("QualificationName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Research")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("StartDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("StudentId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("SubMajors")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Subjects")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("QualificationId");
+
+                    b.HasIndex("StudentId");
+
+                    b.ToTable("Qualifications");
+                });
+
+            modelBuilder.Entity("SEP.Models.DomainModels.Referee", b =>
+                {
+                    b.Property<int>("RefereeId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("RefereeId"), 1L, 1);
+
+                    b.Property<string>("Cell")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Institution")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("JobTitle")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("StudentId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("RefereeId");
+
+                    b.HasIndex("StudentId");
+
+                    b.ToTable("Referees");
                 });
 
             modelBuilder.Entity("SEP.Models.DomainModels.Student", b =>
                 {
                     b.Property<string>("UserId")
                         .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Achievements")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Address")
                         .IsRequired()
@@ -286,7 +543,14 @@ namespace SEP.Migrations
                     b.Property<string>("CareerObjective")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Department")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int>("DriversLicense")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Faculty")
                         .HasColumnType("int");
 
                     b.Property<int>("Gender")
@@ -296,7 +560,18 @@ namespace SEP.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Interests")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int>("Race")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Skills")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("YOS")
                         .HasColumnType("int");
 
                     b.Property<bool>("isSouthAfrican")
@@ -305,6 +580,43 @@ namespace SEP.Migrations
                     b.HasKey("UserId");
 
                     b.ToTable("Student");
+                });
+
+            modelBuilder.Entity("SEP.Models.DomainModels.WorkExperience", b =>
+                {
+                    b.Property<int>("WorkExperienceId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("WorkExperienceId"), 1L, 1);
+
+                    b.Property<string>("EmployerName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("EndDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("JobTitle")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("StartDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("StudentId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("TasksAndResponsibilities")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("WorkExperienceId");
+
+                    b.HasIndex("StudentId");
+
+                    b.ToTable("WorkExperiences");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -358,6 +670,17 @@ namespace SEP.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("SEP.Models.DomainModels.Department", b =>
+                {
+                    b.HasOne("SEP.Models.DomainModels.Faculty", "faculty")
+                        .WithMany()
+                        .HasForeignKey("FacultyId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("faculty");
+                });
+
             modelBuilder.Entity("SEP.Models.DomainModels.Employer", b =>
                 {
                     b.HasOne("SEP.Areas.Identity.Data.ApplicationUser", "User")
@@ -369,6 +692,28 @@ namespace SEP.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("SEP.Models.DomainModels.Qualification", b =>
+                {
+                    b.HasOne("SEP.Models.DomainModels.Student", "Student")
+                        .WithMany()
+                        .HasForeignKey("StudentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Student");
+                });
+
+            modelBuilder.Entity("SEP.Models.DomainModels.Referee", b =>
+                {
+                    b.HasOne("SEP.Models.DomainModels.Student", "Student")
+                        .WithMany()
+                        .HasForeignKey("StudentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Student");
+                });
+
             modelBuilder.Entity("SEP.Models.DomainModels.Student", b =>
                 {
                     b.HasOne("SEP.Areas.Identity.Data.ApplicationUser", "User")
@@ -378,6 +723,17 @@ namespace SEP.Migrations
                         .IsRequired();
 
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("SEP.Models.DomainModels.WorkExperience", b =>
+                {
+                    b.HasOne("SEP.Models.DomainModels.Student", "Student")
+                        .WithMany()
+                        .HasForeignKey("StudentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Student");
                 });
 
             modelBuilder.Entity("SEP.Areas.Identity.Data.ApplicationUser", b =>

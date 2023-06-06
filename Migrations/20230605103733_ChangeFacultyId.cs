@@ -4,13 +4,13 @@
 
 namespace SEP.Migrations
 {
-    public partial class FacultyStrToInt : Migration
+    public partial class ChangeFacultyId : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.AlterColumn<int>(
-                name: "facultyName",
-                table: "Posts",
+                name: "Faculty",
+                table: "Student",
                 type: "int",
                 nullable: false,
                 oldClrType: typeof(string),
@@ -20,8 +20,8 @@ namespace SEP.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.AlterColumn<string>(
-                name: "facultyName",
-                table: "Posts",
+                name: "Faculty",
+                table: "Student",
                 type: "nvarchar(max)",
                 nullable: false,
                 oldClrType: typeof(int),
