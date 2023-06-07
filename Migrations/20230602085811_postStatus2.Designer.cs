@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SEP.Areas.Identity.Data;
 
@@ -11,9 +12,10 @@ using SEP.Areas.Identity.Data;
 namespace SEP.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230602085811_postStatus2")]
+    partial class postStatus2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -318,23 +320,6 @@ namespace SEP.Migrations
                     b.HasKey("facultyId");
 
                     b.ToTable("Faculties");
-                });
-
-            modelBuilder.Entity("SEP.Models.DomainModels.PartTimeHours", b =>
-                {
-                    b.Property<int>("timeId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("timeId"), 1L, 1);
-
-                    b.Property<string>("timeRange")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("timeId");
-
-                    b.ToTable("partTimeHours");
                 });
 
             modelBuilder.Entity("SEP.Models.DomainModels.Post", b =>

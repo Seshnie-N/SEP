@@ -1,69 +1,53 @@
-﻿@model IEnumerable<SEP.Areas.Identity.Data.ApplicationUser>
-@{
+﻿@{
     ViewData["Title"] = "pendingEmployers";
 }
 
 <div>
-	@if (Model.Count() > 0)
-	{
-		<div>
-			<table class="table table-bordered" style="width:100%">
-				<thead>
-					<tr>
-						<th>
-							Name
-						</th>
-						<th>
-							Legal Name
-						</th>
-						<th>
-							Trading Name
-						</th>
-						<th>
-							Registration number
-						</th>
-						<th>
-							Status
-						</th>
-					</tr>
-				</thead>
-				<tbody>
-					@foreach (var employer in Model)
-					{
-						<tr>
-							<td width="15%">
-								@employer.LastName @employer.FirstName
-							</td>
-							@*<td width="20%">
-								@employer.Employer.BusinessName
-							</td>
-							<td width="15%">
-								@employer.Employer.TradingName
-							</td>
-							<td width="15%">
-								@employer.Employer.CompanyRegistrationNumber
-							</td>
-							
-							<td width="20%">
-								<div class="row">
-									<div class="col">
-										@employer.postStatus
-									</div>
-									<div class="col">
-										<a asp-controller="Post" asp-action="Update" asp-route-id="@employer.postId" class="btn btn-info btn-sm" value="">Review</a>
-									</div>
-
-								</div>
-							</td>*@
-						</tr>
-					}
-				</tbody>
-			</table>
-		</div>
-	}
-	else
-	{
-		<h1>You do not have post yet</h1>
-	}
+    <div>
+        <table id="table" class="table table-bordered" style="width:100%">
+            <thead>
+                <tr>
+                    <th>
+                        Name
+                    </th>
+                    <th>
+                        Legal Name
+                    </th>
+                    <th>
+                        Trading Name
+                    </th>
+                    <th>
+                        Registration number
+                    </th>
+                    <th>
+                        Status
+                    </th>
+                </tr>
+            </thead>
+            <tbody id="tbody">
+            </tbody>
+        </table>
+    </div>
+    <a asp-controller="Home" asp-action="Index" class="btn btn-secondary btn-sm">Back</a>
 </div>
 
+@section scripts{
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var table = $('#tbody');
+            $.ajax({
+                type: 'GET',
+                url: '@Url.Action("getPendingEmployers")',
+                dataType: 'json',
+                data: {},
+                success: function(pendingEmp){
+                    $.each(pendingEmp,function(index,item){
+                        table.append('<tr><td width="20%">' + item.lastName + " " + item.firstName + '</td><td width="20%">' + item.legalName + '</td>   <td width="20%">' + item.tradingName + '</td> <td width="20%">' + item.regNumber + '</td> <td width="20%">' + item.status + ' <a href="/Approver/approverUpdateEmployer/'+item.id+'" class="btn btn-info btn-sm">Review</a></td> </tr>');
+                    });
+                }, 
+            
+            });
+        });
+
+    </script>
+}

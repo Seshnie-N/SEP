@@ -18,6 +18,21 @@ namespace SEP.SeedData
             {
                 using var context = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
 
+                IList<PartTimeHours> partTimeHours = new List<PartTimeHours>();
+                partTimeHours.Add(new PartTimeHours { timeRange = " < 2 " });
+                partTimeHours.Add(new PartTimeHours { timeRange = "2 - 4" });
+                partTimeHours.Add(new PartTimeHours { timeRange = "4 - 6" });
+                partTimeHours.Add(new PartTimeHours { timeRange = "6 - 8" });
+                partTimeHours.Add(new PartTimeHours { timeRange = "8 - 12" });
+                partTimeHours.Add(new PartTimeHours { timeRange = "> 12" });
+                foreach (var hour in partTimeHours)
+                {
+                    if (!context.partTimeHours.Any(f => f.timeRange == hour.timeRange))
+                    {
+                        context.partTimeHours.Add(hour);
+                    }
+                }
+                context.SaveChanges();
 
                 //facultiess
                 IList<Faculty> faculties = new List<Faculty>();

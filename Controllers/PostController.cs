@@ -32,6 +32,7 @@ namespace SEP.Controllers
 
 			IEnumerable<Faculty> faculties = _db.Faculties;
 			IEnumerable<Department> departments = _db.Departments;
+			IEnumerable<PartTimeHours> partTimeHours = _db.partTimeHours;
 
 			ApplicationUser user = await _userManager.GetUserAsync(User);
 
@@ -45,6 +46,7 @@ namespace SEP.Controllers
 			postViewModel.post = newPost;
 			postViewModel.faculty = faculties;
 			postViewModel.department = departments;
+			postViewModel.partTimeHours = partTimeHours;
 
 			return View(postViewModel);
 		}
@@ -52,6 +54,7 @@ namespace SEP.Controllers
 		public IActionResult CreatePost(PostViewModel postViewModelObject)
 		{
 			postViewModelObject.post.postStatus = "Pending";
+			postViewModelObject.post.approvalStatus = "Pending";
 
 			_db.Posts.Add(postViewModelObject.post);
 			_db.SaveChanges();
@@ -67,8 +70,9 @@ namespace SEP.Controllers
 
 			IEnumerable<Faculty> faculties = _db.Faculties;
 			IEnumerable<Department> departments = _db.Departments.Where(d => d.FacultyId.Equals(facId));
+            IEnumerable<PartTimeHours> partTimeHours = _db.partTimeHours;
 
-			PostViewModel postViewModel = new PostViewModel();
+            PostViewModel postViewModel = new PostViewModel();
 
 			if (postObj != null)
 			{
@@ -80,8 +84,9 @@ namespace SEP.Controllers
 			}
 			postViewModel.faculty = faculties;
 			postViewModel.department = departments;
+            postViewModel.partTimeHours = partTimeHours;
 
-			return View(postViewModel);
+            return View(postViewModel);
 		}
 		[HttpPost]
 		public IActionResult UpdatePost(PostViewModel postViewModelObject)

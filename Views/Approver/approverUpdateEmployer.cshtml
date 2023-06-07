@@ -5,117 +5,123 @@
 
 <h1>Personal Details</h1>
 
-<form method="post" asp-action="UpdateEmployer">
+<form method="post" >
 
     <input asp-for="@Model.Employer.UserId" hidden />
     <input asp-for="@Model.User" hidden />
     <input asp-for="@Model.Employer.isApproved" hidden />
-    <input id="approvalstatus" asp-for="@Model.Employer.ApprovalStatus" hidden />
+    <input asp-for="@Model.Employer.ApprovalStatus" hidden />
 
 
     @*<div class="form-check form-check-inline pb-2">
-        <input class="form-check-input" type="checkbox" asp-for="@Model.Employer.isInternal" value="true" id="isInternal">
-        <label class="form-check-label" for="isInternal">Internal?</label>
+    <input class="form-check-input" type="checkbox" asp-for="@Model.Employer.isInternal" value="true" id="isInternal">
+    <label class="form-check-label" for="isInternal">Internal?</label>
     </div>*@
 
     <div class="col pb-2">
         <label asp-for="@Model.Employer.Title" class="col-3">Title</label>
-        <input asp-for="@Model.Employer.Title"  />
+        <input asp-for="@Model.Employer.Title" readonly />
         <span asp-validation-for="@Model.Employer.Title" class="text-danger"></span>
     </div>
 
     <div class="col pb-2">
         <label asp-for="@Model.User.FirstName" class="col-3">First name</label>
-        <input asp-for="@Model.User.FirstName"  />
+        <input asp-for="@Model.User.FirstName" readonly />
         <span asp-validation-for="@Model.User.FirstName" class="text-danger"></span>
     </div>
 
     <div class="col pb-2">
         <label asp-for="@Model.User.LastName" class="col-3">Last name</label>
-        <input asp-for="@Model.User.LastName" />
+        <input asp-for="@Model.User.LastName" readonly />
         <span asp-validation-for="@Model.User.LastName" class="text-danger"></span>
     </div>
 
     <div class="col pb-2">
         <label asp-for="@Model.User.PhoneNumber" class="col-3">Phone number</label>
-        <input asp-for="@Model.User.PhoneNumber" />
+        <input asp-for="@Model.User.PhoneNumber" readonly />
         <span asp-validation-for="@Model.User.PhoneNumber" class="text-danger"></span>
     </div>
 
     <div class="col pb-2">
         <label asp-for="@Model.User.Email" class="col-3">Email</label>
-        <input asp-for="@Model.User.Email"  />
+        <input asp-for="@Model.User.Email" readonly />
         <span asp-validation-for="@Model.User.Email" class="text-danger"></span>
     </div>
     <div class="col pb-2">
         <label asp-for="@Model.Employer.isInternal" class="col-3">Are you a wits employee?</label>
-            <div class="form-check-inline">
+        <div class="form-check-inline" >
+            @if (Model.Employer.isInternal == true)
+            {
                 <input type="radio" asp-for="@Model.Employer.isInternal" id="Emp" value="true" />
-                <label for="Emp">Yes</label>
-            </div>
-            <div class="form-check-inline">
-                <input type="radio" asp-for="@Model.Employer.isInternal" id="NotEmp"value="false" />
-            <label for="NotEmp">No</label>
-            </div>
+            }
+            else
+            {
+                <input type="radio" asp-for="@Model.Employer.isInternal" id="Emp" value="true" disabled />
+            }
+            @*<input type="radio" asp-for="@Model.Employer.isInternal" id="Emp" value="true" disabled />*@
+            <label for="Emp">Yes</label>
+        </div>
+        <div class="form-check-inline" >
+
+            @if (Model.Employer.isInternal == true)
+            {
+                <input type="radio" asp-for="@Model.Employer.isInternal" id="NotEmp" value="false"  />
+            }
+            else
+            {
+                <input type="radio" asp-for="@Model.Employer.isInternal" id="NotEmp" value="false" disabled />
+            }
+
+            @*<input type="radio" asp-for="@Model.Employer.isInternal" id="NotEmp" value="false" disabled />*@
+            <label for="NotEmp" >No</label>
+        </div>
         <span asp-validation-for="@Model.Employer.isInternal" class="text-danger"></span>
     </div>
     <div class="col pb-2">
         <label asp-for="@Model.Employer.JobTitle" class="col-3">Job Title</label>
-        <input asp-for="@Model.Employer.JobTitle" />
+        <input asp-for="@Model.Employer.JobTitle" readonly />
         <span asp-validation-for="@Model.Employer.JobTitle" class="text-danger"></span>
     </div>
     <div class="col pb-2">
         <label asp-for="@Model.Employer.BusinessType" class="col-3"></label>
-        <select aria-label="Default select example" asp-for="@Model.Employer.BusinessType" asp-items="@Html.GetEnumSelectList<BusinessType>()">
-            <option value="">Select...</option>
-        </select>
-        
+        <input asp-for="@Model.Employer.BusinessType" raedonly />
+
     </div>
     <div class="col pb-2">
         <label asp-for="@Model.Employer.CompanyRegistrationNumber" class="col-3">Company Registration Number</label>
-        <input asp-for="@Model.Employer.CompanyRegistrationNumber" />   
+        <input asp-for="@Model.Employer.CompanyRegistrationNumber" readonly />
         <span asp-validation-for="@Model.Employer.CompanyRegistrationNumber" class="text-danger"></span>
     </div>
 
     <div class="col pb-2">
         <label asp-for="@Model.Employer.BusinessName" class="col-3">Registered Business Name</label>
-        <input asp-for="@Model.Employer.BusinessName"  />
+        <input asp-for="@Model.Employer.BusinessName" readonly />
         <span asp-validation-for="@Model.Employer.BusinessName" class="text-danger"></span>
     </div>
 
     <div class="col pb-2">
         <label asp-for="@Model.Employer.TradingName" class="col-3">Trading Name</label>
-        <input asp-for="@Model.Employer.TradingName" />
+        <input asp-for="@Model.Employer.TradingName" readonly />
         <span asp-validation-for="@Model.Employer.TradingName" class="text-danger"></span>
     </div>
 
-    <div class="col pb-2">
+    <div class="col pb-2 disabled">
         <label asp-for="@Model.Employer.Address" class="col-3">Address</label>
-        <textarea asp-for="@Model.Employer.Address" ></textarea>
+        <textarea asp-for="@Model.Employer.Address" readonly></textarea>
         <span asp-validation-for="@Model.Employer.Address" class="text-danger"></span>
     </div>
-    <div id="approvernote" class="col pb-2">
+    <div class="col pb-2">
         <label asp-for="@Model.Employer.ApproverNote" class="col-3">Approver's note'</label>
-        <textarea asp-for="@Model.Employer.ApproverNote" readonly></textarea>
+        <textarea asp-for="@Model.Employer.ApproverNote"></textarea>
         <span asp-validation-for="@Model.Employer.ApproverNote" class="text-danger"></span>
     </div>
 
-    <button type="submit" class="btn btn-primary">Save changes</button>
-    <a asp-controller="Home" asp-action="Index" class="btn btn-danger">Back</a>
-</form>
-@section scripts{
-    <script>
-        function hideApproverNote(){
-            $('#approvernote').hide();
-        }
-        $(document).ready(function(){
-            hideApproverNote();
-            var note = $('#approvalstatus').val()
-            if(note != "Pending"  && note!=""){
-                $('#approvernote').show();
-            }
 
-           
-        });
-    </script>
-}
+    <button asp-controller="Approver" asp-action="approverAcceptEmployer" type="submit" class="btn btn-primary">Approve</button>
+    <button asp-controller="Approver" asp-action="approverRejectEmployer" type="submit" class="btn btn-primary">Reject</button>
+    <button type="button" asp-controller="Approver" asp-action="pendingEmployers" class="btn btn-primary">Back</button>
+
+
+
+</form>
+

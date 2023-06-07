@@ -62,7 +62,12 @@ namespace SEP.Models.DomainModels
 		[DisplayName("Reviewer's comment")]
 		public string? postreviewComment { get; set; }
 
+		public bool isApproved { get; set; }
+
 		[DisplayName("Outcome")]
+		public string approvalStatus { get; set; }
+
+		[DisplayName("Post status")]
 		public string postStatus { get; set; }
 
 		public string departmentName { get; set; }

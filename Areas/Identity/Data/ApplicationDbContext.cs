@@ -14,6 +14,8 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     public DbSet<Faculty> Faculties { get; set; }
     public DbSet<Department> Departments { get; set; }
 
+    public DbSet<PartTimeHours> partTimeHours { get; set; }
+
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
         : base(options)
     {

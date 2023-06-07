@@ -9,5 +9,7 @@ namespace SEP.Models.ViewModels
 		public IEnumerable<Faculty> faculty { get; set; }
 
 		public IEnumerable<Department> department { get; set; }
+
+		public IEnumerable<PartTimeHours> partTimeHours { get; set; }	
 	}
 }

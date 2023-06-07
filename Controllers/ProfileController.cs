@@ -134,6 +134,14 @@ namespace SEP.Controllers
                 employerRecord.isApproved = employerProfile.Employer.isApproved;
                 employerRecord.ApproverNote = employerProfile.Employer.ApproverNote;
                 employerRecord.isInternal = employerProfile.Employer.isInternal;
+                if(employerRecord.ApprovalStatus == null)
+                {
+                    employerRecord.ApprovalStatus = "Pending";
+                }
+                else
+                {
+                    employerRecord.ApprovalStatus = employerProfile.Employer.ApprovalStatus;
+                }
                 _db.SaveChanges();
                 return RedirectToAction("Index", "Home");
             }

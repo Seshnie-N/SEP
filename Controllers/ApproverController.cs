@@ -1,8 +1,10 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using SEP.Areas.Identity.Data;
 using SEP.Models.DomainModels;
+using SEP.Models.ViewModels;
 
 namespace SEP.Controllers
 {
@@ -23,12 +25,7 @@ namespace SEP.Controllers
             _db = db;
             _signInManager = signInManager;
         }
-        public IActionResult Index()
-        {
-            
 
-            return View();
-        }
         public string getSignedRole()
         {
             string role = "";
@@ -43,23 +40,158 @@ namespace SEP.Controllers
         }
         public IActionResult pendingEmployers()
         {
-            IEnumerable<ApplicationUser> applicationUsers = ((IEnumerable<ApplicationUser>)(from user in _db.Users
-                                    join e in _db.Employers
-                                    on user.Id equals e.UserId
-									where e.isApproved == false
-                                    select new
-                                    {
-										ApplicationUser = new ApplicationUser
-                                        {
-                                            FirstName = user.FirstName,
-                                            LastName = user.LastName,   
-                                        }
-
-                                    })
-									);
-			return View(applicationUsers);
+            return View();
         }
 
+
+
+        public JsonResult getPendingEmployers()
+        {
+            var applicationUsers = (from user in _db.Users
+                                    join e in _db.Employers
+                                    on user.Id equals e.UserId
+                                    where e.isApproved == false
+                                    select new
+                                    {
+                                        id = user.Id,
+                                        FirstName = user.FirstName,
+                                        LastName = user.LastName,
+                                        LegalName = e.BusinessName,
+                                        TradingName = e.TradingName,
+                                        RegNumber = e.CompanyRegistrationNumber,
+                                        status = e.ApprovalStatus,
+                                    }
+                                    );
+            return Json(applicationUsers);
+        }
+
+        public IActionResult approverUpdateEmployer(string id)
+        {
+
+            ApplicationUser user = _db.Users.Find(id);
+            var employer = _db.Employers.Find(id);
+
+            EmployerProfileViewModel employerProfile = new EmployerProfileViewModel();
+
+            employerProfile.User = user;
+            employerProfile.Employer = employer;
+
+
+
+            return View(employerProfile);
+        }
+
+        //POST
+        [HttpPost]
+        public IActionResult approverAcceptEmployer(EmployerProfileViewModel employerProfile)
+        {
+            //var employerRecord = _db.Employers.Find(employerProfile.Employer.UserId);
+            //ApplicationUser userRecord = _db.Users.Find(employerProfile.Employer.UserId);
+
+
+            //userRecord.FirstName = employerProfile.User.FirstName;
+            //userRecord.LastName = employerProfile.User.LastName;
+            //userRecord.PhoneNumber = employerProfile.User.PhoneNumber;
+            //userRecord.Email = employerProfile.User.Email;
+            //employerRecord.Title = employerProfile.Employer.Title;
+            //employerRecord.JobTitle = employerProfile.Employer.JobTitle;
+            //employerRecord.CompanyRegistrationNumber = employerProfile.Employer.CompanyRegistrationNumber;
+            //employerRecord.TradingName = employerProfile.Employer.TradingName;
+            //employerRecord.BusinessName = employerProfile.Employer.BusinessName;
+            //employerRecord.Address = employerProfile.Employer.Address;
+            //employerRecord.BusinessType = employerProfile.Employer.BusinessType;
+
+            //employerRecord.ApproverNote = employerProfile.Employer.ApproverNote;
+            //employerRecord.isInternal = employerProfile.Employer.isInternal;
+            //updated fields
+            employerProfile.Employer.isApproved = true;
+            employerProfile.Employer.ApprovalStatus = "Approved";
+            _db.Update(employerProfile.Employer);
+            _db.SaveChanges();
+            return RedirectToAction("pendingEmployers");
+        }
+
+        //POST
+        [HttpPost]
+        public IActionResult approverRejectEmployer(EmployerProfileViewModel employerProfile)
+        {
+
+            //updated fields
+            employerProfile.Employer.isApproved = employerProfile.Employer.isApproved;
+            employerProfile.Employer.ApprovalStatus = "Rejected";
+            _db.Update(employerProfile.Employer);
+            _db.SaveChanges();
+            return RedirectToAction("pendingEmployers");
+
+
+        }
+
+        public IActionResult pendingPosts()
+        {
+            IEnumerable<Post> posts = _db.Posts.Where(p => p.isApproved == false);
+            return View(posts);
+        }
+
+        public IActionResult approverUpdatePost(int id)
+        {
+
+            Post postObj = _db.Posts.Find(id);
+            var facId = postObj.facultyName;
+
+            IEnumerable<Faculty> faculties = _db.Faculties;
+            IEnumerable<Department> departments = _db.Departments.Where(d => d.FacultyId.Equals(facId));
+            IEnumerable<PartTimeHours> partTimeHours = _db.partTimeHours;
+
+            PostViewModel postViewModel = new PostViewModel();
+
+            if (postObj != null)
+            {
+                postViewModel.post = postObj;
+            }
+            else
+            {
+                return NotFound();
+            }
+            postViewModel.faculty = faculties;
+            postViewModel.department = departments;
+            postViewModel.partTimeHours = partTimeHours;
+
+            return View(postViewModel);
+        }
+        [HttpPost]
+
+        public IActionResult approverUpdatePost(PostViewModel postViewModelObject)
+        {
+            _db.Posts.Update(postViewModelObject.post);
+            _db.SaveChanges();
+            return RedirectToAction("pendingPosts");
+        }
+        [HttpPost]
+        public IActionResult approverApprovePost(PostViewModel postViewModelObject)
+        {
+            postViewModelObject.post.postStatus = "Approved";
+            postViewModelObject.post.approvalStatus = "Approved";
+            postViewModelObject.post.isApproved = true;
+            _db.Posts.Update(postViewModelObject.post);
+            _db.SaveChanges();
+            return RedirectToAction("pendingPosts");
+        }
+        [HttpPost]
+        public IActionResult approverRejectPost(PostViewModel postViewModelObject)
+        {
+            postViewModelObject.post.approvalStatus = "Rejected";
+            _db.Posts.Update(postViewModelObject.post);
+            _db.SaveChanges();
+            return RedirectToAction("pendingPosts");
+        }
+        [HttpPost]
+        public IActionResult approverQueryPost(PostViewModel postViewModelObject)
+        {
+            postViewModelObject.post.approvalStatus = "Queried";
+            _db.Posts.Update(postViewModelObject.post);
+            _db.SaveChanges();
+            return RedirectToAction("pendingPosts");
+        }
 
     }
 }
