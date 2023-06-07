@@ -63,7 +63,7 @@
         </div>
         <div class="form-check-inline" >
 
-            @if (Model.Employer.isInternal == true)
+            @if (Model.Employer.isInternal == false)
             {
                 <input type="radio" asp-for="@Model.Employer.isInternal" id="NotEmp" value="false"  />
             }

@@ -60,6 +60,9 @@ namespace SEP.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult CreateEmployer(EmployerProfileViewModel employerProfile)
         {
+            
+             employerProfile.Employer.ApprovalStatus = "Pending";
+           
             _db.Employers.Add(employerProfile.Employer);
             _db.SaveChanges();
             return RedirectToAction("Index", "Home");
@@ -232,14 +235,9 @@ namespace SEP.Controllers
                 employerRecord.isApproved = employerProfile.Employer.isApproved;
                 employerRecord.ApproverNote = employerProfile.Employer.ApproverNote;
                 employerRecord.isInternal = employerProfile.Employer.isInternal;
-                if(employerRecord.ApprovalStatus == null)
-                {
-                    employerRecord.ApprovalStatus = "Pending";
-                }
-                else
-                {
-                    employerRecord.ApprovalStatus = employerProfile.Employer.ApprovalStatus;
-                }
+                
+                employerRecord.ApprovalStatus = "Pending";
+               
                 _db.SaveChanges();
                 return RedirectToAction("Index", "Home");
             }

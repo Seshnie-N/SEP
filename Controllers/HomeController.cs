@@ -48,7 +48,7 @@ namespace SEP.Controllers
                     if (employer != null)
                     {
                         //employer profile  created
-                        if (employer.isApproved)
+                        if (employer.ApprovalStatus != "Pending")
                         {
                             return RedirectToAction("EmployerHome");
                         }

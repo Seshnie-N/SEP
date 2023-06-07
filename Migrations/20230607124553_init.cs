@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace SEP.Migrations
 {
-    public partial class Init : Migration
+    public partial class init : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -64,6 +64,19 @@ namespace SEP.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "partTimeHours",
+                columns: table => new
+                {
+                    timeId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    timeRange = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_partTimeHours", x => x.timeId);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Posts",
                 columns: table => new
                 {
@@ -86,6 +99,8 @@ namespace SEP.Migrations
                     conatctPersonEmail = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     conatctPersonNumber = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     postreviewComment = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    isApproved = table.Column<bool>(type: "bit", nullable: false),
+                    approvalStatus = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     postStatus = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     departmentName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     facultyName = table.Column<int>(type: "int", nullable: false),
@@ -226,6 +241,7 @@ namespace SEP.Migrations
                     BusinessType = table.Column<int>(type: "int", nullable: false),
                     isApproved = table.Column<bool>(type: "bit", nullable: false),
                     ApproverNote = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ApprovalStatus = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     isInternal = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
@@ -252,7 +268,7 @@ namespace SEP.Migrations
                     Race = table.Column<int>(type: "int", nullable: false),
                     isSouthAfrican = table.Column<bool>(type: "bit", nullable: false),
                     YOS = table.Column<int>(type: "int", nullable: false),
-                    Faculty = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Faculty = table.Column<int>(type: "int", nullable: false),
                     Department = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Skills = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Achievements = table.Column<string>(type: "nvarchar(max)", nullable: false),
@@ -446,6 +462,9 @@ namespace SEP.Migrations
 
             migrationBuilder.DropTable(
                 name: "Employer");
+
+            migrationBuilder.DropTable(
+                name: "partTimeHours");
 
             migrationBuilder.DropTable(
                 name: "Posts");
