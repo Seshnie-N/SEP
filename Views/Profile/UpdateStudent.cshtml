@@ -128,7 +128,7 @@
 
 	<div>
 		<h1>Education</h1>
-		<a class="btn btn-light" asp-action="AddQualification">Add</a>
+		<a class="btn btn-primary" asp-action="AddQualification">Add</a>
 		<table class="table">
 			<tbody>
 				@foreach (var qualification in @Model.Qualifications)
@@ -146,7 +146,7 @@
 
 	<div>
 		<h1>Employment</h1>
-		<a class="btn btn-light">Add</a>
+		<a class="btn btn-primary" asp-action="AddWorkExperience">Add</a>
 		<table class="table">
 			<tbody>
 				@foreach (var workExp  in @Model.WorkExperience)
@@ -154,8 +154,7 @@
 					<tr>
 						<td>@workExp.JobTitle</td>
 						<td>
-							<a class="btn btn-primary">Edit</a>
-							<a class="btn btn-danger">Delete</a>
+							<a class="btn btn-primary" asp-action="ViewWorkExperience" asp-route-id="@workExp.WorkExperienceId">View</a>
 						</td>
 					</tr>
 				}
@@ -165,7 +164,7 @@
 
 	<div>
 		<h1>Referees</h1>
-		<a class="btn btn-light">Add</a>
+		<a class="btn btn-primary" asp-action="AddReferee">Add</a>
 		<table class="table">
 			<tbody>
 				@foreach (var referee in @Model.Referee)
@@ -173,8 +172,7 @@
 					<tr>
 						<td>@referee.Name</td>
 						<td>
-							<a class="btn btn-primary">Edit</a>
-							<a class="btn btn-danger">Delete</a>
+							<a class="btn btn-primary" asp-action="ViewReferee" asp-route-id="@referee.RefereeId">View</a>
 						</td>
 					</tr>
 				}

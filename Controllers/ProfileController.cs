@@ -295,6 +295,7 @@ namespace SEP.Controllers
             return View();
         }
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult DeleteQualification(Qualification qualification) 
         {
             var qualificationRecord = _db.Qualifications.Find(qualification.QualificationId);
@@ -306,5 +307,113 @@ namespace SEP.Controllers
             }
 			return RedirectToAction("UpdateStudent"); ;
         }
-    }
+        //GET
+        public IActionResult AddWorkExperience()
+        {
+            return View();
+        }
+        //POST
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> AddWorkExperienceAsync(WorkExperience workExperience)
+        {
+            ApplicationUser user = await _userManager.GetUserAsync(User);
+            workExperience.StudentId = user.Id;
+            _db.WorkExperiences.Add(workExperience);
+            _db.SaveChanges();
+            return RedirectToAction("UpdateStudent");
+        }
+		//GET
+		public IActionResult ViewWorkExperience(int id)
+		{
+			var SelectedWorkExperience = _db.WorkExperiences.Find(id);
+			return View(SelectedWorkExperience);
+		}
+		[HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult EditWorkExperience(WorkExperience workExperience)
+        {
+            var obj = _db.WorkExperiences.Find(workExperience.WorkExperienceId);
+            if (obj != null)
+            {
+                obj.EmployerName = workExperience.EmployerName;
+                obj.StartDate = workExperience.StartDate;
+                obj.EndDate = workExperience.EndDate;
+                obj.JobTitle = workExperience.JobTitle;
+                obj.TasksAndResponsibilities = workExperience.TasksAndResponsibilities;
+                _db.SaveChanges();
+                return RedirectToAction("UpdateStudent");
+            }
+
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult DeleteWorkExperience(WorkExperience workExperience)
+        {
+            var obj = _db.WorkExperiences.Find(workExperience.WorkExperienceId);
+            if (obj != null)
+            {
+                _db.WorkExperiences.Remove(obj);
+                _db.SaveChanges();
+                return RedirectToAction("UpdateStudent");
+            }
+            return View();
+        }
+
+		//GET
+		public IActionResult AddReferee()
+		{
+			return View();
+		}
+		//POST
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		public async Task<IActionResult> AddRefereeAsync(Referee referee)
+		{
+			ApplicationUser user = await _userManager.GetUserAsync(User);
+			referee.StudentId = user.Id;
+			_db.Referees.Add(referee);
+			_db.SaveChanges();
+			return RedirectToAction("UpdateStudent");
+		}
+		//GET
+		public IActionResult ViewReferee(int id)
+		{
+			return View(_db.Referees.Find(id));
+		}
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		public IActionResult EditReferee(Referee referee)
+		{
+			var obj = _db.Referees.Find(referee.RefereeId);
+			if (obj != null)
+			{
+				obj.Name = referee.Name;
+                obj.JobTitle = referee.JobTitle;
+                obj.Institution = referee.Institution;
+                obj.Cell = referee.Cell;
+                obj.Email = referee.Email;
+				_db.SaveChanges();
+				return RedirectToAction("UpdateStudent");
+			}
+
+			return View();
+		}
+
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		public IActionResult DeleteReferee(Referee referee)
+		{
+			var obj = _db.Referees.Find(referee.RefereeId);
+			if (obj != null)
+			{
+				_db.Referees.Remove(obj);
+				_db.SaveChanges();
+				return RedirectToAction("UpdateStudent");
+			}
+			return View();
+		}
+	}
 }
