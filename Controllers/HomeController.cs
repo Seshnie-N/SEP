@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 using SEP.Areas.Identity.Data;
 using SEP.Models;
 using System.Diagnostics;
@@ -12,24 +13,52 @@ namespace SEP.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private readonly SignInManager<ApplicationUser> _signInManager;
+        private readonly UserManager<ApplicationUser> _userManager;
+        private readonly ApplicationDbContext _db;
 
-        public HomeController(ILogger<HomeController> logger, SignInManager<ApplicationUser> signInManager)
+        public HomeController(ILogger<HomeController> logger, SignInManager<ApplicationUser> signInManager, UserManager<ApplicationUser> userManager, ApplicationDbContext db)
         {
             _logger = logger;
             _signInManager = signInManager;
+            _userManager = userManager;
+            _db = db;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> IndexAsync()
         {
             if (_signInManager.IsSignedIn(User))
             {
                 if (User.IsInRole("Student"))
                 {
-                    return RedirectToAction("StudentHome");
+                    ApplicationUser user = await _userManager.GetUserAsync(User);
+                    var student = await _db.Students.FindAsync(user.Id);
+                    if (student != null)
+                    {
+                        return RedirectToAction("StudentHome");
+                    } else
+                    {
+                        //direct to complete profile 
+                        return RedirectToAction("CreateStudent", "Profile");
+                    }  
                 } 
                 else if (User.IsInRole("Employer"))
                 {
-                    return RedirectToAction("EmployerHome");
+					ApplicationUser user = await _userManager.GetUserAsync(User);
+                    var employer = await _db.Employers.FindAsync(user.Id);
+                    if (employer != null)
+                    {
+                        //employer profile  created
+                        if (employer.isApproved)
+                        {
+                            return RedirectToAction("EmployerHome");
+                        }
+                        return RedirectToAction("AwaitingApproval", "Profile");
+
+                    } else
+                    {
+                        //direct to complete profile 
+						return RedirectToAction("CreateEmployer", "Profile");
+					}
                 }
 				else if (User.IsInRole("Approver"))
 				{
@@ -50,7 +79,7 @@ namespace SEP.Controllers
             return View();
         }
 
-        public IActionResult EmployerHome()
+		public IActionResult EmployerHome()
         {
             return View();
         }

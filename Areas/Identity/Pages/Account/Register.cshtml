@@ -12,7 +12,6 @@
 
 <div class="row">
     <div class="col-md w-60">
-        @*base user information*@
         <form id="registerForm" asp-route-returnUrl="@Model.ReturnUrl" method="post">
             <h2>Create a new account.</h2>
             <hr />
@@ -42,91 +41,6 @@
                 </select>
                 <label asp-for="Input.Role"></label>
             </div>
-
-            @*If role = student*@
-
-            @*Student specific fields*@
-            @*<div class="form-floating pb-3">
-                <input asp-for="Input.Student.Address" class="form-control" />
-                <label asp-for="Input.Student.Address" class="col-sm-auto col-form-label">Address</label>
-                <span asp-validation-for="Input.Student.Address" class="text-danger"></span>
-            </div>
-
-
-            <div class="form-floating pb-3">
-                <input asp-for="Input.Student.IdNumber" class="form-control" />
-                <label asp-for="Input.Student.IdNumber" class="col-sm-auto col-form-label">ID Number</label>
-                <span asp-validation-for="Input.Student.IdNumber" class="text-danger"></span>
-            </div>
-
-            <div class="form-floating pb-3">
-                <select class="form-select" aria-label="Default select example" asp-for="Input.Student.Gender" asp-items="@Html.GetEnumSelectList<Gender>()">
-                    <option value="">Select...</option>
-                </select>
-                <label asp-for="Input.Student.Gender"></label>
-            </div>
-
-            <div class="form-floating pb-3">
-                <select class="form-select" aria-label="Default select example" asp-for="Input.Student.Race" asp-items="@Html.GetEnumSelectList<Race>()">
-                    <option value="">Select...</option>
-                </select>
-                <label asp-for="Input.Student.Race"></label>
-            </div>
-
-            <div class="form-floating pb-3">
-                <select class="form-select" aria-label="Default select example" asp-for="Input.Student.DriversLicense" asp-items="@Html.GetEnumSelectList<DriversLicense>()">
-                    <option value="">Select...</option>
-                </select>
-                <label asp-for="Input.Student.DriversLicense"></label>
-            </div>
-
-            <div class="form-floating pb-3">
-                <input asp-for="Input.Student.CareerObjective" class="form-control" />
-                <label asp-for="Input.Student.CareerObjective" class="col-sm-auto col-form-label">Career Objective</label>
-                <span asp-validation-for="Input.Student.CareerObjective" class="text-danger"></span>
-            </div>
-
-            <div class="form-check pb-3">
-                <input asp-for="Input.Student.isSouthAfrican" class="form-check-input" type="checkbox" value="true" id="isSouthAfrican">
-                <label class"="form-check-label" for="isSouthAfrican">
-                    South African Citizen?
-                </label>
-            </div>*@
-
-
-            @*Employer specific field*@
-           @* <div class="form-floating pb-3">
-                <input asp-for="Input.Employer.CompanyRegistrationNumber" class="form-control" />
-                <label asp-for="Input.Employer.CompanyRegistrationNumber" class="col-sm-auto col-form-label">Company Registration Number</label>
-                <span asp-validation-for="Input.Employer.CompanyRegistrationNumber" class="text-danger"></span>
-            </div>
-
-            <div class="form-floating pb-3">
-                <input asp-for="Input.Employer.BusinessName" class="form-control" />
-                <label asp-for="Input.Employer.BusinessName" class="col-sm-auto col-form-label">Registered Business Name</label>
-                <span asp-validation-for="Input.Employer.BusinessName" class="text-danger"></span>
-            </div>
-
-            <div class="form-floating pb-3">
-                <input asp-for="Input.Employer.TradingName" class="form-control" />
-                <label asp-for="Input.Employer.TradingName" class="col-sm-auto col-form-label">Trading Name</label>
-                <span asp-validation-for="Input.Employer.TradingName" class="text-danger"></span>
-            </div>
-
-            <div class="form-floating pb-3">
-                <input asp-for="Input.Employer.Address" class="form-control" />
-                <label asp-for="Input.Employer.Address" class="col-sm-auto col-form-label">Address</label>
-                <span asp-validation-for="Input.Employer.Address" class="text-danger"></span>
-            </div>
-
-            <div class="form-floating pb-3">
-                <select class="form-select" aria-label="Default select example" asp-for="Input.Employer.BusinessType" asp-items="@Html.GetEnumSelectList<BusinessType>()">
-                    <option value="">Select...</option>
-                </select>
-                <label asp-for="Input.Employer.BusinessType"></label>
-            </div>*@
-
-            @*Password fields*@
             <div class="form-floating pb-3">
                 <input asp-for="Input.Password" class="form-control" autocomplete="new-password" aria-required="true" />
                 <label asp-for="Input.Password"></label>
