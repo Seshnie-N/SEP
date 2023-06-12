@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using SEP.Areas.Identity.Data;
 using SEP.Models.DomainModels;
 using SEP.Models.ViewModels;
+using SEP.Models.Enums;
 
 namespace SEP.Controllers
 {
@@ -121,14 +122,15 @@ namespace SEP.Controllers
 		public async Task<IActionResult> FilteredJobPosts()
 		{
 			var user = await _userManager.GetUserAsync(User);
-            //List<Post> filteredPosts = new();
-            //filter by year
+            var student = await _db.Students.Where(s => s.UserId == user.Id).SingleOrDefaultAsync();
+			YearOfStudy YearOfStudy = student.YearOfStudy;
+			var IsCitizen = student.isSouthAfrican;
 
+			
 
-            //filter by citizenship
-
-            //IEnumerable<Post> posts = _db.Posts.Where(p => p.isApproved == true).ToList();
             IEnumerable<Post> posts = _db.Posts.ToList();
+            //IEnumerable<Post> posts = _db.Posts.Where(p => p.isApproved).ToList();
+
             List<StudentPostListVM> studentPosts = new();
 
             foreach (var post in posts )
