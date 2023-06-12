@@ -41,7 +41,7 @@ namespace SEP.Models.DomainModels
 		public int hourlyRate { get; set; }
 
 		[DisplayName("Limited to")]
-		public string limitedToCountry { get; set; }
+		public bool limitedToSA { get; set; }
 
 		[DisplayName("Minimum requirments")]
 		public string minimumRequirment { get; set; }

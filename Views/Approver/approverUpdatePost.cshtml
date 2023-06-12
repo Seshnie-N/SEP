@@ -197,27 +197,27 @@
         </div>
     </div>
     <div class="col pb-2">
-        <label asp-for="@Model.post.limitedToCountry"></label>
+        <label asp-for="@Model.post.limitedToSA"></label>
         <div class="form-check ">
-            @if (@Model.post.limitedToCountry == "South African citizens or")
+            @if (@Model.post.limitedToSA == true)
             {
-                <input class="form-check-input" type="radio" asp-for="@Model.post.limitedToCountry" value="South African citizens or" id="SAonly">
+                <input class="form-check-input" type="radio" asp-for="@Model.post.limitedToSA" value="South African citizens or" id="SAonly">
             }
             else
             {
-                <input class="form-check-input" type="radio" asp-for="@Model.post.limitedToCountry" value="South African citizens or" id="SAonly" disabled>
+                <input class="form-check-input" type="radio" asp-for="@Model.post.limitedToSA" value="South African citizens or" id="SAonly" disabled>
             }
             @* <input class="form-check-input" type="radio" asp-for="@Model.post.limitedToCountry" value="South African citizens or" id="SAonly" >*@
             <label class="form-check-label" for="SAonly">South African citizens or</label>
         </div>
         <div class="form-check ">
-            @if (@Model.post.limitedToCountry == "Open to everyone")
+            @if (@Model.post.limitedToSA == false)
             {
-                <input class="form-check-input" type="radio" asp-for="@Model.post.limitedToCountry" value="Open to everyone" id="everyone">
+                <input class="form-check-input" type="radio" asp-for="@Model.post.limitedToSA" value="Open to everyone" id="everyone">
             }
             else
             {
-                <input class="form-check-input" type="radio" asp-for="@Model.post.limitedToCountry" value="Open to everyone" id="everyone" disabled>
+                <input class="form-check-input" type="radio" asp-for="@Model.post.limitedToSA" value="Open to everyone" id="everyone" disabled>
             }
             @*<input class="form-check-input" type="radio" asp-for="@Model.post.limitedToCountry"  value="Open to everyone" id="everyone" >*@
             <label class="form-check-label" for="everyone">Open to everyone</label>

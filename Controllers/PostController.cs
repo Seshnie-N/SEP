@@ -123,13 +123,64 @@ namespace SEP.Controllers
 		{
 			var user = await _userManager.GetUserAsync(User);
             var student = await _db.Students.Where(s => s.UserId == user.Id).SingleOrDefaultAsync();
-			YearOfStudy YearOfStudy = student.YearOfStudy;
-			var IsCitizen = student.isSouthAfrican;
 
+			IQueryable<Post> query = _db.Posts/*.Where(p => p.isApproved)*/;
+
+			//filter if student is not a south african citizen
+			if (!student.isSouthAfrican)
+			{
+				query = query.Where(p => !p.limitedToSA);
+			}
+
+			//filter by student's year of study
+            string YearOfStudy = student.YearOfStudy.ToString();
+			switch (YearOfStudy)
+			{
+				case "FirstYear":
+					query = query.Where(p => p.limitedTo1stYear || (!p.limitedTo1stYear && !p.limitedTo2ndYear && !p.limitedTo3rdYear
+					&& !p.limitedToHonours && !p.limitedToGraduate && !p.limitedToMasters && !p.limitedToPhd && !p.limitedToPostdoc));
+					break;
+                case "SecondYear":
+                    query = query.Where(p => p.limitedTo2ndYear || (!p.limitedTo1stYear && !p.limitedTo2ndYear && !p.limitedTo3rdYear
+                    && !p.limitedToHonours && !p.limitedToGraduate && !p.limitedToMasters && !p.limitedToPhd && !p.limitedToPostdoc));
+                    break;
+                case "ThirdYear":
+                    query = query.Where(p => p.limitedTo3rdYear || (!p.limitedTo1stYear && !p.limitedTo2ndYear && !p.limitedTo3rdYear
+                    && !p.limitedToHonours && !p.limitedToGraduate && !p.limitedToMasters && !p.limitedToPhd && !p.limitedToPostdoc));
+                    break;
+                case "Honours":
+                    query = query.Where(p => p.limitedToHonours || (!p.limitedTo1stYear && !p.limitedTo2ndYear && !p.limitedTo3rdYear
+                    && !p.limitedToHonours && !p.limitedToGraduate && !p.limitedToMasters && !p.limitedToPhd && !p.limitedToPostdoc));
+                    break;
+                case "Graduate":
+                    query = query.Where(p => p.limitedToGraduate || (!p.limitedTo1stYear && !p.limitedTo2ndYear && !p.limitedTo3rdYear
+                    && !p.limitedToHonours && !p.limitedToGraduate && !p.limitedToMasters && !p.limitedToPhd && !p.limitedToPostdoc));
+                    break;
+                case "Masters":
+                    query = query.Where(p => p.limitedToMasters || (!p.limitedTo1stYear && !p.limitedTo2ndYear && !p.limitedTo3rdYear
+                    && !p.limitedToHonours && !p.limitedToGraduate && !p.limitedToMasters && !p.limitedToPhd && !p.limitedToPostdoc));
+                    break;
+				case "PhD":
+                    query = query.Where(p => p.limitedToPhd || (!p.limitedTo1stYear && !p.limitedTo2ndYear && !p.limitedTo3rdYear
+                    && !p.limitedToHonours && !p.limitedToGraduate && !p.limitedToMasters && !p.limitedToPhd && !p.limitedToPostdoc));
+                    break;
+				case "Postdoc":
+                    query = query.Where(p => p.limitedToPostdoc || (!p.limitedTo1stYear && !p.limitedTo2ndYear && !p.limitedTo3rdYear
+                    && !p.limitedToHonours && !p.limitedToGraduate && !p.limitedToMasters && !p.limitedToPhd && !p.limitedToPostdoc));
+                    break;
+            } 
+
+			//filter by faculty
 			
 
-            IEnumerable<Post> posts = _db.Posts.ToList();
-            //IEnumerable<Post> posts = _db.Posts.Where(p => p.isApproved).ToList();
+			//filter by department
+
+
+			//filter out job posts that have already been applied to
+			//get list of job post id linked to applications
+			
+
+            var posts = await query.ToListAsync();
 
             List<StudentPostListVM> studentPosts = new();
 
