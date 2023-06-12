@@ -1,0 +1,56 @@
+﻿@model SEP.Models.DomainModels.WorkExperience
+
+@{
+    ViewData["Title"] = "AddWorkExperience";
+}
+
+<h4>WorkExperience</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="ViewWorkExperience">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="WorkExperienceId" />
+            <input type="hidden" asp-for="StudentId" />
+            <div class="form-group">
+                <label asp-for="EmployerName" class="control-label"></label>
+                <input asp-for="EmployerName" class="form-control" />
+                <span asp-validation-for="EmployerName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="StartDate" class="control-label"></label>
+                <input asp-for="StartDate" class="form-control" />
+                <span asp-validation-for="StartDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="EndDate" class="control-label"></label>
+                <input asp-for="EndDate" class="form-control" />
+                <span asp-validation-for="EndDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="JobTitle" class="control-label"></label>
+                <input asp-for="JobTitle" class="form-control" />
+                <span asp-validation-for="JobTitle" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="TasksAndResponsibilities" class="control-label"></label>
+                <input asp-for="TasksAndResponsibilities" class="form-control" />
+                <span asp-validation-for="TasksAndResponsibilities" class="text-danger"></span>
+            </div>
+            <div class="form-group pt-2">
+                <button type="submit" class="btn btn-primary" asp-action="EditWorkExperience">Save Changes</button>
+                <button type="submit" class="btn btn-danger" asp-action="DeleteWorkExperience">Delete</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="pt-2">
+    <a class="btn btn-primary" asp-action="UpdateStudent">Back</a>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

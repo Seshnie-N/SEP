@@ -6,7 +6,7 @@ using SEP.Models.ViewModels;
 
 namespace SEP.Controllers
 {
-	public class PostController : Controller
+    public class PostController : Controller
 	{
 		private readonly ApplicationDbContext _db;
 

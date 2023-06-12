@@ -34,7 +34,6 @@ namespace SEP.Areas.Identity.Pages.Account
         private readonly ILogger<RegisterModel> _logger;
         private readonly IEmailSender _emailSender;
         private readonly RoleManager<IdentityRole> _roleManager;
-        private readonly ApplicationDbContext _db;
 
         public RegisterModel(
             UserManager<ApplicationUser> userManager,
@@ -52,7 +51,6 @@ namespace SEP.Areas.Identity.Pages.Account
             _logger = logger;
             _emailSender = emailSender;
             _roleManager = roleManager;
-            _db = db;
         }
 
         [BindProperty]
@@ -81,6 +79,7 @@ namespace SEP.Areas.Identity.Pages.Account
             public string ConfirmPassword { get; set; }
 
             [Phone]
+            //[RegularExpression("^(\\+27|0)[6-8][0-9]{8}$", ErrorMessage = "Invalid phone number")]
             [Display(Name = "Phone number")]
             public string PhoneNumber { get; set; }
 
@@ -95,9 +94,6 @@ namespace SEP.Areas.Identity.Pages.Account
 
             [Display(Name ="Profile type")]
             public UserRoles Role { get; set; }
-
-            //public Student? Student { get; set; }
-            //public Employer? Employer { get; set; }
 
         }
 
@@ -135,16 +131,6 @@ namespace SEP.Areas.Identity.Pages.Account
                     {
                         await _userManager.AddToRoleAsync(user, selectedRole.Name);
                     }
-
-                    //create specific user type object 
-                    //if (Input.Role.ToString() == "Student")
-                    //{
-                    //    //create student record 
-                    //} else
-                    //{
-
-                    //}
-
 
                     //auto-generated identity code
                     _logger.LogInformation("User created a new account with password.");
