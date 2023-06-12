@@ -22,6 +22,7 @@ namespace SEP
                 .AddEntityFrameworkStores<ApplicationDbContext>();
 
             // Add services to the container.
+            builder.Services.AddAutoMapper(typeof(Program));
             builder.Services.AddControllersWithViews();
             builder.Services.AddRazorPages();
 

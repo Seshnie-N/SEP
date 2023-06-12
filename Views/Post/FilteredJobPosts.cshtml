@@ -1,0 +1,66 @@
+﻿@model IEnumerable<SEP.Models.ViewModels.StudentPostListVM>
+
+@{
+    ViewData["Title"] = "Job Posts";
+}
+
+<h1>Job Posts</h1>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.jobTitle)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.departmentName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.jobType)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.partTimeHour)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.startDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.endDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.hourlyRate)
+            </th>
+
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                    @item.jobTitle
+            </td>
+            <td>
+                    @item.departmentName
+            </td>
+            <td>
+                    @item.jobType
+            </td>
+            <td>
+                    @item.partTimeHour
+            </td>
+            <td>
+                    @item.startDate.ToString("d")
+            </td>
+            <td>
+                    @item.endDate.ToString("d")
+            </td>
+            <td>
+                    @item.hourlyRate
+            </td>
+            <td>
+                <a class="btn btn-primary" asp-action="Details" asp-route-id="@item.postId">Details</a> 
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

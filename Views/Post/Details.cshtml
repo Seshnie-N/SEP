@@ -1,0 +1,94 @@
+﻿@model SEP.Models.ViewModels.PostViewModel
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Job Post Details</h1>
+
+<div>
+    <hr />
+    <div class="col pb-2">
+        <label asp-for="@Model.post.jobTitle" class="col-2"></label>
+        <input asp-for="@Model.post.jobTitle" readonly />
+    </div>
+    <div class="col pb-2">
+        <label asp-for="@Model.post.jobLocation" class="col-2"></label>
+        <input asp-for="@Model.post.jobLocation" readonly />
+    </div>
+    <div class="col pb-2">
+        <label asp-for="@Model.post.jobDescription" class="col-2"></label>
+        <input asp-for="@Model.post.jobDescription" readonly />
+    </div>
+    <div class="col pb-2">
+        <label asp-for="@Model.post.resposibilities" class="col-2"></label>
+        <input asp-for="@Model.post.resposibilities" readonly />
+    </div>
+    <div class="col pb-2">
+        <label asp-for="@Model.post.jobType" class="col-2"></label>
+        <select id="jobType" asp-for="@Model.post.jobType">
+            <option value="" selected disabled>Select job type</option>
+            @if (@Model.post.jobType == "Fulltime")
+            {
+                <option value="Fulltime">Fulltime</option>
+                <option value="Part-time" disabled>Part-time</option>
+            }
+            else
+            {
+                <option value="Part-time">Part-time</option>
+                <option value="Fulltime" disabled>Fulltime</option>
+            }
+
+        </select>
+    </div>
+    <div class="col pb-2">
+        <label asp-for="@Model.post.partTimeHour"></label>
+        <select asp-for="@Model.post.partTimeHour">
+            <option value="" selected>Range</option>
+            @foreach (var hour in @Model.partTimeHours)
+            {
+                @if (@hour.timeRange == @Model.post.partTimeHour)
+                {
+                    <option value=@hour.timeRange> @hour.timeRange </option>
+                }
+                else
+                {
+                    <option value=@hour.timeRange disabled> @hour.timeRange </option>
+                }
+
+            }
+        </select>
+    </div>
+    <div class="col pb-2">
+        <label asp-for="@Model.post.hourlyRate" class="col-2"></label>
+        <input asp-for="@Model.post.hourlyRate" readonly />
+    </div>
+    <div class="col pb-2">
+        <label asp-for="@Model.post.startDate" class="col-2"></label>
+        <input type="date" asp-for="@Model.post.startDate" readonly />
+    </div>
+    <div class="col pb-2">
+        <label asp-for="@Model.post.endDate" class="col-2"></label>
+        <input type="date" asp-for="@Model.post.endDate" readonly />
+    </div>
+    <div class="col pl-1">
+        <label asp-for="@Model.post.applicationClosingDate" class="col-2"></label>
+        <input type="date" asp-for="@Model.post.applicationClosingDate" readonly />
+    </div>
+
+    <div class="col pb-2">
+        <label asp-for="@Model.post.minimumRequirment" class="col-2"></label>
+        <input asp-for="@Model.post.minimumRequirment" readonly />
+    </div>
+    <div class="col pb-2">
+        <label asp-for="@Model.post.applicationInstruction" class="col-2"></label>
+        <input asp-for="@Model.post.applicationInstruction" readonly />
+    </div>
+
+</div>
+<div class="col pb-2">
+    <a class="btn btn-primary">Apply</a>
+</div>
+<div>
+    <a class="btn btn-primary" asp-action="FilteredJobPosts">Back to List</a>
+</div>

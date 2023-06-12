@@ -30,10 +30,12 @@ namespace SEP.Models.DomainModels
 		public string? partTimeHour { get; set; }
 
 		[DisplayName("Start date")]
-		public DateTime startDate { get; set; }
+        [DataType(DataType.Date)]
+        public DateTime startDate { get; set; }
 
 		[DisplayName("End date")]
-		public DateTime endDate { get; set; }
+        [DataType(DataType.Date)]
+        public DateTime endDate { get; set; }
 
 		[DisplayName("Hourly rate")]
 		public int hourlyRate { get; set; }

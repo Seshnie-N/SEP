@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using SEP.Areas.Identity.Data;
 using SEP.Models.DomainModels;
 using SEP.Models.ViewModels;
@@ -115,6 +116,63 @@ namespace SEP.Controllers
 		public JsonResult GetDepartmentById(int id)
 		{
 			return Json( _db.Departments.Where(d => d.FacultyId.Equals(id)) );
+		}
+
+		public async Task<IActionResult> FilteredJobPosts()
+		{
+			var user = await _userManager.GetUserAsync(User);
+            //List<Post> filteredPosts = new();
+            //filter by year
+
+
+            //filter by citizenship
+
+            //IEnumerable<Post> posts = _db.Posts.Where(p => p.isApproved == true).ToList();
+            IEnumerable<Post> posts = _db.Posts.ToList();
+            List<StudentPostListVM> studentPosts = new();
+
+            foreach (var post in posts )
+			{
+				var studentPostsVm = new StudentPostListVM
+				{
+					postId = post.postId,
+					jobTitle = post.jobTitle,
+					departmentName = post.departmentName,
+					jobType = post.jobType,
+					startDate = post.startDate,
+					endDate	= post.endDate,
+					partTimeHour = post.partTimeHour,
+					hourlyRate = post.hourlyRate
+				};
+				studentPosts.Add(studentPostsVm);
+			}
+
+
+			return View(studentPosts);
+		}
+
+		public ActionResult Details(int id)
+		{
+			var post = _db.Posts.First(p => p.postId == id);
+			if (post == null)
+			{
+				return NotFound();
+			}
+
+            var facId = post.facultyName;
+            IEnumerable<Faculty> faculties = _db.Faculties;
+            IEnumerable<Department> departments = _db.Departments.Where(d => d.FacultyId.Equals(facId));
+            IEnumerable<PartTimeHours> partTimeHours = _db.partTimeHours;
+
+			PostViewModel postViewModel = new()
+			{
+				post = post,
+				faculty = faculties,
+				department = departments,
+				partTimeHours = partTimeHours
+			};
+
+            return View(postViewModel);
 		}
 
 	}

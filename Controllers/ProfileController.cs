@@ -164,7 +164,7 @@ namespace SEP.Controllers
                 studentRecord.Gender = studentProfile.Student.Gender;
                 studentRecord.Race = studentProfile.Student.Race;
                 studentRecord.isSouthAfrican = studentProfile.Student.isSouthAfrican;
-                studentRecord.YOS = studentProfile.Student.YOS;
+                studentRecord.YearOfStudy = studentProfile.Student.YearOfStudy;
                 studentRecord.Faculty = studentProfile.Student.Faculty;
                 studentRecord.Department = studentProfile.Student.Department;
                 studentRecord.Skills = studentProfile.Student.Skills;

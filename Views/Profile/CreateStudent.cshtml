@@ -83,8 +83,8 @@
 	</div>
 
 	<div class="col pb-2">
-		<label asp-for="@Model.Student.YOS"></label>
-		<select class="form-select" asp-for="@Model.Student.YOS" asp-items="@Html.GetEnumSelectList<YearOfStudy>()">
+		<label asp-for="@Model.Student.YearOfStudy"></label>
+		<select class="form-select" asp-for="@Model.Student.YearOfStudy" asp-items="@Html.GetEnumSelectList<YearOfStudy>()">
 			<option value="">Select...</option>
 		</select>
 	</div>

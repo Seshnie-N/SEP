@@ -22,7 +22,7 @@ namespace SEP.Models.DomainModels
         public Gender Gender { get; set; }
         public Race Race { get; set; }
         public bool isSouthAfrican { get; set; }
-        public YearOfStudy YOS { get; set; }
+        public YearOfStudy YearOfStudy { get; set; }
         public int Faculty { get; set; }
         public string Department { get; set; }
         public string Skills { get; set; }
