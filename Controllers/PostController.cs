@@ -126,7 +126,7 @@ namespace SEP.Controllers
             var student = await _db.Students.Where(s => s.UserId == user.Id).SingleOrDefaultAsync();
 
 			var predicate = PredicateBuilder.New<Post>();
-
+			predicate = predicate.And(p => p.isApproved);
 			//filter if student is not a south african citizen
 			if (!student.isSouthAfrican)
 			{
