@@ -1,0 +1,59 @@
+﻿@model SEP.Models.ViewModels.ApplicationViewModel
+@{
+	ViewData["Title"] = "Upload";
+}
+<section>
+    <p>You are applying for the post of <b>@Model.Post.jobTitle</b></p>
+</section>
+<h4>Uploaded Documents</h4>
+<hr />
+@if (Model.Documents.Count() == 0)
+{
+    <caption>No Records Found</caption>
+}
+else
+{
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Name</th>
+                <th>Description</th>
+                <th>File Type</th>
+                <th>Created On</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var file in Model.Documents)
+            {
+                <tr>
+                    <th>@file.DocumentId</th>
+                    <td>@file.Name</td>
+                    <td>@file.Description</td>
+                    <td>@file.FileType</td>
+                    <td>@file.CreatedDate</td>
+                    <td>
+                        <a type="button" class="btn btn-primary" @*asp-controller="File" asp-action="DownloadFileFromFileSystem" asp-route-id="@file.DocumentId"*@>Download</a>
+                        <a type="button" class="btn btn-danger" @*asp-controller="File" asp-action="DeleteFileFromFileSystem" asp-route-id="@file.DocumentId"*@>Delete</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+<section class="pt-3">
+<h4>Upload New Document</h4>
+<hr />
+    <form method="post" enctype="multipart/form-data">
+        <input type="text" autocomplete="off" placeholder="Enter File Description" name="description" required />
+        <button class="btn btn-success" type="submit" asp-controller="JobApplication" asp-action="UploadToFileSystem">Upload</button>
+        <div>
+            <input type="file" name="files" multiple required />
+        </div>
+    </form>
+</section>
+<div class="pt-3">
+    <a class="btn btn-success">Submit</a>
+    <a class="btn btn-primary" asp-controller="Post" asp-action="Details" asp-route-id="@Model.Post.postId">Back</a>
+</div>

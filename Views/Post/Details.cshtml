@@ -87,7 +87,7 @@
 
 </div>
 <div class="col pb-2">
-    <a class="btn btn-primary" asp-controller="JobApplication" asp-action="Index">Apply</a>
+    <a class="btn btn-primary" asp-route-id="@Model.post.postId" asp-controller="JobApplication" asp-action="Create">Apply</a>
 </div>
 <div>
     <a class="btn btn-primary" asp-action="FilteredJobPosts">Back to List</a>

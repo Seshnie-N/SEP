@@ -16,8 +16,9 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     public DbSet<Qualification> Qualifications { get; set; }
     public DbSet<WorkExperience> WorkExperiences { get; set; }
     public DbSet<Referee> Referees { get; set; }
-
     public DbSet<PartTimeHours> partTimeHours { get; set; }
+    public DbSet<JobApplication> JobApplications { get; set; }
+    public DbSet<ApplicationDocument> Documents { get; set; }
 
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
         : base(options)

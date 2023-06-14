@@ -274,8 +274,8 @@ namespace SEP.Controllers
         //GET
         public IActionResult ViewQualification(int id)
         {
-            var SelectedQualification = _db.Qualifications.Find(id);
-            return View(SelectedQualification);
+            var selectedQualification = _db.Qualifications.Find(id);
+            return View(selectedQualification);
         }
 
         //POST
