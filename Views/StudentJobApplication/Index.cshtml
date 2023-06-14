@@ -1,0 +1,52 @@
+﻿@model SEP.Models.FrontEndModels.StudentApplicationDetailsDto
+<div class="container">
+    <div class="col pb-2">
+        <label asp-for="@Model.jobTitle" class="col-2"></label>
+        <input asp-for="@Model.jobTitle" readonly />
+    </div>
+    <div class="col pb-2">
+        <label asp-for="@Model.jobLocation" class="col-2"></label>
+        <input asp-for="@Model.jobLocation" readonly />
+    </div>
+    <div class="col pb-2">
+        <label asp-for="@Model.jobDescription" class="col-2"></label>
+        <input asp-for="@Model.jobDescription" readonly />
+    </div>
+    <div class="col pb-2">
+        <label asp-for="@Model.resposibilities" class="col-2"></label>
+        <input asp-for="@Model.resposibilities" readonly />
+    </div>
+    <div class="col pb-2">
+        <label asp-for="@Model.jobTitle" class="col-2"></label>
+        <input asp-for="@Model.jobTitle" readonly />
+    </div>
+    <div class="col pb-2">
+        <label asp-for="@Model.partTimeHour" class="col-2"></label>
+        <input asp-for="@Model.partTimeHour" readonly />
+    </div>
+    <div class="col pb-2">
+        <label asp-for="@Model.hourlyRate" class="col-2"></label>
+        <input asp-for="@Model.hourlyRate" readonly />
+    </div>
+    <div class="col pb-2">
+        <label asp-for="@Model.startDate" class="col-2"></label>
+        <input type="date" asp-for="@Model.startDate" readonly />
+    </div>
+    <div class="col pb-2">
+        <label asp-for="@Model.endDate" class="col-2"></label>
+        <input type="date" asp-for="@Model.endDate" readonly />
+    </div>
+    <div class="col pb-2">
+        <label asp-for="@Model.applicationClosingDate" class="col-2"></label>
+        <input type="date"  asp-for="@Model.applicationClosingDate" readonly />
+    </div>
+    <div class="col pb-2">
+        <label asp-for="@Model.minimumRequirment" class="col-2"></label>
+        <input asp-for="@Model.minimumRequirment" readonly />
+    </div>
+    <div class="col pb-2">
+        <label asp-for="@Model.applicationInstruction" class="col-2"></label>
+        <input asp-for="@Model.applicationInstruction" readonly />
+    </div>
+    <a class="btn btn-info" asp-controller="StudentJobApplication" asp-action="uploadDoc" asp-route-id="@Model.postId">Apply</a>
+</div>

@@ -1,9 +1,13 @@
+using AutoMapper;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using SEP.Areas.Identity.Data;
+using SEP.Mapper;
 using SEP.Models;
 using SEP.Models.DomainModels;
+using SEP.Models.FrontEndModels;
 using SEP.SeedData;
+
 
 namespace SEP
 {
@@ -12,6 +16,14 @@ namespace SEP
         public static async Task Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
+            
+            //var mappingConfig = new MapperConfiguration(cfg =>
+            //{ 
+            //    cfg.AddProfile(new AutoMapperProfile());
+            //});
+            //var mapper = mappingConfig.CreateMapper();
+            //builder.Services.AddSingleton(mapper);
+
             var connectionString = builder.Configuration.GetConnectionString("ApplicationDbContextConnection") ?? throw new InvalidOperationException("Connection string 'ApplicationDbContextConnection' not found.");
 
             builder.Services.AddDbContext<ApplicationDbContext>(options =>
@@ -20,6 +32,9 @@ namespace SEP
             builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = false)
                 .AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
+
+            // add mapper service
+            builder.Services.AddAutoMapper(typeof(Program));
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
@@ -41,6 +56,7 @@ namespace SEP
                 app.UseHsts();
             }
 
+
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 
@@ -54,10 +70,11 @@ namespace SEP
                 name: "default",
                 pattern: "{controller=Home}/{action=Index}/{id?}");
             app.MapRazorPages();
-
+          
             await app.SeedDataAsync();
 
             app.Run();
         }
+
     }
 }

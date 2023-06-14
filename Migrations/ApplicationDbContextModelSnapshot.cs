@@ -251,7 +251,7 @@ namespace SEP.Migrations
 
                     b.HasIndex("FacultyId");
 
-                    b.ToTable("Departments");
+                    b.ToTable("Departments", (string)null);
                 });
 
             modelBuilder.Entity("SEP.Models.DomainModels.Employer", b =>
@@ -300,7 +300,7 @@ namespace SEP.Migrations
 
                     b.HasKey("UserId");
 
-                    b.ToTable("Employer");
+                    b.ToTable("Employer", (string)null);
                 });
 
             modelBuilder.Entity("SEP.Models.DomainModels.Faculty", b =>
@@ -317,7 +317,7 @@ namespace SEP.Migrations
 
                     b.HasKey("facultyId");
 
-                    b.ToTable("Faculties");
+                    b.ToTable("Faculties", (string)null);
                 });
 
             modelBuilder.Entity("SEP.Models.DomainModels.PartTimeHours", b =>
@@ -334,7 +334,7 @@ namespace SEP.Migrations
 
                     b.HasKey("timeId");
 
-                    b.ToTable("partTimeHours");
+                    b.ToTable("partTimeHours", (string)null);
                 });
 
             modelBuilder.Entity("SEP.Models.DomainModels.Post", b =>
@@ -461,7 +461,7 @@ namespace SEP.Migrations
 
                     b.HasKey("postId");
 
-                    b.ToTable("Posts");
+                    b.ToTable("Posts", (string)null);
                 });
 
             modelBuilder.Entity("SEP.Models.DomainModels.Qualification", b =>
@@ -510,7 +510,7 @@ namespace SEP.Migrations
 
                     b.HasIndex("StudentId");
 
-                    b.ToTable("Qualifications");
+                    b.ToTable("Qualifications", (string)null);
                 });
 
             modelBuilder.Entity("SEP.Models.DomainModels.Referee", b =>
@@ -549,7 +549,7 @@ namespace SEP.Migrations
 
                     b.HasIndex("StudentId");
 
-                    b.ToTable("Referees");
+                    b.ToTable("Referees", (string)null);
                 });
 
             modelBuilder.Entity("SEP.Models.DomainModels.Student", b =>
@@ -604,7 +604,7 @@ namespace SEP.Migrations
 
                     b.HasKey("UserId");
 
-                    b.ToTable("Student");
+                    b.ToTable("Student", (string)null);
                 });
 
             modelBuilder.Entity("SEP.Models.DomainModels.WorkExperience", b =>
@@ -641,7 +641,7 @@ namespace SEP.Migrations
 
                     b.HasIndex("StudentId");
 
-                    b.ToTable("WorkExperiences");
+                    b.ToTable("WorkExperiences", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
