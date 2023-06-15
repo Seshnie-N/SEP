@@ -1,77 +1,122 @@
 ﻿@model IEnumerable<SEP.Models.DomainModels.Post>
 
 <div>
-	@if (Model.Count() > 0)
-	{
-		<div>
-			<table class="table table-bordered" style="width:100%">
-				<thead>
-					<tr>
-						<th>
-							Job tille
-						</th>
-						<th>
-							Department
-						</th>
-						<th>
-							Job type
-						</th>
-						<th>
-							Start date
-						</th>
-						<th>
-							End date
-						</th>
-						<th>
-							Status
-						</th>
-					</tr>
-				</thead>
-				<tbody>
-					@foreach (var post in Model)
-					{
-						<tr>
-							<td width="15%">
-								@post.jobTitle
-							</td>
-							<td width="20%">
-								@post.departmentName
-							</td>
-							<td width="15%">
-								@post.jobType
-							</td>
-							<td width="15%">
-								@post.startDate.ToString("yyyy/mm/dd")
-							</td>
-							<td width="15%">
-								@post.endDate.ToString("yyyy/mm/dd")
-							</td>
-							<td width="20%">
-								<div class="row">
-									<div class="col">
-										@post.postStatus
-									</div>
-									<div class="col">
-										<a asp-controller="Post" asp-action="Update" asp-route-id="@post.postId" class="btn btn-info btn-sm" value="">Review</a>
-									</div>
+    <input id="search" />
+    @if (Model.Count() > 0)
+    {
+        <div>
+            <table class="table table-bordered" style="width:100%">
+                <thead>
+                    <tr>
+                        <th>
+                            Job tille
+                        </th>
+                        <th>
+                            Department
+                        </th>
+                        <th>
+                            Job type
+                        </th>
+                        <th>
+                            Start date
+                        </th>
+                        <th>
+                            End date
+                        </th>
+                        <th>
+                            Status
+                        </th>
+                    </tr>
+                </thead>
+                <tbody id="tbody">
+@*                    @foreach (var post in Model)
+                    {
+                        <tr>
+                            <td width="15%">
+                                @post.jobTitle
+                            </td>
+                            <td width="20%">
+                                @post.departmentName
+                            </td>
+                            <td width="15%">
+                                @post.jobType
+                            </td>
+                            <td width="15%">
+                                @post.startDate.ToString("yyyy/mm/dd")
+                            </td>
+                            <td width="15%">
+                                @post.endDate.ToString("yyyy/mm/dd")
+                            </td>
+                            <td width="20%">
+                                <div class="row">
+                                    <div class="col">
+                                        @post.postStatus
+                                    </div>
+                                    <div class="col">
+                                        <a asp-controller="Post" asp-action="Update" asp-route-id="@post.postId" class="btn btn-info btn-sm" value="">Review</a>
+                                    </div>
 
-								</div>
-							</td>
-						</tr>
-					}
-				</tbody>
-			</table>
-		</div>
-	}
-	else
-	{
-		<h1>You do not have post yet</h1>
-	}
+                                </div>
+                            </td>
+                        </tr>
+                    }*@
+                </tbody>
+            </table>
+        </div>
+    }
+    else
+    {
+        <h1>You do not have post yet</h1>
+    }
 </div>
 <div>
-	<a asp-controller="Post" asp-action="Create" class="btn btn-info">Create post</a>
-	<a asp-controller="Home" asp-action="Index" class="btn btn-secondary">Back</a>
+    <a asp-controller="Post" asp-action="Create" class="btn btn-info" id="CreatePost">Create post</a>
+    <a asp-controller="Home" asp-action="Index" class="btn btn-secondary">Back</a>
 </div>
 
+@section scripts{
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+            var p = [];
+
+            $.ajax({
+                type: 'GET',
+                url: '@Url.Action("allUserPosts")',
+                dataType: 'json',
+                data: {},
+                success: function (post) {
+                    p.push(post);
+                    $.each(post, function (index, item) {
+                        
+                        $('#tbody').append(
+                            '<tr><td width="15%" >' + item.jobTitle + '</td><td width = "20%">' + item.departmentName + '</td><td width = "15%">' + item.jobType + '</td><td width = "15%">' + item.startDate.toString("d") + '</td><td width = "15%" >' + item.endDate.toString("d") + '</td> <td width = "20%"> <div class="row" > <div class="col">' + item.postStatus + '</div><div class= "col" ><a href="/Post/Update/' + item.postId + '" class= "btn btn-info btn-sm" value = "" > Review </a></div></div></td></tr>'
+                        );
+                    });
+                }
+            });
+
+            function getArray(item){
+                return item.jobTitle === "Tutor";
+            }
+            $('#search').change(function () {
+                var searchVal = $('#search').val();
+                alert(searchVal);
+
+                var newp = p.filter(n => n.objecr.JobTitle === "Tutor");
+                console.log(newp);
+                $('#tbody').empty();
+                $.each(newp, function (index, item) {
+                    
+                    $('#tbody').append(
+                        '<tr><td width="15%" >' + item.jobTitle + '</td><td width = "20%">' + item.departmentName + '</td><td width = "15%">' + item.jobType + '</td><td width = "15%">' + item.startDate.toString("d") + '</td><td width = "15%" >' + item.endDate.toString("d") + '</td> <td width = "20%"> <div class="row" > <div class="col">' + item.postStatus + '</div><div class= "col" ><a href="/Post/Update/' + item.postId + '" class= "btn btn-info btn-sm" value = "" > Review </a></div></div></td></tr>'
+                    );
+                });
+            });
+
+            
+        });
+    </script>
+}
 
 

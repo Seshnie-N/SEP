@@ -12,13 +12,15 @@ namespace SEP.Controllers
 
 		private readonly UserManager<ApplicationUser> _userManager;
 		private readonly ILogger<HomeController> _logger;
+        //ApplicationUser user = await _userManager.GetUserAsync(User);
 
-		public PostController(ILogger<HomeController> logger, ApplicationDbContext db, UserManager<ApplicationUser> userManager)
+        public PostController(ILogger<HomeController> logger, ApplicationDbContext db, UserManager<ApplicationUser> userManager)
 		{
 			_logger = logger;
 			_db = db;
 			_userManager = userManager;
 		}
+
 		public async Task<IActionResult> Index()
 		{
 			ApplicationUser user = await _userManager.GetUserAsync(User);
@@ -26,6 +28,11 @@ namespace SEP.Controllers
 
 			return View(posts);
 		}
+
+		public async Task<JsonResult> allUserPosts() {
+			ApplicationUser user = await _userManager.GetUserAsync(User);
+			return Json(_db.Posts.Where(p => p.UserID.Equals(user.Id)));
+        }
 
 		public async Task<IActionResult> Create()
 		{
