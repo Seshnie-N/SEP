@@ -7,6 +7,21 @@
 </section>
 <h4>Uploaded Documents</h4>
 <hr />
+@if (ViewBag.Message != null)
+{
+    if (ViewBag.MessageType == "Success")
+    {
+        <div class="alert alert-success alert-dismissible" style="margin-top:20px">
+            @ViewBag.Message
+        </div>
+    } else
+    {
+        <div class="alert alert-danger alert-dismissible" style="margin-top:20px">
+            @ViewBag.Message
+        </div>
+    }
+
+}
 @if (Model.Documents.Count() == 0)
 {
     <caption>No Records Found</caption>
@@ -15,27 +30,22 @@ else
 {
     <table class="table table-striped">
         <thead>
-            <tr>
-                <th>#</th>
+            <tr>            
                 <th>Name</th>
                 <th>Description</th>
-                <th>File Type</th>
-                <th>Created On</th>
                 <th>Actions</th>
             </tr>
         </thead>
         <tbody>
             @foreach (var file in Model.Documents)
             {
+                var path =  "file:///" + @file.FilePath + @file.Extension;
                 <tr>
-                    <th>@file.DocumentId</th>
                     <td>@file.Name</td>
                     <td>@file.Description</td>
-                    <td>@file.FileType</td>
-                    <td>@file.CreatedDate</td>
                     <td>
-                        <a type="button" class="btn btn-primary" @*asp-controller="File" asp-action="DownloadFileFromFileSystem" asp-route-id="@file.DocumentId"*@>Download</a>
-                        <a type="button" class="btn btn-danger" @*asp-controller="File" asp-action="DeleteFileFromFileSystem" asp-route-id="@file.DocumentId"*@>Delete</a>
+                        <a type="button" class="btn btn-primary" href=@path target="_blank">View</a>
+                        <a type="button" class="btn btn-danger" asp-controller="JobApplication" asp-action="DeleteFile" asp-route-id="@file.DocumentId">Delete</a>
                     </td>
                 </tr>
             }

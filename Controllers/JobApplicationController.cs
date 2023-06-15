@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using SEP.Models.ViewModels;
 using System.Data.Entity.Infrastructure;
 using Microsoft.Extensions.Hosting;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace SEP.Controllers
 {
@@ -61,25 +62,34 @@ namespace SEP.Controllers
                 JobTitle = post.jobTitle,
                 Documents = documents
             };
-
+            ViewBag.Message = TempData["Message"];
+            ViewBag.MessageType = TempData["MessageType"];
             return View(applicationVM);
         }
+
+        private string[] permittedExtensions = { ".jpg", ".pdf", ".png" };
 
         [HttpPost]
         public async Task<IActionResult> UploadToFileSystem(List<IFormFile> files, string description, int id)
         {
-            ApplicationUser user = await _userManager.GetUserAsync(User);
-            var app = await _db.JobApplications.Where(a => a.ApplicationId == id).SingleOrDefaultAsync();
+            var application = await _db.JobApplications.Where(a => a.ApplicationId == id).SingleOrDefaultAsync();
             foreach (var file in files)
             {
                 var basePath = Path.Combine(Directory.GetCurrentDirectory() + "\\Files\\");
                 bool basePathExists = Directory.Exists(basePath);
                 if (!basePathExists) Directory.CreateDirectory(basePath);
                 var fileName = Path.GetFileNameWithoutExtension(file.FileName);
-                var filePath = Path.Combine(basePath, file.FileName);
                 var extension = Path.GetExtension(file.FileName);
-                //if (!System.IO.File.Exists(filePath))
-                //{
+                fileName += id.ToString();
+                var filePath = Path.Combine(basePath, fileName);
+                if (!permittedExtensions.Contains(extension))
+                {
+                    TempData["Message"] = "Invalid file type. You can only upload .png, .jpg and .pdf files.";
+                    TempData["MessageType"] = "Danger";
+                    return RedirectToAction("Create", new { id = application.PostId });
+                }
+                if (!System.IO.File.Exists(filePath))
+                {
                     using (var stream = new FileStream(filePath, FileMode.Create))
                     {
                         await file.CopyToAsync(stream);
@@ -96,27 +106,19 @@ namespace SEP.Controllers
                     };
                     _db.Documents.Add(fileModel);
                     _db.SaveChanges();
-                //}
+                    TempData["Message"] = "File successfully uploaded to File System.";
+                    TempData["MessageType"] = "Success";
+                } else
+                {
+                    TempData["Message"] = "File has already been uploaded.";
+                    TempData["MessageType"] = "Danger";
+                }
             }
-            //TempData["Message"] = "File successfully uploaded to File System.";
-            return RedirectToAction("Create",new { id = app.PostId});
+  
+            return RedirectToAction("Create",new { id = application.PostId});
         }
 
       
-        public async Task<IActionResult> SubmitApplication(int id)
-        {
-            //change application status to pending 
-            var application = await _db.JobApplications.Where(a => a.ApplicationId == id).SingleOrDefaultAsync();
-            if (application == null)
-            {
-                return NotFound();
-            }
-            application.Status = "Pending";
-            _db.Update(application);
-            _db.SaveChanges();
-
-            return RedirectToAction("FilteredJobPosts", "Post");
-        }
 
         public async Task<IActionResult> ApplicationHistory()
         {
@@ -125,6 +127,45 @@ namespace SEP.Controllers
             
             return View(applications);
         }
+
+        public async Task<IActionResult> DeleteFile(Guid id)
+        {
+            var file = await _db.Documents.Include("JobApplication").Where(d => d.DocumentId == id).FirstOrDefaultAsync();
+            if (file == null) return null;
+            if (System.IO.File.Exists(file.FilePath))
+            {
+                System.IO.File.Delete(file.FilePath);
+            }
+            _db.Documents.Remove(file);
+            _db.SaveChanges();
+            TempData["Message"] = $"Removed {file.Name + file.Extension} successfully.";
+            TempData["MessageType"] = "Success";
+            return RedirectToAction("Create", new { id = file.JobApplication.PostId });
+        }
+
+        public async Task<IActionResult> SubmitApplication(int id)
+        {
+            //change application status to pending 
+            var application = await _db.JobApplications.Where(a => a.ApplicationId == id).SingleOrDefaultAsync();
+            if (application == null)
+            {
+                return NotFound();
+            }
+            var documents = await _db.Documents.Where(d => d.JobApplicationId == id).ToListAsync();
+            if (documents.Count() > 0)
+            {
+                application.Status = "Pending";
+                _db.Update(application);
+                _db.SaveChanges();
+                return RedirectToAction("FilteredJobPosts", "Post");
+            } else
+            {
+                TempData["Message"] = "You cannot submit an empty application. Please upload the necessary documents.";
+                TempData["MessageType"] = "Danger";
+                return RedirectToAction("Create", new { id = application.PostId });
+            }
+        }
+
 
     }
 }
