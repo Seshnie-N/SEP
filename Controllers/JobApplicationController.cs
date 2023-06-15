@@ -5,6 +5,7 @@ using SEP.Models.DomainModels;
 using Microsoft.EntityFrameworkCore;
 using SEP.Models.ViewModels;
 using System.Data.Entity.Infrastructure;
+using Microsoft.Extensions.Hosting;
 
 namespace SEP.Controllers
 {
@@ -19,10 +20,9 @@ namespace SEP.Controllers
         }
 
         //potentially move to a utility class
-        private async Task<List<ApplicationDocument>> LoadFiles()
+        private async Task<List<ApplicationDocument>> LoadFiles(int id)
         {
-            //List<ApplicationDocument> uploadedDocuments = await _db.Documents.Where(d => d.JobApplicationId == id).ToListAsync();
-            List<ApplicationDocument> uploadedDocuments = await _db.Documents.ToListAsync();
+            List<ApplicationDocument> uploadedDocuments = await _db.Documents.Where(d => d.JobApplicationId == id).ToListAsync();
             return uploadedDocuments;
         }
 
@@ -40,14 +40,25 @@ namespace SEP.Controllers
             }
 
             ApplicationUser user = await _userManager.GetUserAsync(User);
-            var student = await _db.Students.Where(s => s.UserId == user.Id).SingleOrDefaultAsync();
-            var documents = await LoadFiles();
+
+            var application = await _db.JobApplications.Where(a => a.StudentId == user.Id && a.PostId == post.postId).SingleOrDefaultAsync();
+            if (application == null)
+            {
+                application = new JobApplication
+                {
+                    PostId = post.postId,
+                    StudentId = user.Id,
+                    Status = "Incomplete"
+                };
+                _db.JobApplications.Add(application);
+                _db.SaveChanges();
+            }
+            var documents = await LoadFiles(application.ApplicationId);
 
             var applicationVM = new ApplicationViewModel
             {
-                Post = post,
-                Student = student,
-                Status = "Pending",
+                Application = application,
+                JobTitle = post.jobTitle,
                 Documents = documents
             };
 
@@ -55,12 +66,14 @@ namespace SEP.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> UploadToFileSystem(List<IFormFile> files, string description)
+        public async Task<IActionResult> UploadToFileSystem(List<IFormFile> files, string description, int id)
         {
+            ApplicationUser user = await _userManager.GetUserAsync(User);
+            var app = await _db.JobApplications.Where(a => a.ApplicationId == id).SingleOrDefaultAsync();
             foreach (var file in files)
             {
                 var basePath = Path.Combine(Directory.GetCurrentDirectory() + "\\Files\\");
-                bool basePathExists = System.IO.Directory.Exists(basePath);
+                bool basePathExists = Directory.Exists(basePath);
                 if (!basePathExists) Directory.CreateDirectory(basePath);
                 var fileName = Path.GetFileNameWithoutExtension(file.FileName);
                 var filePath = Path.Combine(basePath, file.FileName);
@@ -79,13 +92,20 @@ namespace SEP.Controllers
                         Name = fileName,
                         Description = description,
                         FilePath = filePath,
+                        JobApplicationId = id
                     };
                     _db.Documents.Add(fileModel);
                     _db.SaveChanges();
                 }
             }
             //TempData["Message"] = "File successfully uploaded to File System.";
-            return RedirectToAction("Create");
+            return RedirectToAction("Create",new { id = app.PostId});
+        }
+
+      
+        public IActionResult SubmitApplication()
+        {
+            return RedirectToAction("FilteredJobPosts", "Post");
         }
 
     }

@@ -6,8 +6,8 @@ namespace SEP.Models.ViewModels
 {
     public class ApplicationViewModel
     {
-        public Student Student { get; set; }
-        public Post Post { get; set; }
+        public JobApplication Application { get; set; }
+        public string JobTitle { get; set; }
         public string Status { get; set; }
         public List<ApplicationDocument> Documents { get; set; } = new List<ApplicationDocument>();
     }

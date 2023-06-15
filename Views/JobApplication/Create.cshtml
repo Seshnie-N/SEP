@@ -3,7 +3,7 @@
 	ViewData["Title"] = "Upload";
 }
 <section>
-    <p>You are applying for the post of <b>@Model.Post.jobTitle</b></p>
+    <p>You are applying for the post of <b>@Model.JobTitle</b></p>
 </section>
 <h4>Uploaded Documents</h4>
 <hr />
@@ -47,13 +47,13 @@ else
 <hr />
     <form method="post" enctype="multipart/form-data">
         <input type="text" autocomplete="off" placeholder="Enter File Description" name="description" required />
-        <button class="btn btn-success" type="submit" asp-controller="JobApplication" asp-action="UploadToFileSystem">Upload</button>
+        <button class="btn btn-success" type="submit" asp-route-id=@Model.Application.ApplicationId asp-controller="JobApplication" asp-action="UploadToFileSystem">Upload</button>
         <div>
             <input type="file" name="files" multiple required />
         </div>
     </form>
 </section>
 <div class="pt-3">
-    <a class="btn btn-success">Submit</a>
-    <a class="btn btn-primary" asp-controller="Post" asp-action="Details" asp-route-id="@Model.Post.postId">Back</a>
+    <a class="btn btn-success" asp-controller="JobApplication" asp-action="SubmitApplication">Submit</a>
+    <a class="btn btn-primary" asp-controller="Post" asp-action="Details" asp-route-id="@Model.Application.PostId">Back</a>
 </div>
