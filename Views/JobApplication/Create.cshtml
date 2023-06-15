@@ -54,6 +54,6 @@ else
     </form>
 </section>
 <div class="pt-3">
-    <a class="btn btn-success" asp-controller="JobApplication" asp-action="SubmitApplication">Submit</a>
+    <a class="btn btn-success" asp-controller="JobApplication" asp-action="SubmitApplication" asp-route-id=@Model.Application.ApplicationId>Submit</a>
     <a class="btn btn-primary" asp-controller="Post" asp-action="Details" asp-route-id="@Model.Application.PostId">Back</a>
 </div>

@@ -1,0 +1,65 @@
+﻿@model IEnumerable<SEP.Models.DomainModels.JobApplication>
+@{
+}
+<h1>Application History</h1>
+<hr />
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Post.jobTitle)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Post.departmentName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Post.jobType)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Post.partTimeHour)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Post.startDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Post.endDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Status)
+            </th>
+
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @item.Post.jobTitle
+                </td>
+                <td>
+                    @item.Post.departmentName
+                </td>
+                <td>
+                    @item.Post.jobType
+                </td>
+                <td>
+                    @item.Post.partTimeHour
+                </td>
+                <td>
+                    @item.Post.startDate.ToString("d")
+                </td>
+                <td>
+                    @item.Post.endDate.ToString("d")
+                </td>
+                <td>
+                    @item.Status
+                </td>
+                <td>
+                    <a class="btn btn-primary" asp-action="Details" asp-route-id="@item.ApplicationId">Details</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

@@ -78,8 +78,8 @@ namespace SEP.Controllers
                 var fileName = Path.GetFileNameWithoutExtension(file.FileName);
                 var filePath = Path.Combine(basePath, file.FileName);
                 var extension = Path.GetExtension(file.FileName);
-                if (!System.IO.File.Exists(filePath))
-                {
+                //if (!System.IO.File.Exists(filePath))
+                //{
                     using (var stream = new FileStream(filePath, FileMode.Create))
                     {
                         await file.CopyToAsync(stream);
@@ -96,16 +96,34 @@ namespace SEP.Controllers
                     };
                     _db.Documents.Add(fileModel);
                     _db.SaveChanges();
-                }
+                //}
             }
             //TempData["Message"] = "File successfully uploaded to File System.";
             return RedirectToAction("Create",new { id = app.PostId});
         }
 
       
-        public IActionResult SubmitApplication()
+        public async Task<IActionResult> SubmitApplication(int id)
         {
+            //change application status to pending 
+            var application = await _db.JobApplications.Where(a => a.ApplicationId == id).SingleOrDefaultAsync();
+            if (application == null)
+            {
+                return NotFound();
+            }
+            application.Status = "Pending";
+            _db.Update(application);
+            _db.SaveChanges();
+
             return RedirectToAction("FilteredJobPosts", "Post");
+        }
+
+        public async Task<IActionResult> ApplicationHistory()
+        {
+            ApplicationUser user = await _userManager.GetUserAsync(User);
+            var applications = await _db.JobApplications.Include("Post").Where(a => a.StudentId == user.Id).ToListAsync();
+            
+            return View(applications);
         }
 
     }
