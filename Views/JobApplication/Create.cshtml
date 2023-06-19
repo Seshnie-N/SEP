@@ -39,12 +39,11 @@ else
         <tbody>
             @foreach (var file in Model.Documents)
             {
-                var path =  "file:///" + @file.FilePath + @file.Extension;
                 <tr>
                     <td>@file.Name</td>
                     <td>@file.Description</td>
                     <td>
-                        <a type="button" class="btn btn-primary" href=@path target="_blank">View</a>
+                        <a type="button" class="btn btn-primary" href="@Url.Action("ViewDocument", "JobApplication", new {id = file.DocumentId})" target="_blank">View</a>
                         <a type="button" class="btn btn-danger" asp-controller="JobApplication" asp-action="DeleteFile" asp-route-id="@file.DocumentId">Delete</a>
                     </td>
                 </tr>

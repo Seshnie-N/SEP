@@ -4,9 +4,6 @@ using SEP.Areas.Identity.Data;
 using SEP.Models.DomainModels;
 using Microsoft.EntityFrameworkCore;
 using SEP.Models.ViewModels;
-using System.Data.Entity.Infrastructure;
-using Microsoft.Extensions.Hosting;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace SEP.Controllers
 {
@@ -128,6 +125,13 @@ namespace SEP.Controllers
             return View(applications);
         }
 
+        public async Task<IActionResult> ViewDocumentAsync(Guid id)
+        {
+            var file = await _db.Documents.Where(x => x.DocumentId == id).FirstOrDefaultAsync();
+            if (file == null) return null;
+            var stream = new FileStream(file.FilePath, FileMode.Open);
+            return File(stream, file.FileType);
+        }
         public async Task<IActionResult> DeleteFile(Guid id)
         {
             var file = await _db.Documents.Include("JobApplication").Where(d => d.DocumentId == id).FirstOrDefaultAsync();
@@ -165,7 +169,6 @@ namespace SEP.Controllers
                 return RedirectToAction("Create", new { id = application.PostId });
             }
         }
-
 
     }
 }
