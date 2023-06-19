@@ -126,7 +126,7 @@ namespace SEP.Controllers
             var student = await _db.Students.Where(s => s.UserId == user.Id).SingleOrDefaultAsync();
 
 			var predicate = PredicateBuilder.New<Post>();
-			predicate = predicate.And(p => p.isApproved);
+			//predicate = predicate.And(p => p.isApproved);
 			//filter if student is not a south african citizen
 			if (!student.isSouthAfrican)
 			{
@@ -162,18 +162,15 @@ namespace SEP.Controllers
                     predicate = predicate.And(p => p.limitedToPostdoc);
                     break;
             }
-            predicate = predicate.Or(p => !p.limitedTo1stYear && !p.limitedTo2ndYear && !p.limitedTo3rdYear && !p.limitedToHonours && !p.limitedToGraduate && !p.limitedToMasters && !p.limitedToPhd && !p.limitedToPostdoc);
-
-            //filter by faculty
+            predicate = predicate.Or(p => /*p.isApproved &&*/ !p.limitedTo1stYear && !p.limitedTo2ndYear && !p.limitedTo3rdYear && !p.limitedToHonours && !p.limitedToGraduate && !p.limitedToMasters && !p.limitedToPhd && !p.limitedToPostdoc);
 
 
-            //filter by department
-
-
-            //filter out job posts that have already been applied to
-            //get list of job post id linked to applications
+			//filter out job posts that have already been applied to
+			var postsAppliedToIds = _db.JobApplications.Where(a => a.StudentId == user.Id).Select(a => a.PostId);
 
 			var posts = _db.Posts.Where(predicate).ToList();
+			posts = posts.Where(p => !postsAppliedToIds.Contains(p.postId)).ToList();
+			
 
             List<StudentPostListVM> studentPosts = new();
 
@@ -197,9 +194,9 @@ namespace SEP.Controllers
 			return View(studentPosts);
 		}
 
-		public ActionResult Details(int id)
+		public async Task<ActionResult> Details(int id)
 		{
-			var post = _db.Posts.First(p => p.postId == id);
+			var post = await _db.Posts.FirstAsync(p => p.postId == id);
 			if (post == null)
 			{
 				return NotFound();

@@ -1,0 +1,124 @@
+﻿@model SEP.Models.ViewModels.ApplicationDetailsViewModel
+@{
+    ViewData["Title"] = "Application Details";
+}
+<h1>Application Details</h1>
+<div>
+    <hr />
+    <div class="col pb-2">
+        <label asp-for="@Model.JobApplication.Status"></label>
+        <b>@Model.JobApplication.Status</b>
+    </div>
+    <h2>Job Post Details</h2>
+    <div class="col pb-2">
+        <label asp-for="@Model.JobApplication.Post.jobTitle" class="col-2"></label>
+        <input asp-for="@Model.JobApplication.Post.jobTitle" readonly />
+    </div>
+    <div class="col pb-2">
+        <label asp-for="@Model.JobApplication.Post.jobLocation" class="col-2"></label>
+        <input asp-for="@Model.JobApplication.Post.jobLocation" readonly />
+    </div>
+    <div class="col pb-2">
+        <label asp-for="@Model.JobApplication.Post.jobDescription" class="col-2"></label>
+        <input asp-for="@Model.JobApplication.Post.jobDescription" readonly />
+    </div>
+    <div class="col pb-2">
+        <label asp-for="@Model.JobApplication.Post.resposibilities" class="col-2"></label>
+        <input asp-for="@Model.JobApplication.Post.resposibilities" readonly />
+    </div>
+    <div class="col pb-2">
+        <label asp-for="@Model.JobApplication.Post.jobType" class="col-2"></label>
+        <select id="jobType" asp-for="@Model.JobApplication.Post.jobType">
+            <option value="" selected disabled>Select job type</option>
+            @if (@Model.JobApplication.Post.jobType == "Fulltime")
+            {
+                <option value="Fulltime">Fulltime</option>
+                <option value="Part-time" disabled>Part-time</option>
+            }
+            else
+            {
+                <option value="Part-time">Part-time</option>
+                <option value="Fulltime" disabled>Fulltime</option>
+            }
+
+        </select>
+    </div>
+    <div class="col pb-2">
+        <label asp-for="@Model.JobApplication.Post.partTimeHour"></label>
+        <select asp-for="@Model.JobApplication.Post.partTimeHour">
+            <option value="" selected>Range</option>
+            @foreach (var hour in @Model.partTimeHours)
+            {
+                @if (@hour.timeRange == @Model.JobApplication.Post.partTimeHour)
+                {
+                    <option value=@hour.timeRange> @hour.timeRange </option>
+                }
+                else
+                {
+                    <option value=@hour.timeRange disabled> @hour.timeRange </option>
+                }
+
+            }
+        </select>
+    </div>
+    <div class="col pb-2">
+        <label asp-for="@Model.JobApplication.Post.hourlyRate" class="col-2"></label>
+        <input asp-for="@Model.JobApplication.Post.hourlyRate" readonly />
+    </div>
+    <div class="col pb-2">
+        <label asp-for="@Model.JobApplication.Post.startDate" class="col-2"></label>
+        <input type="date" asp-for="@Model.JobApplication.Post.startDate" readonly />
+    </div>
+    <div class="col pb-2">
+        <label asp-for="@Model.JobApplication.Post.endDate" class="col-2"></label>
+        <input type="date" asp-for="@Model.JobApplication.Post.endDate" readonly />
+    </div>
+    <div class="col pb-2">
+        <label asp-for="@Model.JobApplication.Post.applicationClosingDate" class="col-2"></label>
+        <input type="date" asp-for="@Model.JobApplication.Post.applicationClosingDate" readonly />
+    </div>
+
+    <div class="col pb-2">
+        <label asp-for="@Model.JobApplication.Post.minimumRequirment" class="col-2"></label>
+        <input asp-for="@Model.JobApplication.Post.minimumRequirment" readonly />
+    </div>
+    <div class="col pb-2">
+        <label asp-for="@Model.JobApplication.Post.applicationInstruction" class="col-2"></label>
+        <input asp-for="@Model.JobApplication.Post.applicationInstruction" readonly />
+    </div>
+</div>
+<div>
+    <h2>Uploaded Documents</h2>
+    @if (Model.Documents.Count() == 0)
+    {
+        <p>No Documents have been uploaded</p>
+    }
+    else
+    {
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Description</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var file in Model.Documents)
+                {
+                    <tr>
+                        <td>@file.Name</td>
+                        <td>@file.Description</td>
+                        <td>
+                            <a type="button" class="btn btn-primary" href="@Url.Action("ViewDocument", "JobApplication", new {id = file.DocumentId})" target="_blank">View</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+</div>
+<div>
+    <a class="btn btn-primary" asp-controller="JobApplication" asp-action="ApplicationHistory">Back to List</a>
+</div>
+

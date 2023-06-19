@@ -57,9 +57,12 @@
                     @item.Status
                 </td>
                 <td>
-                    <a class="btn btn-primary" asp-action="Details" asp-route-id="@item.ApplicationId">Details</a>
+                    <a class="btn btn-primary" asp-controller="JobApplication" asp-action="Details" asp-route-id="@item.ApplicationId">Details</a>
                 </td>
             </tr>
         }
     </tbody>
 </table>
+<div class="pt-3">
+    <a class="btn btn-primary" asp-controller="Home" asp-action="StudentHome">Back</a>
+</div>

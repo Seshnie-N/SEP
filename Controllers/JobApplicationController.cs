@@ -67,7 +67,7 @@ namespace SEP.Controllers
         private string[] permittedExtensions = { ".jpg", ".pdf", ".png" };
 
         [HttpPost]
-        public async Task<IActionResult> UploadToFileSystem(List<IFormFile> files, string description, int id)
+        public async Task<IActionResult> UploadDocument(List<IFormFile> files, string description, int id)
         {
             var application = await _db.JobApplications.Where(a => a.ApplicationId == id).SingleOrDefaultAsync();
             foreach (var file in files)
@@ -115,14 +115,33 @@ namespace SEP.Controllers
             return RedirectToAction("Create",new { id = application.PostId});
         }
 
-      
-
         public async Task<IActionResult> ApplicationHistory()
         {
             ApplicationUser user = await _userManager.GetUserAsync(User);
             var applications = await _db.JobApplications.Include("Post").Where(a => a.StudentId == user.Id).ToListAsync();
             
             return View(applications);
+        }
+
+        public async Task<IActionResult> Details(int id)
+        {
+            var application = await _db.JobApplications.Where(a => a.ApplicationId == id).Include("Post").SingleOrDefaultAsync();
+
+            var facId = application.Post.facultyName;
+            IEnumerable<Faculty> faculties = _db.Faculties;
+            IEnumerable<Department> departments = _db.Departments.Where(d => d.FacultyId.Equals(facId));
+            IEnumerable<PartTimeHours> partTimeHours = _db.partTimeHours;
+            var documents = await LoadFiles(application.ApplicationId);
+
+            ApplicationDetailsViewModel applicationDetails = new()
+            {
+                JobApplication = application,
+                faculty = faculties,
+                department = departments,
+                partTimeHours = partTimeHours,
+                Documents = documents
+            };
+            return View(applicationDetails);
         }
 
         public async Task<IActionResult> ViewDocumentAsync(Guid id)

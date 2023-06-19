@@ -56,7 +56,7 @@ else
 <hr />
     <form method="post" enctype="multipart/form-data">
         <input type="text" autocomplete="off" placeholder="Enter File Description" name="description" required />
-        <button class="btn btn-success" type="submit" asp-route-id=@Model.Application.ApplicationId asp-controller="JobApplication" asp-action="UploadToFileSystem">Upload</button>
+        <button class="btn btn-success" type="submit" asp-route-id=@Model.Application.ApplicationId asp-controller="JobApplication" asp-action="UploadDocument">Upload</button>
         <div>
             <input type="file" name="files" multiple required />
         </div>
