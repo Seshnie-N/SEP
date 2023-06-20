@@ -108,7 +108,7 @@ namespace SEP.Controllers
 		[HttpPost]
 		public IActionResult WithdrawPost(PostViewModel postViewModelObject)
 		{
-			postViewModelObject.post.postStatus = "Withrawed";
+			postViewModelObject.post.postStatus = "Withdrawn";
 			_db.Posts.Update(postViewModelObject.post);
 			_db.SaveChanges();
 			return RedirectToAction("Index");

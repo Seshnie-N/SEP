@@ -166,29 +166,32 @@ namespace SEP.Controllers
             _db.SaveChanges();
             return RedirectToAction("pendingPosts");
         }
-        [HttpPost]
-        public IActionResult approverApprovePost(PostViewModel postViewModelObject)
+       
+        public async Task<IActionResult> approverApprovePost(int id)
         {
-            postViewModelObject.post.postStatus = "Approved";
-            postViewModelObject.post.approvalStatus = "Approved";
-            postViewModelObject.post.isApproved = true;
-            _db.Posts.Update(postViewModelObject.post);
+            var postToBeApproved = await _db.Posts.Where(p => p.postId == id).SingleOrDefaultAsync();
+            postToBeApproved.postStatus = "Approved";
+            postToBeApproved.approvalStatus = "Approved";
+            postToBeApproved.isApproved = true;
+            _db.Posts.Update(postToBeApproved);
             _db.SaveChanges();
             return RedirectToAction("pendingPosts");
         }
-        [HttpPost]
-        public IActionResult approverRejectPost(PostViewModel postViewModelObject)
+       
+        public async Task<IActionResult> approverRejectPost(int id)
         {
-            postViewModelObject.post.approvalStatus = "Rejected";
-            _db.Posts.Update(postViewModelObject.post);
+            var postToBeRejected = await _db.Posts.Where(p => p.postId == id).SingleOrDefaultAsync();
+            postToBeRejected.approvalStatus = "Rejected";
+            _db.Posts.Update(postToBeRejected);
             _db.SaveChanges();
             return RedirectToAction("pendingPosts");
         }
-        [HttpPost]
-        public IActionResult approverQueryPost(PostViewModel postViewModelObject)
+        
+        public async Task<IActionResult> approverQueryPostAsync(int id)
         {
-            postViewModelObject.post.approvalStatus = "Queried";
-            _db.Posts.Update(postViewModelObject.post);
+            var postToBeQueried = await _db.Posts.Where(p => p.postId == id).SingleOrDefaultAsync();
+            postToBeQueried.approvalStatus = "Queried";
+            _db.Posts.Update(postToBeQueried);
             _db.SaveChanges();
             return RedirectToAction("pendingPosts");
         }

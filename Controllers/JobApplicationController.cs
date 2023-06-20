@@ -24,11 +24,6 @@ namespace SEP.Controllers
             return uploadedDocuments;
         }
 
-        public IActionResult Index()
-        {
-            return View();
-        }
-
         public async Task<IActionResult> Create(int id) 
         {
             var post = await _db.Posts.Where(p => p.postId == id).SingleOrDefaultAsync();
@@ -175,7 +170,7 @@ namespace SEP.Controllers
                 return NotFound();
             }
             var documents = await _db.Documents.Where(d => d.JobApplicationId == id).ToListAsync();
-            if (documents.Count() > 0)
+            if (documents.Count > 0)
             {
                 application.Status = "Pending";
                 _db.Update(application);
@@ -189,5 +184,38 @@ namespace SEP.Controllers
             }
         }
 
+        //after lookup tables added, can include faculty and department to get the actual values instead of numbers
+        public async Task<IActionResult> ViewApplicants(int id)
+        {
+            var applications = await _db.JobApplications.Where(a => !a.Status.Equals("Incomplete")).Include(a => a.Student).ThenInclude(s => s.User).Where(a => a.PostId == id).ToListAsync();
+            var post = await _db.Posts.Where(p => p.postId == id).SingleOrDefaultAsync();
+
+            var viewmodel = new ViewApplicantsViewModel
+            {
+                PostId = id,
+                Applications = applications,
+                JobTitle = post.jobTitle,
+                JobDescription = post.jobDescription
+            };
+
+            return View(viewmodel);
+        }
+
+        public async Task<IActionResult> ViewApplicantDetails(int id)
+        {
+            var application = await _db.JobApplications.Where(a => a.ApplicationId == id).Include(a => a.Student).ThenInclude(s => s.User).SingleOrDefaultAsync();
+            var post = await _db.Posts.Where(p => p.postId == id).SingleOrDefaultAsync();
+            var documents = await LoadFiles(application.ApplicationId);
+            var viewmodel = new ApplicantDetailsViewModel
+            {
+                Application = application,
+                JobTitle = post.jobTitle,
+                JobDescription = post.jobDescription,
+                Documents = documents
+            };
+
+            return View(viewmodel);
+        }
     }
+    //post update application status
 }

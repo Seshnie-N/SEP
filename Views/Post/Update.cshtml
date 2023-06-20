@@ -161,7 +161,7 @@
 		<input asp-for="@Model.post.conatctPersonNumber" />
 	</div>
 	<div class="col pl-3">
-		<button asp-controller="Post" asp-action="ViewApplicants" type="submit" class="btn btn-info  btn-sm">View applicants</button>
+		<button asp-controller="JobApplication" asp-action="ViewApplicants" asp-route-id="@Model.post.postId" type="submit" class="btn btn-info  btn-sm">View applicants</button>
 		<button asp-controller="Post" asp-action="ClosePost" type="submit" class="btn btn-info btn-sm">Close</button>
 		<button asp-controller="Post" asp-action="WithdrawPost" type="submit" class="btn btn-info  btn-sm">Withdraw</button>
 	</div>

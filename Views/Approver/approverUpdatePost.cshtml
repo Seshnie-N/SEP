@@ -291,9 +291,9 @@
     </div>
 
     <div class="col pl-3 pt-2">
-        <a type="submit" asp-controller="Approver" asp-action="approverApprovePost" class="btn btn-success btn-sm">Approve</a>
-        <a type="submit" asp-controller="Approver" asp-action="approverRejectPost" class="btn btn-success btn-sm">Reject</a>
-        <a type="submit" asp-controller="Approver" asp-action="approverQueryPost" class="btn btn-success btn-sm">Query</a>
+        <a type="submit" asp-controller="Approver" asp-action="approverApprovePost" asp-route-id="@Model.post.postId" class="btn btn-success btn-sm">Approve</a>
+        <a type="submit" asp-controller="Approver" asp-action="approverRejectPost" asp-route-id="@Model.post.postId" class="btn btn-success btn-sm">Reject</a>
+        <a type="submit" asp-controller="Approver" asp-action="approverQueryPost" asp-route-id="@Model.post.postId" class="btn btn-success btn-sm">Query</a>
     </div>
 
 

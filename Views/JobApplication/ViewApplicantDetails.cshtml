@@ -1,0 +1,32 @@
+﻿@model SEP.Models.ViewModels.ApplicantDetailsViewModel
+@{
+}
+<h1>Applicant Details</h1>
+<hr />
+<div>
+    <p><b>@Html.DisplayNameFor(model => model.JobTitle):</b> @Model.JobTitle</p>
+    <p><b>@Html.DisplayNameFor(model => model.JobDescription):</b> @Model.JobDescription</p>
+</div>
+<div class="pb-4">
+    <b>First Name: </b> @Model.Application.Student.User.FirstName
+    @*rest of profile details*@
+</div>
+@{int i = 1;}
+<div>
+    @foreach (var document in Model.Documents)
+    {
+        <div>
+            <a type="text/html" href="@Url.Action("ViewDocument", "JobApplication", new {id = document.DocumentId})" target="_blank">Document @i</a>
+            @document.Description
+        </div>
+        i++;
+    }
+</div>
+<div>
+    @*select with outcome options*@
+    <div class="pt-3">
+        <a class="btn btn-primary">Save</a>
+        <a class="btn btn-primary" asp-controller="JobApplication" asp-action="ViewApplicants" asp-route-id="@Model.Application.Post.postId">Back</a>
+    </div>
+</div>
+
