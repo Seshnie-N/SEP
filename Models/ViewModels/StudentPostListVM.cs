@@ -8,7 +8,7 @@ namespace SEP.Models.ViewModels
     {
         public int postId { get; set; }
 
-        [DisplayName("Job title")]
+        [DisplayName("Job Title")]
         public string jobTitle { get; set; }
 
         [DisplayName("Department")]

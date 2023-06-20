@@ -4,6 +4,7 @@ using SEP.Areas.Identity.Data;
 using SEP.Models.DomainModels;
 using Microsoft.EntityFrameworkCore;
 using SEP.Models.ViewModels;
+using Microsoft.Extensions.FileProviders;
 
 namespace SEP.Controllers
 {
@@ -142,6 +143,7 @@ namespace SEP.Controllers
         public async Task<IActionResult> ViewDocumentAsync(Guid id)
         {
             var file = await _db.Documents.Where(x => x.DocumentId == id).FirstOrDefaultAsync();
+
             if (file == null) return null;
             var stream = new FileStream(file.FilePath, FileMode.Open);
             return File(stream, file.FileType);
@@ -187,7 +189,7 @@ namespace SEP.Controllers
         //after lookup tables added, can include faculty and department to get the actual values instead of numbers
         public async Task<IActionResult> ViewApplicants(int id)
         {
-            var applications = await _db.JobApplications.Where(a => !a.Status.Equals("Incomplete")).Include(a => a.Student).ThenInclude(s => s.User).Where(a => a.PostId == id).ToListAsync();
+            var applications = await _db.JobApplications.Where(a => a.PostId == id).Where(a => !a.Status.Equals("Incomplete")).Include(a => a.Student).ThenInclude(s => s.User).ToListAsync();
             var post = await _db.Posts.Where(p => p.postId == id).SingleOrDefaultAsync();
 
             var viewmodel = new ViewApplicantsViewModel
@@ -203,14 +205,14 @@ namespace SEP.Controllers
 
         public async Task<IActionResult> ViewApplicantDetails(int id)
         {
-            var application = await _db.JobApplications.Where(a => a.ApplicationId == id).Include(a => a.Student).ThenInclude(s => s.User).SingleOrDefaultAsync();
-            var post = await _db.Posts.Where(p => p.postId == id).SingleOrDefaultAsync();
+            var application = await _db.JobApplications.Where(a => a.ApplicationId == id).Include("Post").Include(a => a.Student).ThenInclude(s => s.User).SingleOrDefaultAsync();
             var documents = await LoadFiles(application.ApplicationId);
             var viewmodel = new ApplicantDetailsViewModel
             {
+                PostId = application.Post.postId,
                 Application = application,
-                JobTitle = post.jobTitle,
-                JobDescription = post.jobDescription,
+                JobTitle = application.Post.jobTitle,
+                JobDescription = application.Post.jobDescription,
                 Documents = documents
             };
 
