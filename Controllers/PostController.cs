@@ -118,6 +118,12 @@ namespace SEP.Controllers
 			_db.SaveChanges();
 			return RedirectToAction("Index");
 		}
+
+		// get all faculties
+		public JsonResult GetFaculties()
+		{
+			return Json(_db.Faculties);
+		}
 		// get Departments by Id
 		public JsonResult GetDepartmentById(int id)
 		{

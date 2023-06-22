@@ -1,210 +1,295 @@
 ﻿@model IEnumerable<SEP.Models.DomainModels.Post>
 
 <div>
+	<div>
+		<h2>Filters</h2>
+		<div class="col d-flex justify-content-evenly" style="border: 1px solid black">
 
 
+			@*facultie list*@
+			<div class="align-items-start d-flex justify-content-start align-items-center m-2 ">
 
-    <div class="align-items-end d-flex justify-content-end align-items-center mb-2 ">
+				<div class="form-outline">
+					<select id="facultyNameID" style="width: 20.0rem; height: 2.0rem;margin:auto;border-right:0;outline: none; border: 1px solid black;">
+						<option value="" selected disabled>Select faculty</option>
+					</select>
+				</div>
+				<button id="searchFacultyClear" style="width: 2.0rem;  height: 2.0rem;border: 1px solid black; border-left:0; border-right:0; border-radius:0;" class="btn btn-sm"> <svg style="color: red" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x" viewBox="0 0 16 16"> <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z" fill="red"></path> </svg></button>
+			</div>
 
-        <div class="form-outline">
-            <input type="text" id="search" placeholder="Search by job title" style="width: 20.0rem; height: 2.0rem;margin:auto;border-right:0;outline: none; border: 1px solid black;border-right:0" />
-        </div>
-        <button id="searchClear" style="width: 2.0rem;  height: 2.0rem;border: 1px solid black; border-left:0; border-right:0; border-radius:0;" class="btn btn-sm"> <svg style="color: red" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x" viewBox="0 0 16 16"> <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z" fill="red"></path> </svg></button>
+			@*departments list*@
+			<div class="d-flex align-items-center m-2 ">
 
-        <button id="searchButton" style="width: 4.0rem;  height: 2.0rem; border-radius:0;border: 1px solid black; border-left:0;" class="btn btn-sm "><svg style="color: blue" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16"> <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" fill="blue"></path> </svg></button>
-    </div>
+				<div class="form-outline">
+					<select id="departmentNameID" style="width: 20.0rem; height: 2.0rem;margin:auto;border-right:0;outline: none; border: 1px solid black;">
+						<option value="" selected disabled>Select department</option>
+					</select>
+				</div>
+				<button id="searchDepartmentClear" style="width: 2.0rem;  height: 2.0rem;border: 1px solid black; border-left:0; border-right:0; border-radius:0;" class="btn btn-sm"> <svg style="color: red" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x" viewBox="0 0 16 16"> <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z" fill="red"></path> </svg></button>
+			</div>
 
 
-    @if (Model.Count() > 0)
-    {
-        <div>
-            <table class="table table-bordered" style="width:100%">
-                <thead>
-                    <tr>
-                        <th>
-                            Job tille
-                        </th>
-                        <th>
-                            Department
-                        </th>
-                        <th>
-                            Job type
-                        </th>
-                        <th>
-                            Start date
-                        </th>
-                        <th>
-                            End date
-                        </th>
-                        <th>
-                            Status
-                        </th>
-                    </tr>
-                </thead>
-                <tbody id="tbody">
-                    @*                    @foreach (var post in Model)
-                {
-                <tr>
-                <td width="15%">
-                @post.jobTitle
-                </td>
-                <td width="20%">
-                @post.departmentName
-                </td>
-                <td width="15%">
-                @post.jobType
-                </td>
-                <td width="15%">
-                @post.startDate.ToString("yyyy/mm/dd")
-                </td>
-                <td width="15%">
-                @post.endDate.ToString("yyyy/mm/dd")
-                </td>
-                <td width="20%">
-                <div class="row">
-                <div class="col">
-                @post.postStatus
-                </div>
-                <div class="col">
-                <a asp-controller="Post" asp-action="Update" asp-route-id="@post.postId" class="btn btn-info btn-sm" value="">Review</a>
-                </div>
+			@*To  search by job title*@
+			<div class="align-items-end d-flex justify-content-end align-items-center m-2 ">
 
-                </div>
-                </td>
-                </tr>
-                }*@
-                </tbody>
-            </table>
-        </div>
-    }
-    else
-    {
-        <h1>You do not have post yet</h1>
-    }
+				<div class="form-outline">
+					<input type="text" id="search" placeholder="Search by job title" style="width: 20.0rem; height: 2.0rem;margin:auto;border-right:0;outline: none; border: 1px solid black;border-right:0" />
+				</div>
+				<button id="searchClear" style="width: 2.0rem;  height: 2.0rem;border: 1px solid black; border-left:0; border-right:0; border-radius:0;" class="btn btn-sm"> <svg style="color: red" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x" viewBox="0 0 16 16"> <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z" fill="red"></path> </svg></button>
+
+				<button id="searchButton" style="width: 4.0rem;  height: 2.0rem; border-radius:0;border: 1px solid black; border-left:0;" class="btn btn-sm "><svg style="color: blue" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16"> <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" fill="blue"></path> </svg></button>
+			</div>
+
+		</div>
+	</div>
+
+	@if (Model.Count() > 0)
+	{
+		<div>
+			<table class="table table-bordered" style="width:100%">
+				<thead>
+					<tr>
+						<th>
+							Job tille
+						</th>
+						<th>
+							Department
+						</th>
+						<th>
+							Job type
+						</th>
+						<th>
+							Start date
+						</th>
+						<th>
+							End date
+						</th>
+						<th>
+							Status
+						</th>
+					</tr>
+				</thead>
+				<tbody id="tbody">
+					@*                    @foreach (var post in Model)
+				{
+				<tr>
+				<td width="15%">
+				@post.jobTitle
+				</td>
+				<td width="20%">
+				@post.departmentName
+				</td>
+				<td width="15%">
+				@post.jobType
+				</td>
+				<td width="15%">
+				@post.startDate.ToString("yyyy/mm/dd")
+				</td>
+				<td width="15%">
+				@post.endDate.ToString("yyyy/mm/dd")
+				</td>
+				<td width="20%">
+				<div class="row">
+				<div class="col">
+				@post.postStatus
+				</div>
+				<div class="col">
+				<a asp-controller="Post" asp-action="Update" asp-route-id="@post.postId" class="btn btn-info btn-sm" value="">Review</a>
+				</div>
+
+				</div>
+				</td>
+				</tr>
+				}*@
+				</tbody>
+			</table>
+		</div>
+	}
+	else
+	{
+		<h1>You do not have post yet</h1>
+	}
 </div>
 <div>
-    <a asp-controller="Post" asp-action="Create" class="btn btn-info" id="CreatePost">Create post</a>
-    <a asp-controller="Home" asp-action="Index" class="btn btn-secondary">Back</a>
+	<a asp-controller="Post" asp-action="Create" class="btn btn-info" id="CreatePost">Create post</a>
+	<a asp-controller="Home" asp-action="Index" class="btn btn-secondary">Back</a>
 </div>
 
 @section scripts{
-    <script type="text/javascript">
+	<script type="text/javascript">
 
-        $(document).ready(function () {
+		$(document).ready(function () {
 
-            var Iposts = [];
+			var Iposts = [];
 
-            $('#searchClear').css({ "outline": "none", "box- shadow": "none"});
-            $('#searchButton').css({ "outline": "none", "box- shadow": "none" });
-            $('#searchClear').hide();
+			$('#searchClear').css({ "outline": "none", "box- shadow": "none" });
+			$('#searchButton').css({ "outline": "none", "box- shadow": "none" });
+			$('#searchFacultyClear').hide();
+			$('#searchDepartmentClear').hide();
+			$('#searchClear').hide();
+			$('#departmentNameID').hide();
+
+			function fillTable(posts) {
+				// constructing new table with new filtered posts
+				$('#tbody').empty();
+				$.each(posts, function (index, item) {
+
+					$('#tbody').append(
+						'<tr><td width="15%" >' + item.jobTitle + '</td><td width = "20%">' + item.departmentName + '</td><td width = "15%">' + item.jobType + '</td><td width = "15%">' + item.startDate.toString("d") + '</td><td width = "15%" >' + item.endDate.toString("d") + '</td> <td width = "20%"> <div class="row" > <div class="col">' + item.postStatus + '</div><div class= "col" ><a href="/Post/Update/' + item.postId + '" class= "btn btn-info btn-sm" value = "" > Review </a></div></div></td></tr>'
+					);
+				});
+			}
+
+			$.ajax({
+				type: 'GET',
+				url: '@Url.Action("allUserPosts")',
+				dataType: 'json',
+				data: {},
+				success: function (post) {
+					Iposts.push(post);
+					fillTable(post);
+					//$.each(post, function (index, item) {
+
+					//    $('#tbody').append(
+					//        '<tr><td width="15%" >' + item.jobTitle + '</td><td width = "20%">' + item.departmentName + '</td><td width = "15%">' + item.jobType + '</td><td width = "15%">' + item.startDate.toString("d") + '</td><td width = "15%" >' + item.endDate.toString("d") + '</td> <td width = "20%"> <div class="row" > <div class="col">' + item.postStatus + '</div><div class= "col" ><a href="/Post/Update/' + item.postId + '" class= "btn btn-info btn-sm" value = "" > Review </a></div></div></td></tr>'
+					//    );
+					//});
+				}
+			});
+
+			$.ajax({
+				type: 'GET',
+				url: '@Url.Action("GetFaculties")',
+				dataType: 'json',
+				data: {},
+				success: function (dep) {
+					$.each(dep, function (index, item) {
+						$('#facultyNameID').append('<option value="' + item.facultyId + '">' + item.facultyName + '</option>')
+					});
+				}
+			});
+
+			// filling department
+			$('#facultyNameID').change(function () {
+				var obId = this.value
+				$('#departmentNameID').show();
+				$('#searchFacultyClear').show();
+				//alert(obId);
+				$('#departmentNameID').empty();
+				$('#departmentNameID').append('<option value="" selected disabled>Select department</option>')
+				$.ajax({
+					type: 'GET',
+					url: '@Url.Action("GetDepartmentById")',
+					dataType: 'json',
+					data: { id: obId },
+					success: function (dep) {
+						$.each(dep, function (index, item) {
+							$('#departmentNameID').append('<option value="' + item.departmentName + '">' + item.departmentName + '</option>')
+						});
+					}
+				});
+
+			});
+
+			// including search by department
+
+			$('#departmentNameID').change( function(){
+				$('#searchDepartmentClear').show();
+			});
+
+			$('#searchButton').click(function () {
+				var searchVal = $('#search').val().trim();
+				$('#searchClear').show();
+
+				var newPosts = Iposts[0].filter((filterValue) => {
+					if (filterValue.jobTitle.toLowerCase().includes(searchVal.toLowerCase())) {
+						return filterValue;
+					}
+				});
+
+				if (newPosts.length >= 0 && searchVal != "") {
+					fillTable(newPosts);
+				}
+				else {
+					fillTable(Iposts[0])
+				}
+
+			});
+
+			//$("#search").on("input", function () {
+			//    var searchVal = $('#search').val().trim();
+			//    $('#searchClear').show();
+
+			//    var newPosts = Iposts[0].filter((filterValue) => {
+			//        if (filterValue.jobTitle.toLowerCase().includes(searchVal.toLowerCase())) {
+			//            return filterValue;
+			//        }
+			//    });
+
+			//    if (newPosts.length >= 0 && searchVal != "") {
+			//        fillTable(newPosts);
+			//    }
+			//    else {
+			//        fillTable(Iposts[0])
+			//    }
+
+			//    if(searchVal == ''){
+			//        $('#searchClear').hide();
+			//    }
+			//});
+
+			$("#search").keyup(function () {
+				var searchVal = $('#search').val().trim();
+				$('#searchClear').show();
+
+				var newPosts = Iposts[0].filter((filterValue) => {
+					if (filterValue.jobTitle.toLowerCase().includes(searchVal.toLowerCase())) {
+						return filterValue;
+					}
+				});
+
+				if (newPosts.length >= 0 && searchVal != "") {
+					fillTable(newPosts);
+				}
+				else {
+					fillTable(Iposts[0])
+				}
+
+				if (searchVal == '') {
+					$('#searchClear').hide();
+				}
+			});
+
+			// clearing input box
+			$('#searchClear').click(function () {
+
+				$('#search').val('');
+				$('#searchClear').hide();
+				fillTable(Iposts[0])
+			});
+
+			// clearing  faculty input box
+			$('#searchFacultyClear').click(function () {
+
+				$('#facultyNameID').val('');
+				$('#departmentNameID').val('');
+				$('#departmentNameID').hide();
+				$('#searchFacultyClear').hide();
+				fillTable(Iposts[0])
+			});
+
+			// clearing depaertment input box
+			$('#searchDepartmentClear').click(function () {
+
+				$('#departmentNameID').val('');
+				$('#searchDepartmentClear').hide();
+				fillTable(Iposts[0])
+			});
+
+		});
 
 
-
-
-        function fillTable(posts) {
-            // constructing new table with new filtered posts
-            $('#tbody').empty();
-            $.each(posts, function (index, item) {
-
-                $('#tbody').append(
-                    '<tr><td width="15%" >' + item.jobTitle + '</td><td width = "20%">' + item.departmentName + '</td><td width = "15%">' + item.jobType + '</td><td width = "15%">' + item.startDate.toString("d") + '</td><td width = "15%" >' + item.endDate.toString("d") + '</td> <td width = "20%"> <div class="row" > <div class="col">' + item.postStatus + '</div><div class= "col" ><a href="/Post/Update/' + item.postId + '" class= "btn btn-info btn-sm" value = "" > Review </a></div></div></td></tr>'
-                );
-            });
-        }
-
-        $.ajax({
-            type: 'GET',
-            url: '@Url.Action("allUserPosts")',
-            dataType: 'json',
-            data: {},
-            success: function (post) {
-                Iposts.push(post);
-                fillTable(post);
-                //$.each(post, function (index, item) {
-
-                //    $('#tbody').append(
-                //        '<tr><td width="15%" >' + item.jobTitle + '</td><td width = "20%">' + item.departmentName + '</td><td width = "15%">' + item.jobType + '</td><td width = "15%">' + item.startDate.toString("d") + '</td><td width = "15%" >' + item.endDate.toString("d") + '</td> <td width = "20%"> <div class="row" > <div class="col">' + item.postStatus + '</div><div class= "col" ><a href="/Post/Update/' + item.postId + '" class= "btn btn-info btn-sm" value = "" > Review </a></div></div></td></tr>'
-                //    );
-                //});
-            }
-        });
-
-        $('#searchButton').click(function () {
-            var searchVal = $('#search').val().trim();
-            $('#searchClear').show();
-
-            var newPosts = Iposts[0].filter((filterValue) => {
-                if (filterValue.jobTitle.toLowerCase().includes(searchVal.toLowerCase())) {
-                    return filterValue;
-                }
-            });
-
-            if (newPosts.length >= 0 && searchVal != "") {
-                fillTable(newPosts);
-            }
-            else {
-                fillTable(Iposts[0])
-            }
-
-        });
-
-        //$("#search").on("input", function () {
-        //    var searchVal = $('#search').val().trim();
-        //    $('#searchClear').show();
-
-        //    var newPosts = Iposts[0].filter((filterValue) => {
-        //        if (filterValue.jobTitle.toLowerCase().includes(searchVal.toLowerCase())) {
-        //            return filterValue;
-        //        }
-        //    });
-
-        //    if (newPosts.length >= 0 && searchVal != "") {
-        //        fillTable(newPosts);
-        //    }
-        //    else {
-        //        fillTable(Iposts[0])
-        //    }
-
-        //    if(searchVal == ''){
-        //        $('#searchClear').hide();
-        //    }
-        //});
-
-        $("#search").keyup(function () {
-            var searchVal = $('#search').val().trim();
-            $('#searchClear').show();
-
-            var newPosts = Iposts[0].filter((filterValue) => {
-                if (filterValue.jobTitle.toLowerCase().includes(searchVal.toLowerCase())) {
-                    return filterValue;
-                }
-            });
-
-            if (newPosts.length >= 0 && searchVal != "") {
-                fillTable(newPosts);
-            }
-            else {
-                fillTable(Iposts[0])
-            }
-
-            if (searchVal == '') {
-                $('#searchClear').hide();
-            }
-        });
-
-        // clearing input box
-        $('#searchClear').click(function () {
-
-            $('#search').val('');
-            $('#searchClear').hide();
-            fillTable(Iposts[0])
-        });
-
-
-                        });
-
-
-    </script>
+	</script>
 }
 
 
