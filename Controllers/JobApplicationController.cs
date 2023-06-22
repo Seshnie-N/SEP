@@ -242,11 +242,11 @@ namespace SEP.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> UpdateApplicationStatus(int id, [Bind(nameof(ApplicantDetailsViewModel.Status))] ApplicantDetailsViewModel vm)
+        public async Task<IActionResult> UpdateApplicationStatus(int id, ApplicantDetailsViewModel vm)
         {
             var application = await _db.JobApplications.Where(a => a.ApplicationId == id).SingleOrDefaultAsync();
-            if (ModelState.IsValid)
-            {
+            //if (ModelState.IsValid)
+            //{
                 var status = vm.Status;
                 if (status != application.Status)
                 {
@@ -254,10 +254,31 @@ namespace SEP.Controllers
                     _db.JobApplications.Update(application);
                     _db.SaveChanges();
                 }
-                return RedirectToAction("ViewApplicants", new { id = application.PostId });
-            }
-            var errors = ModelState.Values.SelectMany(v => v.Errors);
+                //return RedirectToAction("ViewApplicants", new { id = application.PostId });
+            //}
+            //var errors = ModelState.Values.SelectMany(v => v.Errors);
             return RedirectToAction("ViewApplicantDetails",new {id = application.ApplicationId});
+        }
+
+        public async Task<IActionResult> QualificationDetails(int id)
+        {
+            var qualification = await _db.Qualifications.Where(q => q.QualificationId == id).SingleOrDefaultAsync();
+            if (qualification == null) return NotFound();
+            return View(qualification);
+        }
+
+        public async Task<IActionResult> WorkExperienceDetails(int id)
+        {
+            var workExperience = await _db.WorkExperiences.Where(q => q.WorkExperienceId == id).SingleOrDefaultAsync();
+            if (workExperience == null) return NotFound();
+            return View(workExperience);
+        }
+
+        public async Task<IActionResult> RefereeDetails(int id)
+        {
+            var referee = await _db.Referees.Where(q => q.RefereeId == id).SingleOrDefaultAsync();
+            if (referee == null) return NotFound();
+            return View(referee);
         }
     }
 }

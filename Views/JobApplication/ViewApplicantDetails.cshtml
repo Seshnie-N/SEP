@@ -34,7 +34,7 @@
 
                     <p>
                         @qualification.QualificationName
-                        <a class="btn btn-primary" @*asp-controller="Profile" asp-action="ViewReferee" asp-route-id="@referee.RefereeId"*@>View</a>
+                        <a class="btn btn-primary"  asp-action="QualificationDetails" asp-route-id="@qualification.QualificationId">View</a>
                     </p>
 
                 </div>
@@ -55,7 +55,7 @@
 
                     <p>
                         @workExperience.JobTitle
-                        <a class="btn btn-primary" @*asp-controller="Profile" asp-action="ViewReferee" asp-route-id="@referee.RefereeId"*@>View</a>
+                        <a class="btn btn-primary" asp-action="WorkExperienceDetails" asp-route-id="@workExperience.WorkExperienceId">View</a>
                     </p>
 
                 </div>
@@ -87,7 +87,7 @@
                <div>
 
 					<p>@referee.Name
-						<a class="btn btn-primary" @*asp-controller="Profile" asp-action="ViewReferee" asp-route-id="@referee.RefereeId"*@>View</a>
+						<a class="btn btn-primary" asp-action="RefereeDetails" asp-route-id="@referee.RefereeId">View</a>
 					</p>
                     
                </div>              

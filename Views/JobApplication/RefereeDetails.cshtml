@@ -1,0 +1,28 @@
+﻿@model SEP.Models.DomainModels.Referee
+@{
+	ViewData["Message"] = "Referee Details";
+}
+<h1>Referee Details</h1>
+<hr />
+<div class="row">
+    <div class="col-md-12">
+        <div>
+            <p><b>Employer Name: </b>@Model.Name</p>
+        </div>
+        <div>
+            <p><b>Job Title: </b> @Model.JobTitle</p>
+        </div>
+        <div>
+            <p><b>Institution: </b> @Model.Institution</p>
+        </div>
+        <div>
+            <p><b>Cell: </b> @Model.Cell</p>
+        </div>
+        <div>
+            <p><b>Email: </b> @Model.Email</p>
+        </div>
+    </div>
+</div>
+<div class="pt-2">
+    <a class="btn btn-primary" href="##" onClick="history.go(-1); return false;">Back</a>
+</div>
