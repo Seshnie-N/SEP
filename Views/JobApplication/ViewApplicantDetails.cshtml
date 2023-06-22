@@ -1,17 +1,105 @@
 ﻿@model SEP.Models.ViewModels.ApplicantDetailsViewModel
 @{
+    ViewData["Message"] = "Applicant Details";
 }
 <h1>Applicant Details</h1>
 <hr />
 <div>
     <p><b>Job Title: </b> @Model.JobTitle</p>
-    
     <p><b>Job Description:</b> @Model.JobDescription</p>
 </div>
-<div class="pb-4">
-    <b>First Name: </b> @Model.Application.Student.User.FirstName
-    @*rest of profile details*@
+<div>
+    <section>
+        <p>Department: @Model.Application.Student.Faculty</p>
+        <p>Course: @Model.Application.Student.Department</p>
+        <p>Level: @Model.Application.Student.YearOfStudy</p>
+    </section>
+    <section class="pb-4">
+        <p>Name: @Model.Application.Student.User.FirstName</p>
+        <p>Surname: @Model.Application.Student.User.LastName</p>
+        <p>Email Address: @Model.Application.Student.User.Email</p>
+        <p>Phone Number: @Model.Application.Student.User.PhoneNumber</p>
+    </section>
+    <section>
+        <p>Gender: @Model.Application.Student.Gender</p>
+        Nationality: 
+    </section>
+    <section>
+        <h2><b>Education</b></h2>
+        @if (Model.Qualifications.Count() > 0)
+        {
+            @foreach (var qualification in @Model.Qualifications)
+            {
+                <div >
+
+                    <p>
+                        @qualification.QualificationName
+                        <a class="btn btn-primary" @*asp-controller="Profile" asp-action="ViewReferee" asp-route-id="@referee.RefereeId"*@>View</a>
+                    </p>
+
+                </div>
+            }
+        }
+        else
+        {
+            <p>No Qualifications</p>
+        }
+    </section>
+    <section>
+        <h2><b>Employment</b></h2>
+        @if (Model.WorkExperience.Count() > 0)
+        {
+            @foreach (var workExperience in @Model.WorkExperience)
+            {
+                <div>
+
+                    <p>
+                        @workExperience.JobTitle
+                        <a class="btn btn-primary" @*asp-controller="Profile" asp-action="ViewReferee" asp-route-id="@referee.RefereeId"*@>View</a>
+                    </p>
+
+                </div>
+            }
+        }
+        else
+        {
+            <p>No Work Experience</p>
+        }
+    </section>
+    <section>
+		<p class="mb-0"><b>Skills:</b> </p>
+        <p>@Model.Application.Student.Skills</p>
+	</section>
+    <section>
+        <p class="mb-0"><b>Achievements:</b> </p>
+        <p>@Model.Application.Student.Achievements</p>
+    </section>
+    <section>
+        <p class="mb-0"><b>Interests:</b> </p>
+        <p>@Model.Application.Student.Interests</p>
+    </section>
+    <section>
+        <h2><b>Referees:</b></h2>
+        @if (Model.Referee.Count() > 0)
+        {
+            @foreach (var referee in @Model.Referee)
+            {
+               <div>
+
+					<p>@referee.Name
+						<a class="btn btn-primary" @*asp-controller="Profile" asp-action="ViewReferee" asp-route-id="@referee.RefereeId"*@>View</a>
+					</p>
+                    
+               </div>              
+            }
+        }
+        else
+        {
+            <p>No Referees</p>
+        }
+    </section>
 </div>
+
 @{int i = 1;}
 <div>
     @foreach (var document in Model.Documents)
@@ -24,9 +112,14 @@
     }
 </div>
 <div>
-    @*select with outcome options*@
+    <form method="post" asp-action="UpdateApplicationStatus" asp-route-id="@Model.Application.ApplicationId">
+        <label>Outcome status</label>
+        <select asp-for="@Model.Status" asp-items="@Model.statusList">
+            <option value="@Model.Status" selected>@Model.Status</option>
+        </select>
+        <input type="submit" class="btn btn-success" />
+    </form>
     <div class="pt-3">
-        <a class="btn btn-primary">Save</a>
         <a class="btn btn-primary" asp-controller="JobApplication" asp-action="ViewApplicants" asp-route-id="@Model.PostId">Back</a>
     </div>
 </div>

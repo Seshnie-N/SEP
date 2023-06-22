@@ -93,6 +93,8 @@ namespace SEP.Controllers
 		[HttpPost]
 		public IActionResult UpdatePost(PostViewModel postViewModelObject)
 		{
+			//change post status to pending and wait for approval
+			//if post is approved, do not allow update
 			_db.Posts.Update(postViewModelObject.post);
 			_db.SaveChanges();
 			return RedirectToAction("Index");
@@ -119,7 +121,6 @@ namespace SEP.Controllers
 			return Json( _db.Departments.Where(d => d.FacultyId.Equals(id)) );
 		}
 
-        [Obsolete]
         public async Task<IActionResult> FilteredJobPosts()
 		{
 			var user = await _userManager.GetUserAsync(User);
@@ -127,6 +128,7 @@ namespace SEP.Controllers
 
 			var predicate = PredicateBuilder.New<Post>();
 			//predicate = predicate.And(p => p.isApproved);
+			predicate = predicate.And(p => p.postStatus.Equals("Approved"));
 			//filter if student is not a south african citizen
 			if (!student.isSouthAfrican)
 			{
@@ -162,7 +164,7 @@ namespace SEP.Controllers
                     predicate = predicate.And(p => p.limitedToPostdoc);
                     break;
             }
-            predicate = predicate.Or(p => /*p.isApproved &&*/ !p.limitedTo1stYear && !p.limitedTo2ndYear && !p.limitedTo3rdYear && !p.limitedToHonours && !p.limitedToGraduate && !p.limitedToMasters && !p.limitedToPhd && !p.limitedToPostdoc);
+            predicate = predicate.Or(p => /*p.isApproved &&*/ p.postStatus.Equals("Approved") && !p.limitedTo1stYear && !p.limitedTo2ndYear && !p.limitedTo3rdYear && !p.limitedToHonours && !p.limitedToGraduate && !p.limitedToMasters && !p.limitedToPhd && !p.limitedToPostdoc);
 
 
 			//filter out job posts that have already been applied to
@@ -172,11 +174,11 @@ namespace SEP.Controllers
 			posts = posts.Where(p => !postsAppliedToIds.Contains(p.postId)).ToList();
 			
 
-            List<StudentPostListVM> studentPosts = new();
+            List<StudentPostViewModel> studentPosts = new();
 
             foreach (var post in posts )
 			{
-				var studentPostsVm = new StudentPostListVM
+				var studentPostsVm = new StudentPostViewModel
 				{
 					postId = post.postId,
 					jobTitle = post.jobTitle,

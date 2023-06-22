@@ -4,7 +4,7 @@ using System.Runtime.CompilerServices;
 
 namespace SEP.Models.ViewModels
 {
-    public class StudentPostListVM
+    public class StudentPostViewModel
     {
         public int postId { get; set; }
 

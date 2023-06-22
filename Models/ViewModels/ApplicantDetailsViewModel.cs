@@ -1,4 +1,5 @@
-﻿using SEP.Models.DomainModels;
+﻿using Microsoft.AspNetCore.Mvc.Rendering;
+using SEP.Models.DomainModels;
 
 namespace SEP.Models.ViewModels
 {
@@ -9,5 +10,12 @@ namespace SEP.Models.ViewModels
         public string JobDescription { get; set; }
         public JobApplication Application { get; set; }
         public IEnumerable<ApplicationDocument> Documents { get; set; }
+        public IEnumerable<Faculty> faculty { get; set; }
+        public IEnumerable<Department> department { get; set; }
+        public IEnumerable<Qualification> Qualifications { get; set; } = new List<Qualification>();
+        public IEnumerable<WorkExperience> WorkExperience { get; set; } = new List<WorkExperience>();
+        public IEnumerable<Referee> Referee { get; set; } = new List<Referee>();
+        public string Status { get; set; }  
+        public List<SelectListItem> statusList { get; set; }
     }
 }

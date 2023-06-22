@@ -4,7 +4,7 @@ using SEP.Areas.Identity.Data;
 using SEP.Models.DomainModels;
 using Microsoft.EntityFrameworkCore;
 using SEP.Models.ViewModels;
-using Microsoft.Extensions.FileProviders;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace SEP.Controllers
 {
@@ -63,6 +63,7 @@ namespace SEP.Controllers
         private string[] permittedExtensions = { ".jpg", ".pdf", ".png" };
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> UploadDocument(List<IFormFile> files, string description, int id)
         {
             var application = await _db.JobApplications.Where(a => a.ApplicationId == id).SingleOrDefaultAsync();
@@ -162,7 +163,7 @@ namespace SEP.Controllers
             TempData["MessageType"] = "Success";
             return RedirectToAction("Create", new { id = file.JobApplication.PostId });
         }
-
+        
         public async Task<IActionResult> SubmitApplication(int id)
         {
             //change application status to pending 
@@ -207,17 +208,56 @@ namespace SEP.Controllers
         {
             var application = await _db.JobApplications.Where(a => a.ApplicationId == id).Include("Post").Include(a => a.Student).ThenInclude(s => s.User).SingleOrDefaultAsync();
             var documents = await LoadFiles(application.ApplicationId);
+            var facId = application.Student.Faculty;
+            IEnumerable<Faculty> faculties = _db.Faculties;
+            IEnumerable<Department> departments = _db.Departments.Where(d => d.FacultyId.Equals(facId));
+            IEnumerable<Qualification> qualifications = _db.Qualifications.Where(q => q.StudentId == application.Student.UserId);
+            IEnumerable<WorkExperience> workExperiences = _db.WorkExperiences.Where(w => w.StudentId == application.Student.UserId);
+            IEnumerable<Referee> referees = _db.Referees.Where(r => r.StudentId == application.Student.UserId);
+            var statusList = new List<SelectListItem>
+            {
+                new SelectListItem {Text="Interview" ,Value="Interview"},
+                new SelectListItem {Text="On Hold" ,Value="On Hold" },
+                new SelectListItem {Text="Rejected",Value= "Rejected" },
+                new SelectListItem {Text="Appointed",Value="Appointed" }
+            };
             var viewmodel = new ApplicantDetailsViewModel
             {
                 PostId = application.Post.postId,
                 Application = application,
                 JobTitle = application.Post.jobTitle,
                 JobDescription = application.Post.jobDescription,
-                Documents = documents
+                Documents = documents,
+                department = departments,
+                faculty = faculties,
+                Qualifications = qualifications,
+                Referee = referees,
+                WorkExperience = workExperiences,
+                Status = application.Status,
+                statusList = statusList
             };
 
             return View(viewmodel);
         }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> UpdateApplicationStatus(int id, [Bind(nameof(ApplicantDetailsViewModel.Status))] ApplicantDetailsViewModel vm)
+        {
+            var application = await _db.JobApplications.Where(a => a.ApplicationId == id).SingleOrDefaultAsync();
+            if (ModelState.IsValid)
+            {
+                var status = vm.Status;
+                if (status != application.Status)
+                {
+                    application.Status = status;
+                    _db.JobApplications.Update(application);
+                    _db.SaveChanges();
+                }
+                return RedirectToAction("ViewApplicants", new { id = application.PostId });
+            }
+            var errors = ModelState.Values.SelectMany(v => v.Errors);
+            return RedirectToAction("ViewApplicantDetails",new {id = application.ApplicationId});
+        }
     }
-    //post update application status
 }

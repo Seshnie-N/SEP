@@ -128,7 +128,7 @@ namespace SEP.Controllers
 
         public IActionResult pendingPosts()
         {
-            IEnumerable<Post> posts = _db.Posts.Where(p => p.isApproved == false);
+            IEnumerable<Post> posts = _db.Posts.Where(p => p.isApproved == false && p.postStatus.Equals("Pending"));
             return View(posts);
         }
 

@@ -173,12 +173,6 @@ namespace SEP.Controllers
                 _db.SaveChanges();
             }
             return RedirectToAction("Index", "Home");
-            //else
-            //{
-            //    _db.Students.Add(studentProfile.Student);
-            //    _db.SaveChanges();
-            //    return RedirectToAction("Index", "Home");
-            //}
 
         }
 
@@ -237,6 +231,7 @@ namespace SEP.Controllers
                 employerRecord.isInternal = employerProfile.Employer.isInternal;
                 
                 employerRecord.ApprovalStatus = "Pending";
+                employerRecord.isApproved = false;
                
                 _db.SaveChanges();
                 return RedirectToAction("Index", "Home");
