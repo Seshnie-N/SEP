@@ -115,7 +115,7 @@ namespace SEP.Controllers
         public async Task<IActionResult> ApplicationHistory()
         {
             ApplicationUser user = await _userManager.GetUserAsync(User);
-            var applications = await _db.JobApplications.Include("Post").Where(a => a.StudentId == user.Id).ToListAsync();
+            var applications = await _db.JobApplications.Include(a => a.Post).Where(a => a.StudentId == user.Id).ToListAsync();
             
             return View(applications);
         }
@@ -208,9 +208,7 @@ namespace SEP.Controllers
         {
             var application = await _db.JobApplications.Where(a => a.ApplicationId == id).Include("Post").Include(a => a.Student).ThenInclude(s => s.User).SingleOrDefaultAsync();
             var documents = await LoadFiles(application.ApplicationId);
-            var facId = application.Student.Faculty;
-            IEnumerable<Faculty> faculties = _db.Faculties;
-            IEnumerable<Department> departments = _db.Departments.Where(d => d.FacultyId.Equals(facId));
+            var faculty = await _db.Faculties.Where(f => f.facultyId == application.Student.Faculty).SingleOrDefaultAsync();
             IEnumerable<Qualification> qualifications = _db.Qualifications.Where(q => q.StudentId == application.Student.UserId);
             IEnumerable<WorkExperience> workExperiences = _db.WorkExperiences.Where(w => w.StudentId == application.Student.UserId);
             IEnumerable<Referee> referees = _db.Referees.Where(r => r.StudentId == application.Student.UserId);
@@ -228,13 +226,12 @@ namespace SEP.Controllers
                 JobTitle = application.Post.jobTitle,
                 JobDescription = application.Post.jobDescription,
                 Documents = documents,
-                department = departments,
-                faculty = faculties,
                 Qualifications = qualifications,
                 Referee = referees,
                 WorkExperience = workExperiences,
                 Status = application.Status,
-                statusList = statusList
+                statusList = statusList,
+                Faculty = faculty.facultyName
             };
 
             return View(viewmodel);
@@ -257,7 +254,7 @@ namespace SEP.Controllers
                 //return RedirectToAction("ViewApplicants", new { id = application.PostId });
             //}
             //var errors = ModelState.Values.SelectMany(v => v.Errors);
-            return RedirectToAction("ViewApplicantDetails",new {id = application.ApplicationId});
+            return RedirectToAction("ViewApplicants",new {id = application.PostId});
         }
 
         public async Task<IActionResult> QualificationDetails(int id)

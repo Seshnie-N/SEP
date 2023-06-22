@@ -1,4 +1,6 @@
 ﻿@model SEP.Models.ViewModels.ApplicantDetailsViewModel
+@using SEP.Models.DomainModels;
+@using SEP.Models.Enums
 @{
     ViewData["Message"] = "Applicant Details";
 }
@@ -10,19 +12,29 @@
 </div>
 <div>
     <section>
-        <p>Department: @Model.Application.Student.Faculty</p>
+        <p>Department: @Model.Faculty</p>
         <p>Course: @Model.Application.Student.Department</p>
         <p>Level: @Model.Application.Student.YearOfStudy</p>
     </section>
-    <section class="pb-4">
+    <section class="pb-2">
         <p>Name: @Model.Application.Student.User.FirstName</p>
         <p>Surname: @Model.Application.Student.User.LastName</p>
         <p>Email Address: @Model.Application.Student.User.Email</p>
         <p>Phone Number: @Model.Application.Student.User.PhoneNumber</p>
     </section>
     <section>
+        @{
+            string nationality;
+        }
         <p>Gender: @Model.Application.Student.Gender</p>
-        Nationality: 
+        @if (Model.Application.Student.isSouthAfrican)
+        {
+            nationality = "South African";
+        } else
+        {
+            nationality = "Non-South African";
+        }
+        <p>Nationality: @nationality</p>
     </section>
     <section>
         <h2><b>Education</b></h2>
@@ -34,7 +46,7 @@
 
                     <p>
                         @qualification.QualificationName
-                        <a class="btn btn-primary"  asp-action="QualificationDetails" asp-route-id="@qualification.QualificationId">View</a>
+                        <a class="btn btn-sm btn-primary"  asp-action="QualificationDetails" asp-route-id="@qualification.QualificationId">View</a>
                     </p>
 
                 </div>
@@ -55,7 +67,7 @@
 
                     <p>
                         @workExperience.JobTitle
-                        <a class="btn btn-primary" asp-action="WorkExperienceDetails" asp-route-id="@workExperience.WorkExperienceId">View</a>
+                        <a class="btn btn-sm btn-primary" asp-action="WorkExperienceDetails" asp-route-id="@workExperience.WorkExperienceId">View</a>
                     </p>
 
                 </div>
@@ -87,7 +99,7 @@
                <div>
 
 					<p>@referee.Name
-						<a class="btn btn-primary" asp-action="RefereeDetails" asp-route-id="@referee.RefereeId">View</a>
+						<a class="btn btn-sm btn-primary" asp-action="RefereeDetails" asp-route-id="@referee.RefereeId">View</a>
 					</p>
                     
                </div>              
@@ -117,10 +129,10 @@
         <select asp-for="@Model.Status" asp-items="@Model.statusList">
             <option value="@Model.Status" selected>@Model.Status</option>
         </select>
-        <input type="submit" class="btn btn-success" />
+        <div class="pt-3">
+            <input type="submit" value="Save" class="btn btn-success" />
+            <a class="btn btn-primary" asp-controller="JobApplication" asp-action="ViewApplicants" asp-route-id="@Model.PostId">Back</a>
+        </div>
     </form>
-    <div class="pt-3">
-        <a class="btn btn-primary" asp-controller="JobApplication" asp-action="ViewApplicants" asp-route-id="@Model.PostId">Back</a>
-    </div>
 </div>
 
