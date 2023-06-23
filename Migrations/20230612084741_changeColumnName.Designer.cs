@@ -294,7 +294,7 @@ namespace SEP.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool>("isApproved")
+                    b.Property<bool>("IsApproved")
                         .HasColumnType("bit");
 
                     b.Property<bool>("isInternal")
@@ -387,7 +387,7 @@ namespace SEP.Migrations
                     b.Property<int>("hourlyRate")
                         .HasColumnType("int");
 
-                    b.Property<bool>("isApproved")
+                    b.Property<bool>("IsApproved")
                         .HasColumnType("bit");
 
                     b.Property<string>("jobDescription")
@@ -601,7 +601,7 @@ namespace SEP.Migrations
                     b.Property<int>("YearOfStudy")
                         .HasColumnType("int");
 
-                    b.Property<bool>("isSouthAfrican")
+                    b.Property<bool>("IsSouthAfrican")
                         .HasColumnType("bit");
 
                     b.HasKey("UserId");

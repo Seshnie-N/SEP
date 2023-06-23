@@ -11,13 +11,13 @@ namespace SEP.Models.DomainModels
 		[Required]
 		public int postId { get; set; }
 
-		[DisplayName("Job title")]
+		[DisplayName("Job Title")]
 		public string jobTitle { get; set; }
 
 		[DisplayName("Location")]
 		public string jobLocation { get; set; }
 
-		[DisplayName("Description of job")]
+		[DisplayName("Job Description")]
 		public string jobDescription { get; set; }
 
 		[DisplayName("Key responsibilities")]
@@ -71,10 +71,10 @@ namespace SEP.Models.DomainModels
 
 		[DisplayName("Post status")]
 		public string postStatus { get; set; }
-
-		public string departmentName { get; set; }
-
-		public int facultyName { get; set; }
+        [DisplayName("Department")]
+        public string departmentName { get; set; }
+        [DisplayName("Faculty")]
+        public int facultyName { get; set; }
 
 		public bool limitedTo1stYear { get; set; }
 

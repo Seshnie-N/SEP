@@ -130,7 +130,7 @@ namespace SEP.Controllers
 			//predicate = predicate.And(p => p.isApproved);
 			predicate = predicate.And(p => p.postStatus.Equals("Approved"));
 			//filter if student is not a south african citizen
-			if (!student.isSouthAfrican)
+			if (!student.IsSouthAfrican)
 			{
 				predicate = predicate.And(p => !p.limitedToSA);
 			}

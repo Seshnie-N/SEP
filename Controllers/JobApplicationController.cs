@@ -46,7 +46,7 @@ namespace SEP.Controllers
                 };
                 _db.JobApplications.Add(application);
                 _db.SaveChanges();
-            }
+            } 
             var documents = await LoadFiles(application.ApplicationId);
 
             var applicationVM = new ApplicationViewModel
@@ -57,6 +57,10 @@ namespace SEP.Controllers
             };
             ViewBag.Message = TempData["Message"];
             ViewBag.MessageType = TempData["MessageType"];
+            if (application.Status.Equals("Incomplete"))
+            {
+                return View("CompleteApplication", applicationVM);
+            }
             return View(applicationVM);
         }
 
@@ -100,7 +104,7 @@ namespace SEP.Controllers
                     };
                     _db.Documents.Add(fileModel);
                     _db.SaveChanges();
-                    TempData["Message"] = "File successfully uploaded to File System.";
+                    TempData["Message"] = "File successfully uploaded.";
                     TempData["MessageType"] = "Success";
                 } else
                 {
@@ -175,6 +179,13 @@ namespace SEP.Controllers
             var documents = await _db.Documents.Where(d => d.JobApplicationId == id).ToListAsync();
             if (documents.Count > 0)
             {
+                if (application.Status.Equals("Incomplete"))
+                {
+                    application.Status = "Pending";
+                    _db.Update(application);
+                    _db.SaveChanges();
+                    return RedirectToAction("ApplicationHistory", "JobApplication");
+                }
                 application.Status = "Pending";
                 _db.Update(application);
                 _db.SaveChanges();

@@ -17,11 +17,14 @@ namespace SEP.Models.DomainModels
         public string Address { get; set; }
         [DisplayName("ID Number")]
         public string IdNumber { get; set; }
+        [DisplayName("Drivers License")]
         public DriversLicense DriversLicense { get; set; }
+        [DisplayName("Career Objective")]
         public string? CareerObjective { get; set; }
         public Gender Gender { get; set; }
         public Race Race { get; set; }
-        public bool isSouthAfrican { get; set; }
+        public bool IsSouthAfrican { get; set; }
+        [DisplayName("Year of study")]
         public YearOfStudy YearOfStudy { get; set; }
         public int Faculty { get; set; }
         public string Department { get; set; }

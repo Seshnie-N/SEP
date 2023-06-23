@@ -11,6 +11,7 @@ namespace SEP.Models.DomainModels
 
         [ForeignKey(nameof(FacultyId))]
 		public int FacultyId { get; set; }
+        [DisplayName("Department")]
 		public string departmentName { get; set; }
 
         public Faculty? faculty { get; set; }

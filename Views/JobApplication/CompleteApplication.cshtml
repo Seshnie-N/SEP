@@ -1,6 +1,6 @@
 ﻿@model SEP.Models.ViewModels.ApplicationViewModel
 @{
-	ViewData["Title"] = "Upload";
+    ViewData["Title"] = "Upload";
 }
 @if (ViewBag.Message != null)
 {
@@ -9,7 +9,8 @@
         <div class="alert alert-success alert-dismissible" style="margin-top:20px">
             @ViewBag.Message
         </div>
-    } else
+    }
+    else
     {
         <div class="alert alert-danger alert-dismissible" style="margin-top:20px">
             @ViewBag.Message
@@ -30,7 +31,7 @@ else
 {
     <table class="table table-striped">
         <thead>
-            <tr>            
+            <tr>
                 <th>Name</th>
                 <th>Description</th>
                 <th>Actions</th>
@@ -52,8 +53,8 @@ else
     </table>
 }
 <section class="pt-3">
-<h4>Upload New Document</h4>
-<hr />
+    <h4>Upload New Document</h4>
+    <hr />
     <form method="post" enctype="multipart/form-data">
         <input type="text" autocomplete="off" placeholder="Enter File Description" name="description" required />
         <button class="btn btn-success" type="submit" asp-route-id=@Model.Application.ApplicationId asp-controller="JobApplication" asp-action="UploadDocument">Upload</button>
@@ -64,5 +65,5 @@ else
 </section>
 <div class="pt-3">
     <a class="btn btn-success" asp-controller="JobApplication" asp-action="SubmitApplication" asp-route-id=@Model.Application.ApplicationId>Submit</a>
-    <a class="btn btn-primary" asp-controller="Post" asp-action="Details" asp-route-id="@Model.Application.PostId">Back</a>
+    <a class="btn btn-primary" asp-controller="JobApplication" asp-action="ApplicationHistory" >Back</a>
 </div>
