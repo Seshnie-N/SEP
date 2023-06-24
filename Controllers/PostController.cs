@@ -128,7 +128,7 @@ namespace SEP.Controllers
 
 			var predicate = PredicateBuilder.New<Post>();
 			//predicate = predicate.And(p => p.isApproved);
-			predicate = predicate.And(p => p.postStatus.Equals("Approved"));
+			//predicate = predicate.And(p => p.postStatus.Equals("Approved"));
 			//filter if student is not a south african citizen
 			if (!student.IsSouthAfrican)
 			{
@@ -164,7 +164,7 @@ namespace SEP.Controllers
                     predicate = predicate.And(p => p.limitedToPostdoc);
                     break;
             }
-            predicate = predicate.Or(p => /*p.isApproved &&*/ p.postStatus.Equals("Approved") && !p.limitedTo1stYear && !p.limitedTo2ndYear && !p.limitedTo3rdYear && !p.limitedToHonours && !p.limitedToGraduate && !p.limitedToMasters && !p.limitedToPhd && !p.limitedToPostdoc);
+            predicate = predicate.Or(p => /*p.isApproved &&*/ /*p.postStatus.Equals("Approved") &&*/ !p.limitedTo1stYear && !p.limitedTo2ndYear && !p.limitedTo3rdYear && !p.limitedToHonours && !p.limitedToGraduate && !p.limitedToMasters && !p.limitedToPhd && !p.limitedToPostdoc);
 
 
 			//filter out job posts that have already been applied to
