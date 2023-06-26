@@ -7,13 +7,11 @@ namespace SEP.Models.DomainModels
 	public class Department
     { 
         [Key]
-		public int departmentId { get; set; }
-
+		public int DepartmentId { get; set; }
         [ForeignKey(nameof(FacultyId))]
 		public int FacultyId { get; set; }
+        public Faculty Faculty { get; set; }
         [DisplayName("Department")]
-		public string departmentName { get; set; }
-
-        public Faculty? faculty { get; set; }
+		public string DepartmentName { get; set; }
     }
 }

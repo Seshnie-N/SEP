@@ -1,34 +1,38 @@
-﻿using System.ComponentModel;
+﻿using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Runtime.CompilerServices;
 
 namespace SEP.Models.ViewModels
 {
     public class StudentPostViewModel
     {
-        public int postId { get; set; }
+        public Guid PostId { get; set; }
 
         [DisplayName("Job Title")]
-        public string jobTitle { get; set; }
+        public string JobTitle { get; set; }
 
         [DisplayName("Department")]
-        public string departmentName { get; set; }
+        public string DepartmentName { get; set; }
 
         [DisplayName("FT/PT")]
-        public string jobType { get; set; }
+        public string JobType { get; set; }
 
         [DisplayName("Start")]
         [DataType(DataType.Date)]
-        public DateTime startDate { get; set; }
+        public DateTime StartDate { get; set; }
 
         [DisplayName("End")]
         [DataType(DataType.Date)]
-        public DateTime endDate { get; set; }
+        public DateTime EndDate { get; set; }
 
         [DisplayName("Hours per week")]
-        public string? partTimeHour { get; set; }
+        public string? PartTimeHour { get; set; }
 
-        [DisplayName("Rate")]
-        public int hourlyRate { get; set; }
+        [DataType(DataType.Currency)]
+        [Column(TypeName = "decimal(18,2)")]
+        [DisplayName("Hourly rate")]
+        public decimal HourlyRate { get; set; }
     }
 }

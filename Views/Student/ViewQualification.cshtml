@@ -1,0 +1,31 @@
+﻿@model SEP.Models.DomainModels.Qualification
+
+@{
+    ViewData["Title"] = "Qualification";
+}
+
+<h1>Qualification</h1>
+<hr />
+<div class="row">
+    <div class="mx-auto col-10 col-md-8 col-lg-6">
+        <form asp-action="ViewQualification">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="QualificationId" />
+            <input type="hidden" asp-for="StudentId" />
+            <partial name="_QualificationDetails"/>
+            <div class="form-group pt-2">
+                <button type="submit" class="btn btn-primary" asp-action="EditQualification">Save Changes</button>
+                <button type="submit" class="btn btn-danger" asp-action="DeleteQualification">Delete</button>
+            </div>
+            <div class="pt-2">
+                <a class="btn btn-primary" asp-controller="Student" asp-action="Update">Back</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

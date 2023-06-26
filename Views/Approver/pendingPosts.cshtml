@@ -32,27 +32,27 @@
 					{
 						<tr>
 							<td width="15%">
-								@post.jobTitle
+								@post.JobTitle
 							</td>
 							<td width="20%">
-								@post.departmentName
+								@post.DepartmentName
 							</td>
 							<td width="15%">
-								@post.jobType
+								@post.JobType
 							</td>
 							<td width="15%">
-								@post.startDate.ToString("d")
+								@post.StartDate.ToString("d")
 							</td>
 							<td width="15%">
-								@post.endDate.ToString("d")
+								@post.EndDate.ToString("d")
 							</td>
 							<td width="20%">
 								<div class="row">
 									<div class="col">
-										@post.postStatus
+										@post.PostStatus
 									</div>
 									<div class="col">
-										<a asp-controller="Approver" asp-action="approverUpdatePost" asp-route-id="@post.postId" class="btn btn-info btn-sm" value="">Review</a>
+										<a asp-controller="Approver" asp-action="approverUpdatePost" asp-route-id="@post.PostId" class="btn btn-info btn-sm" value="">Review</a>
 									</div>
 
 								</div>

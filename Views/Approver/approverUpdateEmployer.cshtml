@@ -9,7 +9,7 @@
 
     <input asp-for="@Model.Employer.UserId" hidden />
     <input asp-for="@Model.User" hidden />
-    <input asp-for="@Model.Employer.isApproved" hidden />
+    <input asp-for="@Model.Employer.IsApproved" hidden />
     <input asp-for="@Model.Employer.ApprovalStatus" hidden />
 
 
@@ -48,34 +48,34 @@
         <span asp-validation-for="@Model.User.Email" class="text-danger"></span>
     </div>
     <div class="col pb-2">
-        <label asp-for="@Model.Employer.isInternal" class="col-3">Are you a wits employee?</label>
+        <label asp-for="@Model.Employer.IsInternal" class="col-3">Are you a wits employee?</label>
         <div class="form-check-inline" >
-            @if (Model.Employer.isInternal == true)
+            @if (Model.Employer.IsInternal == true)
             {
-                <input type="radio" asp-for="@Model.Employer.isInternal" id="Emp" value="true" />
+                <input type="radio" asp-for="@Model.Employer.IsInternal" id="Emp" value="true" />
             }
             else
             {
-                <input type="radio" asp-for="@Model.Employer.isInternal" id="Emp" value="true" disabled />
+                <input type="radio" asp-for="@Model.Employer.IsInternal" id="Emp" value="true" disabled />
             }
             @*<input type="radio" asp-for="@Model.Employer.isInternal" id="Emp" value="true" disabled />*@
             <label for="Emp">Yes</label>
         </div>
         <div class="form-check-inline" >
 
-            @if (Model.Employer.isInternal == false)
+            @if (Model.Employer.IsInternal == false)
             {
-                <input type="radio" asp-for="@Model.Employer.isInternal" id="NotEmp" value="false"  />
+                <input type="radio" asp-for="@Model.Employer.IsInternal" id="NotEmp" value="false"  />
             }
             else
             {
-                <input type="radio" asp-for="@Model.Employer.isInternal" id="NotEmp" value="false" disabled />
+                <input type="radio" asp-for="@Model.Employer.IsInternal" id="NotEmp" value="false" disabled />
             }
 
             @*<input type="radio" asp-for="@Model.Employer.isInternal" id="NotEmp" value="false" disabled />*@
             <label for="NotEmp" >No</label>
         </div>
-        <span asp-validation-for="@Model.Employer.isInternal" class="text-danger"></span>
+        <span asp-validation-for="@Model.Employer.IsInternal" class="text-danger"></span>
     </div>
     <div class="col pb-2">
         <label asp-for="@Model.Employer.JobTitle" class="col-3">Job Title</label>

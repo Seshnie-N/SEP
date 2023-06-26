@@ -2,32 +2,32 @@
 
 <form method="post" asp-action="approverUpdatePost">
 
-    <input asp-for="@Model.post.postId" hidden />
-    <input asp-for="@Model.post.UserID" hidden />
-    <input asp-for="@Model.post.isApproved" hidden />
+    <input asp-for="@Model.post.PostId" hidden />
+    <input asp-for="@Model.post.EmployerId" hidden />
+    <input asp-for="@Model.post.IsApproved" hidden />
 
 
     <div class="col pb-2">
-        <label asp-for="@Model.post.jobTitle" class="col-2"></label>
-        <input asp-for="@Model.post.jobTitle" readonly />
+        <label asp-for="@Model.post.JobTitle" class="col-2"></label>
+        <input asp-for="@Model.post.JobTitle" readonly />
     </div>
     <div class="col pb-2">
-        <label asp-for="@Model.post.jobLocation" class="col-2"></label>
-        <input asp-for="@Model.post.jobLocation" readonly />
+        <label asp-for="@Model.post.JobLocation" class="col-2"></label>
+        <input asp-for="@Model.post.JobLocation" readonly />
     </div>
     <div class="col pb-2">
-        <label asp-for="@Model.post.jobDescription" class="col-2"></label>
-        <input asp-for="@Model.post.jobDescription" readonly />
+        <label asp-for="@Model.post.JobDescription" class="col-2"></label>
+        <input asp-for="@Model.post.JobDescription" readonly />
     </div>
     <div class="col pb-2">
-        <label asp-for="@Model.post.resposibilities" class="col-2"></label>
-        <input asp-for="@Model.post.resposibilities" readonly />
+        <label asp-for="@Model.post.Responsibilities" class="col-2"></label>
+        <input asp-for="@Model.post.Responsibilities" readonly />
     </div>
     <div class="col pb-2">
-        <label asp-for="@Model.post.jobType" class="col-2"></label>
-        <select id="jobType" asp-for="@Model.post.jobType">
+        <label asp-for="@Model.post.JobType" class="col-2"></label>
+        <select id="jobType" asp-for="@Model.post.JobType">
             <option value="" selected disabled>Select job type</option>
-            @if (@Model.post.jobType == "Fulltime")
+            @if (@Model.post.JobType == "Fulltime")
             {
                 <option value="Fulltime">Fulltime</option>
                 <option value="Part-time" disabled>Part-time</option>
@@ -41,154 +41,154 @@
         </select>
     </div>
     <div class="col pb-2">
-        <label asp-for="@Model.post.partTimeHour"></label>
-        <select asp-for="@Model.post.partTimeHour">
+        <label asp-for="@Model.post.PartTimeHour"></label>
+        <select asp-for="@Model.post.PartTimeHour">
             <option value="" selected>Range</option>
-            @foreach (var hour in @Model.partTimeHours)
+            @foreach (var hour in @Model.PartTimeHours)
             {
-                @if (@hour.timeRange == @Model.post.partTimeHour)
+                @if (@hour.TimeRange == @Model.post.PartTimeHour)
                 {
-                    <option value=@hour.timeRange> @hour.timeRange </option>
+                    <option value=@hour.TimeRange> @hour.TimeRange </option>
                 }
                 else
                 {
-                    <option value=@hour.timeRange disabled> @hour.timeRange </option>
+                    <option value=@hour.TimeRange disabled> @hour.TimeRange </option>
                 }
 
             }
         </select>
     </div>
     <div class="col pb-2">
-        <label asp-for="@Model.post.startDate" class="col-2"></label>
-        <input type="date" asp-for="@Model.post.startDate" readonly />
+        <label asp-for="@Model.post.StartDate" class="col-2"></label>
+        <input type="date" asp-for="@Model.post.StartDate" readonly />
     </div>
     <div class="col pb-2">
-        <label asp-for="@Model.post.endDate" class="col-2"></label>
-        <input type="date" asp-for="@Model.post.endDate" readonly />
+        <label asp-for="@Model.post.EndDate" class="col-2"></label>
+        <input type="date" asp-for="@Model.post.EndDate" readonly />
     </div>
     <div class="col pb-2">
-        <label asp-for="@Model.post.hourlyRate" class="col-2"></label>
-        <input asp-for="@Model.post.hourlyRate" readonly />
+        <label asp-for="@Model.post.HourlyRate" class="col-2"></label>
+        <input asp-for="@Model.post.HourlyRate" readonly />
     </div>
     <div class="col pb-2">
         <label>Limited to</label>
         <div class="col-5">
             <div class="form-check form-check-inline">
-                @if (@Model.post.limitedTo1stYear == true)
+                @if (@Model.post.LimitedTo1stYear == true)
                 {
-                    <input class="form-check-input" type="checkbox" asp-for="@Model.post.limitedTo1stYear" value="true" id="1stYear">
+                    <input class="form-check-input" type="checkbox" asp-for="@Model.post.LimitedTo1stYear" value="true" id="1stYear">
                 }
                 else
                 {
-                    <input class="form-check-input" type="checkbox" asp-for="@Model.post.limitedTo1stYear" value="true" id="1stYear" disabled>
+                    <input class="form-check-input" type="checkbox" asp-for="@Model.post.LimitedTo1stYear" value="true" id="1stYear" disabled>
                 }
                 @*<input class="form-check-input" type="checkbox" asp-for="@Model.post.limitedTo1stYear" value="true" id="1stYear" >*@
                 <label class="form-check-label" for="1stYear">1st Year</label>
             </div>
             <div class="form-check form-check-inline">
-                @if (@Model.post.limitedTo2ndYear == true)
+                @if (@Model.post.LimitedTo2ndYear == true)
                 {
-                    <input class="form-check-input" type="checkbox" asp-for="@Model.post.limitedTo2ndYear" value="true" id="2ndYear">
+                    <input class="form-check-input" type="checkbox" asp-for="@Model.post.LimitedTo2ndYear" value="true" id="2ndYear">
                 }
                 else
                 {
-                    <input class="form-check-input" type="checkbox" asp-for="@Model.post.limitedTo2ndYear" value="true" id="2ndYear" disabled>
+                    <input class="form-check-input" type="checkbox" asp-for="@Model.post.LimitedTo2ndYear" value="true" id="2ndYear" disabled>
                 }
                 @*<input class="form-check-input" type="checkbox" asp-for="@Model.post.limitedTo2ndYear" value="true" id="2ndYear" >*@
                 <label class="form-check-label" for="2ndYear">2nd Year</label>
             </div>
             <div class="form-check form-check-inline">
-                @if (@Model.post.limitedTo3rdYear == true)
+                @if (@Model.post.LimitedTo3rdYear == true)
                 {
-                    <input class="form-check-input" type="checkbox" asp-for="@Model.post.limitedTo3rdYear" value="true" id="3rdYear">
+                    <input class="form-check-input" type="checkbox" asp-for="@Model.post.LimitedTo3rdYear" value="true" id="3rdYear">
                 }
                 else
                 {
-                    <input class="form-check-input" type="checkbox" asp-for="@Model.post.limitedTo3rdYear" value="true" id="3rdYear" disabled>
+                    <input class="form-check-input" type="checkbox" asp-for="@Model.post.LimitedTo3rdYear" value="true" id="3rdYear" disabled>
                 }
                 @*<input  class="form-check-input" type="checkbox" asp-for="@Model.post.limitedTo3rdYear" value="true" id="3rdYear" >*@
                 <label class="form-check-label" for="3rdYear">3rd Year</label>
             </div>
             <div class="form-check form-check-inline">
-                @if (@Model.post.limitedToHonours == true)
+                @if (@Model.post.LimitedToHonours == true)
                 {
-                    <input class="form-check-input" type="checkbox" asp-for="@Model.post.limitedToHonours" value="true" id="Honours">
+                    <input class="form-check-input" type="checkbox" asp-for="@Model.post.LimitedToHonours" value="true" id="Honours">
                 }
                 else
                 {
-                    <input class="form-check-input" type="checkbox" asp-for="@Model.post.limitedToHonours" value="true" id="Honours" disabled>
+                    <input class="form-check-input" type="checkbox" asp-for="@Model.post.LimitedToHonours" value="true" id="Honours" disabled>
                 }
                 @*<input class="form-check-input" type="checkbox" asp-for="@Model.post.limitedToHonours" value="true" id="Honours" >*@
                 <label class="form-check-label" for="Honours">Honours</label>
             </div>
             <div class="form-check form-check-inline">
-                @if (@Model.post.limitedToGraduate == true)
+                @if (@Model.post.LimitedToGraduate == true)
                 {
-                    <input class="form-check-input" type="checkbox" asp-for="@Model.post.limitedToGraduate" value="true" id="Graduates">
+                    <input class="form-check-input" type="checkbox" asp-for="@Model.post.LimitedToGraduate" value="true" id="Graduates">
                 }
                 else
                 {
-                    <input class="form-check-input" type="checkbox" asp-for="@Model.post.limitedToGraduate" value="true" id="Graduates" disabled>
+                    <input class="form-check-input" type="checkbox" asp-for="@Model.post.LimitedToGraduate" value="true" id="Graduates" disabled>
                 }
                 @*<input class="form-check-input" type="checkbox" asp-for="@Model.post.limitedToGraduate" value="true" id="Graduates" >*@
                 <label class="form-check-label" for="Graduates">Graduates</label>
             </div>
             <div class="form-check form-check-inline">
-                @if (@Model.post.limitedToMasters == true)
+                @if (@Model.post.LimitedToMasters == true)
                 {
-                    <input class="form-check-input" type="checkbox" asp-for="@Model.post.limitedToMasters" value="true" id="Masters">
+                    <input class="form-check-input" type="checkbox" asp-for="@Model.post.LimitedToMasters" value="true" id="Masters">
                 }
                 else
                 {
-                    <input class="form-check-input" type="checkbox" asp-for="@Model.post.limitedToMasters" value="true" id="Masters" disabled>
+                    <input class="form-check-input" type="checkbox" asp-for="@Model.post.LimitedToMasters" value="true" id="Masters" disabled>
                 }
                 @*<input class="form-check-input" type="checkbox" asp-for="@Model.post.limitedToMasters" value="true" id="Masters" >*@
                 <label class="form-check-label" for="Masters">Masters</label>
             </div>
             <div class="form-check form-check-inline">
-                @if (@Model.post.limitedToPhd == true)
+                @if (@Model.post.LimitedToPhd == true)
                 {
-                    <input class="form-check-input" type="checkbox" asp-for="@Model.post.limitedToPhd" value="true" id="PHD">
+                    <input class="form-check-input" type="checkbox" asp-for="@Model.post.LimitedToPhd" value="true" id="PHD">
                 }
                 else
                 {
-                    <input class="form-check-input" type="checkbox" asp-for="@Model.post.limitedToPhd" value="true" id="PHD" disabled>
+                    <input class="form-check-input" type="checkbox" asp-for="@Model.post.LimitedToPhd" value="true" id="PHD" disabled>
                 }
                 @*<input class="form-check-input" type="checkbox" asp-for="@Model.post.limitedToPhd" value="true" id="PHD" >*@
                 <label class="form-check-label" for="PHD">PHD</label>
             </div>
             <div class="form-check form-check-inline">
-                @if (@Model.post.limitedToPostdoc == true)
+                @if (@Model.post.LimitedToPostdoc == true)
                 {
-                    <input class="form-check-input" type="checkbox" asp-for="@Model.post.limitedToPostdoc" value="true" id="Postdoc">
+                    <input class="form-check-input" type="checkbox" asp-for="@Model.post.LimitedToPostdoc" value="true" id="Postdoc">
                 }
                 else
                 {
-                    <input class="form-check-input" type="checkbox" asp-for="@Model.post.limitedToPostdoc" value="true" id="Postdoc" disabled>
+                    <input class="form-check-input" type="checkbox" asp-for="@Model.post.LimitedToPostdoc" value="true" id="Postdoc" disabled>
                 }
                 @*<input class="form-check-input" type="checkbox" asp-for="@Model.post.limitedToPostdoc" value="true" id="Postdoc" >*@
                 <label class="form-check-label" for="Postdoc">Postdoc</label>
             </div>
             <div class="form-check form-check-inline">
-                @if (@Model.post.limitedToFaculty == true)
+                @if (@Model.post.LimitedToFaculty == true)
                 {
-                    <input class="form-check-input" type="checkbox" asp-for="@Model.post.limitedToFaculty" value="true" id="Faculty">
+                    <input class="form-check-input" type="checkbox" asp-for="@Model.post.LimitedToFaculty" value="true" id="Faculty">
                 }
                 else
                 {
-                    <input class="form-check-input" type="checkbox" asp-for="@Model.post.limitedToFaculty" value="true" id="Faculty" disabled>
+                    <input class="form-check-input" type="checkbox" asp-for="@Model.post.LimitedToFaculty" value="true" id="Faculty" disabled>
                 }
                 @*<input class="form-check-input" type="checkbox" asp-for="@Model.post.limitedToFaculty" value="true" id="Faculty" >*@
                 <label class="form-check-label" for="Faculty">Faculty</label>
             </div>
             <div class="form-check form-check-inline">
-                @if (@Model.post.limitedToDepartment == true)
+                @if (@Model.post.LimitedToDepartment == true)
                 {
-                    <input class="form-check-input" type="checkbox" asp-for="@Model.post.limitedToDepartment" value="true" id="Department">
+                    <input class="form-check-input" type="checkbox" asp-for="@Model.post.LimitedToDepartment" value="true" id="Department">
                 }
                 else
                 {
-                    <input class="form-check-input" type="checkbox" asp-for="@Model.post.limitedToDepartment" value="true" id="Department" disabled>
+                    <input class="form-check-input" type="checkbox" asp-for="@Model.post.LimitedToDepartment" value="true" id="Department" disabled>
                 }
                 @* <input class="form-check-input" type="checkbox" asp-for="@Model.post.limitedToDepartment" value="true" id="Department" >*@
                 <label class="form-check-label" for="Department">Department</label>
@@ -197,27 +197,27 @@
         </div>
     </div>
     <div class="col pb-2">
-        <label asp-for="@Model.post.limitedToSA"></label>
+        <label asp-for="@Model.post.LimitedToSA"></label>
         <div class="form-check ">
-            @if (@Model.post.limitedToSA == true)
+            @if (@Model.post.LimitedToSA == true)
             {
-                <input class="form-check-input" type="radio" asp-for="@Model.post.limitedToSA" value="South African citizens or" id="SAonly">
+                <input class="form-check-input" type="radio" asp-for="@Model.post.LimitedToSA" value="South African citizens or" id="SAonly">
             }
             else
             {
-                <input class="form-check-input" type="radio" asp-for="@Model.post.limitedToSA" value="South African citizens or" id="SAonly" disabled>
+                <input class="form-check-input" type="radio" asp-for="@Model.post.LimitedToSA" value="South African citizens or" id="SAonly" disabled>
             }
             @* <input class="form-check-input" type="radio" asp-for="@Model.post.limitedToCountry" value="South African citizens or" id="SAonly" >*@
             <label class="form-check-label" for="SAonly">South African citizens or</label>
         </div>
         <div class="form-check ">
-            @if (@Model.post.limitedToSA == false)
+            @if (@Model.post.LimitedToSA == false)
             {
-                <input class="form-check-input" type="radio" asp-for="@Model.post.limitedToSA" value="Open to everyone" id="everyone">
+                <input class="form-check-input" type="radio" asp-for="@Model.post.LimitedToSA" value="Open to everyone" id="everyone">
             }
             else
             {
-                <input class="form-check-input" type="radio" asp-for="@Model.post.limitedToSA" value="Open to everyone" id="everyone" disabled>
+                <input class="form-check-input" type="radio" asp-for="@Model.post.LimitedToSA" value="Open to everyone" id="everyone" disabled>
             }
             @*<input class="form-check-input" type="radio" asp-for="@Model.post.limitedToCountry"  value="Open to everyone" id="everyone" >*@
             <label class="form-check-label" for="everyone">Open to everyone</label>
@@ -225,26 +225,26 @@
     </div>
 
     <div class="col pb-2">
-        <select id="facultyNameID" asp-for="@Model.post.facultyName">
+        <select id="facultyNameID" asp-for="@Model.post.FacultyName">
             <option value="" selected disabled>Select faculty</option>
-            @foreach (var faculty in @Model.faculty)
+            @foreach (var faculty in @Model.Faculty)
             {
-                <option value="@faculty.facultyId">@faculty.facultyName</option>
+                <option value="@faculty.FacultyId">@faculty.FacultyName</option>
             }
         </select>
     </div>
     <div class="col pb-2">
-        <select id="departmentNameID" asp-for="@Model.post.departmentName">
+        <select id="departmentNameID" asp-for="@Model.post.DepartmentName">
             <option value="" selected disabled>Select department</option>
-            @foreach (var department in @Model.department)
+            @foreach (var department in @Model.Department)
             {
-                @if (@department.departmentName == @Model.post.departmentName)
+                @if (@department.DepartmentName == @Model.post.DepartmentName)
                 {
-                    <option value="@department.departmentName">@department.departmentName</option>
+                    <option value="@department.DepartmentName">@department.DepartmentName</option>
                 }
                 else
                 {
-                    <option value="@department.departmentName" disabled>@department.departmentName</option>
+                    <option value="@department.DepartmentName" disabled>@department.DepartmentName</option>
                 }
 
             }
@@ -252,48 +252,48 @@
     </div>
 
     <div class="col pb-2">
-        <label asp-for="@Model.post.minimumRequirment" class="col-2"></label>
-        <input asp-for="@Model.post.minimumRequirment" readonly />
+        <label asp-for="@Model.post.MinimumRequirement" class="col-2"></label>
+        <input asp-for="@Model.post.MinimumRequirement" readonly />
     </div>
     <div class="col pb-2">
-        <label asp-for="@Model.post.applicationInstruction" class="col-2"></label>
-        <input asp-for="@Model.post.applicationInstruction" readonly />
+        <label asp-for="@Model.post.ApplicationInstruction" class="col-2"></label>
+        <input asp-for="@Model.post.ApplicationInstruction" readonly />
     </div>
 
     <div class="col pl-1">
-        <label asp-for="@Model.post.applicationClosingDate" class="col-2"></label>
-        <input type="date" asp-for="@Model.post.applicationClosingDate" readonly />
+        <label asp-for="@Model.post.ApplicationClosingDate" class="col-2"></label>
+        <input type="date" asp-for="@Model.post.ApplicationClosingDate" readonly />
     </div>
 
     <div class="col pb-2">
-        <label asp-for="@Model.post.conatctPersonName" class="col-2"></label>
-        <input asp-for="@Model.post.conatctPersonName" readonly />
+        <label asp-for="@Model.post.ContactPersonName" class="col-2"></label>
+        <input asp-for="@Model.post.ContactPersonName" readonly />
     </div>
     <div class="col pb-2">
-        <label asp-for="@Model.post.conatctPersonEmail" class="col-2"></label>
-        <input asp-for="@Model.post.conatctPersonEmail" readonly />
+        <label asp-for="@Model.post.ContactPersonEmail" class="col-2"></label>
+        <input asp-for="@Model.post.ContactPersonEmail" readonly />
     </div>
     <div class="col pb-2">
-        <label asp-for="@Model.post.conatctPersonNumber" class="col-2"></label>
-        <input asp-for="@Model.post.conatctPersonNumber" />
+        <label asp-for="@Model.post.ContactPersonNumber" class="col-2"></label>
+        <input asp-for="@Model.post.ContactPersonNumber" />
     </div>
     <div class="col pb-2">
-        <label asp-for="@Model.post.postStatus" class="col-2"></label>
-        <input asp-for="@Model.post.postStatus" readonly />
+        <label asp-for="@Model.post.PostStatus" class="col-2"></label>
+        <input asp-for="@Model.post.PostStatus" readonly />
     </div>
     <div class="col pb-2">
-        <label asp-for="@Model.post.approvalStatus" class="col-2"></label>
-        <input asp-for="@Model.post.approvalStatus" readonly />
+        <label asp-for="@Model.post.ApprovalStatus" class="col-2"></label>
+        <input asp-for="@Model.post.ApprovalStatus" readonly />
     </div>
     <div class="col pb-2">
-        <label asp-for="@Model.post.postreviewComment" class="col-2"></label>
-        <textarea asp-for="@Model.post.postreviewComment"></textarea>
+        <label asp-for="@Model.post.PostReviewComment" class="col-2"></label>
+        <textarea asp-for="@Model.post.PostReviewComment"></textarea>
     </div>
 
     <div class="col pl-3 pt-2">
-        <a type="submit" asp-controller="Approver" asp-action="approverApprovePost" asp-route-id="@Model.post.postId" class="btn btn-success btn-sm">Approve</a>
-        <a type="submit" asp-controller="Approver" asp-action="approverRejectPost" asp-route-id="@Model.post.postId" class="btn btn-success btn-sm">Reject</a>
-        <a type="submit" asp-controller="Approver" asp-action="approverQueryPost" asp-route-id="@Model.post.postId" class="btn btn-success btn-sm">Query</a>
+        <a type="submit" asp-controller="Approver" asp-action="approverApprovePost" asp-route-id="@Model.post.PostId" class="btn btn-success btn-sm">Approve</a>
+        <a type="submit" asp-controller="Approver" asp-action="approverRejectPost" asp-route-id="@Model.post.PostId" class="btn btn-success btn-sm">Reject</a>
+        <a type="submit" asp-controller="Approver" asp-action="approverQueryPost" asp-route-id="@Model.post.PostId" class="btn btn-success btn-sm">Query</a>
     </div>
 
 

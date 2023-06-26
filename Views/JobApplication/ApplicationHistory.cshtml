@@ -3,23 +3,29 @@
 }
 <h1>Application History</h1>
 <hr />
+@if (Model.Count() == 0)
+{
+    <caption>You have not applied for any job posts yet.</caption>
+}
+else
+{
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Post.jobTitle)
+                @Html.DisplayNameFor(model => model.Post.JobTitle)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Post.departmentName)
+                @Html.DisplayNameFor(model => model.Post.DepartmentName)
             </th>
             <th>
                 FT/PT
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Post.startDate)
+                @Html.DisplayNameFor(model => model.Post.StartDate)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Post.endDate)
+                @Html.DisplayNameFor(model => model.Post.EndDate)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Status)
@@ -33,19 +39,19 @@
         {
             <tr>
                 <td>
-                    @item.Post.jobTitle
+                    @item.Post.JobTitle
                 </td>
                 <td>
-                    @item.Post.departmentName
+                    @item.Post.DepartmentName
                 </td>
                 <td>
-                    @item.Post.jobType
+                    @item.Post.JobType
                 </td>
                 <td>
-                    @item.Post.startDate.ToString("d")
+                    @item.Post.StartDate.ToString("d")
                 </td>
                 <td>
-                    @item.Post.endDate.ToString("d")
+                    @item.Post.EndDate.ToString("d")
                 </td>
                 <td>
                     @item.Status
@@ -61,7 +67,8 @@
             </tr>
         }
     </tbody>
-</table>
+</table>   
+}
 <div class="pt-3">
     <a class="btn btn-primary" asp-controller="Home" asp-action="StudentHome">Back</a>
 </div>

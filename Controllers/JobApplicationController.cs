@@ -1,13 +1,16 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using SEP.Areas.Identity.Data;
 using SEP.Models.DomainModels;
 using Microsoft.EntityFrameworkCore;
 using SEP.Models.ViewModels;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using System.Collections.Generic;
+using Microsoft.AspNetCore.Authorization;
+using SEP.Data;
 
 namespace SEP.Controllers
 {
+    [Authorize]
     public class JobApplicationController : Controller
     {
         private readonly ApplicationDbContext _db;
@@ -18,16 +21,11 @@ namespace SEP.Controllers
             _userManager = userManager;
         }
 
-        //potentially move to a utility class
-        private async Task<List<ApplicationDocument>> LoadFiles(int id)
-        {
-            List<ApplicationDocument> uploadedDocuments = await _db.Documents.Where(d => d.JobApplicationId == id).ToListAsync();
-            return uploadedDocuments;
-        }
+        private readonly string[] permittedExtensions = { ".jpg", ".pdf", ".png" };
 
-        public async Task<IActionResult> Create(int id) 
+        public async Task<IActionResult> Create(Guid id) 
         {
-            var post = await _db.Posts.Where(p => p.postId == id).SingleOrDefaultAsync();
+            var post = await _db.Posts.Where(p => p.PostId == id).SingleOrDefaultAsync();
             if (post == null)
             {
                 return NotFound();
@@ -35,40 +33,35 @@ namespace SEP.Controllers
 
             ApplicationUser user = await _userManager.GetUserAsync(User);
 
-            var application = await _db.JobApplications.Where(a => a.StudentId == user.Id && a.PostId == post.postId).SingleOrDefaultAsync();
+            var application = await _db.JobApplications.Where(a => a.StudentId == user.Id && a.PostId == post.PostId).SingleOrDefaultAsync();
             if (application == null)
             {
                 application = new JobApplication
                 {
-                    PostId = post.postId,
+                    PostId = post.PostId,
                     StudentId = user.Id,
                     Status = "Incomplete"
                 };
                 _db.JobApplications.Add(application);
                 _db.SaveChanges();
             } 
-            var documents = await LoadFiles(application.ApplicationId);
+            var documents = await _db.Documents.Where(d => d.JobApplicationId == application.ApplicationId).ToListAsync();
 
             var applicationVM = new ApplicationViewModel
             {
                 Application = application,
-                JobTitle = post.jobTitle,
+                JobTitle = post.JobTitle,
                 Documents = documents
             };
             ViewBag.Message = TempData["Message"];
             ViewBag.MessageType = TempData["MessageType"];
-            if (application.Status.Equals("Incomplete"))
-            {
-                return View("CompleteApplication", applicationVM);
-            }
             return View(applicationVM);
         }
 
-        private string[] permittedExtensions = { ".jpg", ".pdf", ".png" };
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> UploadDocument(List<IFormFile> files, string description, int id)
+        public async Task<IActionResult> UploadDocument(List<IFormFile> files, string description, Guid id)
         {
             var application = await _db.JobApplications.Where(a => a.ApplicationId == id).SingleOrDefaultAsync();
             foreach (var file in files)
@@ -115,7 +108,7 @@ namespace SEP.Controllers
   
             return RedirectToAction("Create",new { id = application.PostId});
         }
-
+        [Authorize(Roles = "Student")]
         public async Task<IActionResult> ApplicationHistory()
         {
             ApplicationUser user = await _userManager.GetUserAsync(User);
@@ -124,22 +117,22 @@ namespace SEP.Controllers
             return View(applications);
         }
 
-        public async Task<IActionResult> Details(int id)
+        public async Task<IActionResult> Details(Guid id)
         {
             var application = await _db.JobApplications.Where(a => a.ApplicationId == id).Include("Post").SingleOrDefaultAsync();
 
-            var facId = application.Post.facultyName;
+            var facId = application.Post.FacultyName;
             IEnumerable<Faculty> faculties = _db.Faculties;
             IEnumerable<Department> departments = _db.Departments.Where(d => d.FacultyId.Equals(facId));
             IEnumerable<PartTimeHours> partTimeHours = _db.partTimeHours;
-            var documents = await LoadFiles(application.ApplicationId);
+            var documents = await _db.Documents.Where(d => d.JobApplicationId == application.ApplicationId).ToListAsync();
 
             ApplicationDetailsViewModel applicationDetails = new()
             {
                 JobApplication = application,
-                faculty = faculties,
-                department = departments,
-                partTimeHours = partTimeHours,
+                Faculty = faculties,
+                Department = departments,
+                PartTimeHours = partTimeHours,
                 Documents = documents
             };
             return View(applicationDetails);
@@ -149,14 +142,14 @@ namespace SEP.Controllers
         {
             var file = await _db.Documents.Where(x => x.DocumentId == id).FirstOrDefaultAsync();
 
-            if (file == null) return null;
+            if (file == null) return NotFound();
             var stream = new FileStream(file.FilePath, FileMode.Open);
             return File(stream, file.FileType);
         }
         public async Task<IActionResult> DeleteFile(Guid id)
         {
             var file = await _db.Documents.Include("JobApplication").Where(d => d.DocumentId == id).FirstOrDefaultAsync();
-            if (file == null) return null;
+            if (file == null) return NotFound();
             if (System.IO.File.Exists(file.FilePath))
             {
                 System.IO.File.Delete(file.FilePath);
@@ -168,7 +161,7 @@ namespace SEP.Controllers
             return RedirectToAction("Create", new { id = file.JobApplication.PostId });
         }
         
-        public async Task<IActionResult> SubmitApplication(int id)
+        public async Task<IActionResult> SubmitApplication(Guid id)
         {
             //change application status to pending 
             var application = await _db.JobApplications.Where(a => a.ApplicationId == id).SingleOrDefaultAsync();
@@ -179,13 +172,6 @@ namespace SEP.Controllers
             var documents = await _db.Documents.Where(d => d.JobApplicationId == id).ToListAsync();
             if (documents.Count > 0)
             {
-                if (application.Status.Equals("Incomplete"))
-                {
-                    application.Status = "Pending";
-                    _db.Update(application);
-                    _db.SaveChanges();
-                    return RedirectToAction("ApplicationHistory", "JobApplication");
-                }
                 application.Status = "Pending";
                 _db.Update(application);
                 _db.SaveChanges();
@@ -199,27 +185,27 @@ namespace SEP.Controllers
         }
 
         //after lookup tables added, can include faculty and department to get the actual values instead of numbers
-        public async Task<IActionResult> ViewApplicants(int id)
+        public async Task<IActionResult> ViewApplicants(Guid id)
         {
             var applications = await _db.JobApplications.Where(a => a.PostId == id).Where(a => !a.Status.Equals("Incomplete")).Include(a => a.Student).ThenInclude(s => s.User).ToListAsync();
-            var post = await _db.Posts.Where(p => p.postId == id).SingleOrDefaultAsync();
+            var post = await _db.Posts.Where(p => p.PostId == id).SingleOrDefaultAsync();
 
             var viewmodel = new ViewApplicantsViewModel
             {
                 PostId = id,
                 Applications = applications,
-                JobTitle = post.jobTitle,
-                JobDescription = post.jobDescription
+                JobTitle = post.JobTitle,
+                JobDescription = post.JobDescription
             };
 
             return View(viewmodel);
         }
 
-        public async Task<IActionResult> ViewApplicantDetails(int id)
+        public async Task<IActionResult> ViewApplicantDetails(Guid id)
         {
             var application = await _db.JobApplications.Where(a => a.ApplicationId == id).Include("Post").Include(a => a.Student).ThenInclude(s => s.User).SingleOrDefaultAsync();
-            var documents = await LoadFiles(application.ApplicationId);
-            var faculty = await _db.Faculties.Where(f => f.facultyId == application.Student.Faculty).SingleOrDefaultAsync();
+            var documents = await _db.Documents.Where(d => d.JobApplicationId == application.ApplicationId).ToListAsync();
+            var faculty = await _db.Faculties.Where(f => f.FacultyId == application.Student.Faculty).SingleOrDefaultAsync();
             IEnumerable<Qualification> qualifications = _db.Qualifications.Where(q => q.StudentId == application.Student.UserId);
             IEnumerable<WorkExperience> workExperiences = _db.WorkExperiences.Where(w => w.StudentId == application.Student.UserId);
             IEnumerable<Referee> referees = _db.Referees.Where(r => r.StudentId == application.Student.UserId);
@@ -232,17 +218,17 @@ namespace SEP.Controllers
             };
             var viewmodel = new ApplicantDetailsViewModel
             {
-                PostId = application.Post.postId,
+                PostId = application.Post.PostId,
                 Application = application,
-                JobTitle = application.Post.jobTitle,
-                JobDescription = application.Post.jobDescription,
+                JobTitle = application.Post.JobTitle,
+                JobDescription = application.Post.JobDescription,
                 Documents = documents,
                 Qualifications = qualifications,
                 Referee = referees,
                 WorkExperience = workExperiences,
                 Status = application.Status,
                 statusList = statusList,
-                Faculty = faculty.facultyName
+                Faculty = faculty.FacultyName
             };
 
             return View(viewmodel);
@@ -250,7 +236,7 @@ namespace SEP.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> UpdateApplicationStatus(int id, ApplicantDetailsViewModel vm)
+        public async Task<IActionResult> UpdateApplicationStatus(Guid id, ApplicantDetailsViewModel vm)
         {
             var application = await _db.JobApplications.Where(a => a.ApplicationId == id).SingleOrDefaultAsync();
             //if (ModelState.IsValid)
@@ -268,21 +254,21 @@ namespace SEP.Controllers
             return RedirectToAction("ViewApplicants",new {id = application.PostId});
         }
 
-        public async Task<IActionResult> QualificationDetails(int id)
+        public async Task<IActionResult> QualificationDetails(Guid id)
         {
             var qualification = await _db.Qualifications.Where(q => q.QualificationId == id).SingleOrDefaultAsync();
             if (qualification == null) return NotFound();
             return View(qualification);
         }
 
-        public async Task<IActionResult> WorkExperienceDetails(int id)
+        public async Task<IActionResult> WorkExperienceDetails(Guid id)
         {
             var workExperience = await _db.WorkExperiences.Where(q => q.WorkExperienceId == id).SingleOrDefaultAsync();
             if (workExperience == null) return NotFound();
             return View(workExperience);
         }
 
-        public async Task<IActionResult> RefereeDetails(int id)
+        public async Task<IActionResult> RefereeDetails(Guid id)
         {
             var referee = await _db.Referees.Where(q => q.RefereeId == id).SingleOrDefaultAsync();
             if (referee == null) return NotFound();
