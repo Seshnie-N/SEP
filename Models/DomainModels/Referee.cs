@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -10,7 +11,8 @@ namespace SEP.Models.DomainModels
         public Guid RefereeId { get; set; }
         [ForeignKey(nameof(Student))]
         public string StudentId { get; set; }
-        public Student Student { get; set; }
+		[ValidateNever]
+		public Student Student { get; set; }
         [Required(ErrorMessage ="Enter referee's name.")]
         public string Name { get; set; }
         [DisplayName("Job Title")]

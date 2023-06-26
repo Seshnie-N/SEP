@@ -1,5 +1,4 @@
-﻿using LinqKit;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -55,8 +54,31 @@ namespace SEP.Controllers
 			return View(postViewModel);
 		}
 		[HttpPost]
-		public IActionResult CreatePost(PostViewModel postViewModelObject)
+		public async Task<IActionResult> Create(PostViewModel postViewModelObject)
 		{
+			ModelState.Remove("Post.PostStatus");
+			ModelState.Remove("Post.ApprovalStatus");
+			if (!ModelState.IsValid)
+			{
+				IEnumerable<Faculty> faculties = _db.Faculties;
+				IEnumerable<Department> departments = _db.Departments;
+				IEnumerable<PartTimeHours> partTimeHours = _db.partTimeHours;
+
+				ApplicationUser user = await _userManager.GetUserAsync(User);
+
+
+				PostViewModel postViewModel = new();
+				Post newPost = new();
+				newPost.EmployerId = user.Id;
+				newPost.StartDate = DateTime.Now;
+				newPost.EndDate = DateTime.Now;
+				newPost.ApplicationClosingDate = DateTime.Now;
+				postViewModel.post = newPost;
+				postViewModel.Faculty = faculties;
+				postViewModel.Department = departments;
+				postViewModel.PartTimeHours = partTimeHours;
+				return View(postViewModel);
+			}
 			postViewModelObject.post.PostStatus = "Pending";
 			postViewModelObject.post.ApprovalStatus = "Pending";
 

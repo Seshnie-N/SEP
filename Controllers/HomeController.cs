@@ -50,14 +50,14 @@ namespace SEP.Controllers
                             return RedirectToAction("EmployerHome");
                         } else if (employer.ApprovalStatus == "Rejected")
                         {
-                            return RedirectToAction("UpdateEmployer", "Profile");
+                            return RedirectToAction("Update", "Employer");
                         }
-                        return RedirectToAction("AwaitingApproval", "Profile");
+                        return RedirectToAction("AwaitingApproval", "Employer");
 
                     } else
                     {
                         //direct to complete profile 
-						return RedirectToAction("CreateEmployer", "Profile");
+						return RedirectToAction("Create", "Employer");
 					}
                 }
 				else if (User.IsInRole("Approver"))

@@ -127,7 +127,7 @@
     <form method="post" asp-action="UpdateApplicationStatus" asp-route-id="@Model.Application.ApplicationId">
         <label>Outcome status</label>
         <select asp-for="@Model.Status" asp-items="@Model.statusList">
-            <option value="@Model.Status" selected>@Model.Status</option>
+            <option selected disabled value="@Model.Status">@Model.Status</option>
         </select>
         <div class="pt-3">
             <input type="submit" value="Save" class="btn btn-success" />

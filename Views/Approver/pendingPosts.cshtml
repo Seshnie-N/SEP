@@ -1,5 +1,8 @@
 ﻿@model IEnumerable<SEP.Models.DomainModels.Post>
-
+@{
+	ViewData["Title"] = "Pending Job Posts";
+}
+<h2>Pending Job Posts</h2>
 <div>
 	@if (Model.Count() > 0)
 	{
@@ -49,10 +52,10 @@
 							<td width="20%">
 								<div class="row">
 									<div class="col">
-										@post.PostStatus
+										@post.ApprovalStatus
 									</div>
 									<div class="col">
-										<a asp-controller="Approver" asp-action="approverUpdatePost" asp-route-id="@post.PostId" class="btn btn-info btn-sm" value="">Review</a>
+										<a asp-controller="Approver" asp-action="ApproverUpdatePost" asp-route-id="@post.PostId" class="btn btn-info btn-sm" value="">Review</a>
 									</div>
 
 								</div>
@@ -65,11 +68,10 @@
 	}
 	else
 	{
-		<h1>You do not have post yet</h1>
+		<p>There are no job posts awaiting approval.</p>
 	}
 </div>
 <div>
-	<a asp-controller="Post" asp-action="Create" class="btn btn-info">Create post</a>
 	<a asp-controller="Home" asp-action="ApproverHome" class="btn btn-secondary">Back</a>
 </div>
 

@@ -7,7 +7,7 @@
 <div class="row">
 	<div class="mx-auto col-10 col-md-8 col-lg-6">
 		<h1>Personal Details</h1>
-		<form method="post" asp-action="CreateEmployer">
+		<form method="post" asp-action="Create">
 
 			<input asp-for="@Model.Employer.UserId" hidden />
 			<input asp-for="@Model.User" hidden />
@@ -88,9 +88,10 @@
 
 			<div class="form-floating pb-3">
 				<select class="form-select" asp-for="@Model.Employer.BusinessType" asp-items="@Html.GetEnumSelectList<BusinessType>()">
-					<option value="">Select...</option>
+					<option value=@null>Select...</option>
 				</select>
 				<label asp-for="@Model.Employer.BusinessType"></label>
+				<span asp-validation-for="@Model.Employer.BusinessType" class="text-danger"></span>
 			</div>
 
 			<button type="submit" class="btn btn-primary">Save</button>

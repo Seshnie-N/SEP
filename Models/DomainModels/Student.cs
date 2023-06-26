@@ -1,4 +1,5 @@
-﻿using SEP.Data;
+﻿using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
+using SEP.Data;
 using SEP.Models.Enums;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
@@ -11,8 +12,9 @@ namespace SEP.Models.DomainModels
     {
         [Key,ForeignKey(nameof(User))]
         public string UserId { get; set; }
-        //navigation property
-        public virtual ApplicationUser User { get; set; }
+		//navigation property
+		[ValidateNever]
+		public virtual ApplicationUser User { get; set; }
    
         public string Address { get; set; }
         [Required(ErrorMessage ="Please enter your ID number")]

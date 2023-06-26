@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 using SEP.Data;
 using SEP.Models.Enums;
 
@@ -14,17 +15,18 @@ namespace SEP.Models.DomainModels
 
 		[ForeignKey(nameof(EmployerId))]
 		public string? EmployerId { get; set; }
+		[ValidateNever]
 		public Employer Employer { get; set; }
 
-		//do we even need the department and 
-
-        //need to create foreign key relationship here
-        [DisplayName("Department")]
+		//need to create foreign key relationship here
+		[Required(ErrorMessage = "Please select a department.")]
+		[DisplayName("Department")]
         public string DepartmentName { get; set; }
-        //may not need this property anymore
-        [DisplayName("Faculty")]
+		//may not need this property anymore
+		[Required(ErrorMessage = "Please select a department.")]
+		[DisplayName("Faculty")]
         public int FacultyName { get; set; }
-        [Required(ErrorMessage = "Please provide the title of the role being offered.")]
+        [Required(ErrorMessage = "Please enter a title.")]
         [DisplayName("Job Title")]
 		public string JobTitle { get; set; }
 		[Required(ErrorMessage = "Please specify where the job is being offered.")]
@@ -33,10 +35,10 @@ namespace SEP.Models.DomainModels
         [Required(ErrorMessage = "Please provide a description of what the job being offered is")]
         [DisplayName("Job Description")]
 		public string JobDescription { get; set; }
-
+		[Required(ErrorMessage = "Please provide responsibilities.")]
 		[DisplayName("Key responsibilities")]
 		public string Responsibilities { get; set; }
-
+		[Required(ErrorMessage = "Select a job type.")]
 		[DisplayName("Fulltime or part-time")]
 		public string JobType { get; set; }
 
@@ -54,28 +56,30 @@ namespace SEP.Models.DomainModels
         public DateTime EndDate { get; set; }
 		[DataType(DataType.Currency)]
 		[Column(TypeName = "decimal(18,2)")]
+		[Range(1, int.MaxValue, ErrorMessage = "Please enter an hourly rate.")]
 		[DisplayName("Hourly rate")]
 		public decimal HourlyRate { get; set; }
 
 		[DisplayName("Limited to")]
 		public bool LimitedToSA { get; set; }
-
+		[Required(ErrorMessage = "Please provide a minimum requirements for the post.")]
 		[DisplayName("Minimum requirments")]
 		public string MinimumRequirement { get; set; }
-
+		[Required(ErrorMessage = "Please provide a instructions for what should be submitted when applying.")]
 		[DisplayName("Application instruction")]
 		public string ApplicationInstruction { get; set; }
-
+		[Required(ErrorMessage = "Select a closing date for the post.")]
 		[DisplayName("Closing date")]
+		[DataType(DataType.Date)]
 		public DateTime ApplicationClosingDate { get; set; }
-
-		[DisplayName("Contact person name")]
+		[Required(ErrorMessage = "Please provide contact name")]
+		[DisplayName("Contact person name (for internal use)")]
 		public string ContactPersonName { get; set; }
-
+		[Required(ErrorMessage = "Please provide an email address for the listed contact")]
 		[DisplayName("Contact person email")]
 		[EmailAddress]
 		public string ContactPersonEmail { get; set; }
-
+		[Required(ErrorMessage = "Please provide a phone number for the listed contact.")]
 		[DisplayName("Contact person number")]
         [RegularExpression("^(\\+27|0)[6-8][0-9]{8}$", ErrorMessage = "Invalid phone number")]
         public string ContactPersonNumber { get; set; }

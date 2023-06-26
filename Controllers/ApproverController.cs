@@ -20,7 +20,7 @@ namespace SEP.Controllers
             _signInManager = signInManager;
         }
 
-        public string getSignedRole()
+        public string GetSignedRole()
         {
             string role = "";
             if (_signInManager.IsSignedIn(User))
@@ -32,14 +32,14 @@ namespace SEP.Controllers
             }
             return role;
         }
-        public IActionResult pendingEmployers()
+        public IActionResult PendingEmployers()
         {
             return View();
         }
 
 
 
-        public JsonResult getPendingEmployers()
+        public JsonResult GetPendingEmployers()
         {
             var applicationUsers = (from user in _db.Users
                                     join e in _db.Employers
@@ -59,7 +59,7 @@ namespace SEP.Controllers
             return Json(applicationUsers);
         }
 
-        public IActionResult approverUpdateEmployer(string id)
+        public IActionResult ApproverUpdateEmployer(string id)
         {
 
             ApplicationUser user = _db.Users.Find(id);
@@ -78,35 +78,17 @@ namespace SEP.Controllers
         [HttpPost]
         public IActionResult ApproverAcceptEmployer(EmployerProfileViewModel employerProfile)
         {
-            //var employerRecord = _db.Employers.Find(employerProfile.Employer.UserId);
-            //ApplicationUser userRecord = _db.Users.Find(employerProfile.Employer.UserId);
-
-
-            //userRecord.FirstName = employerProfile.User.FirstName;
-            //userRecord.LastName = employerProfile.User.LastName;
-            //userRecord.PhoneNumber = employerProfile.User.PhoneNumber;
-            //userRecord.Email = employerProfile.User.Email;
-            //employerRecord.Title = employerProfile.Employer.Title;
-            //employerRecord.JobTitle = employerProfile.Employer.JobTitle;
-            //employerRecord.CompanyRegistrationNumber = employerProfile.Employer.CompanyRegistrationNumber;
-            //employerRecord.TradingName = employerProfile.Employer.TradingName;
-            //employerRecord.BusinessName = employerProfile.Employer.BusinessName;
-            //employerRecord.Address = employerProfile.Employer.Address;
-            //employerRecord.BusinessType = employerProfile.Employer.BusinessType;
-
-            //employerRecord.ApproverNote = employerProfile.Employer.ApproverNote;
-            //employerRecord.isInternal = employerProfile.Employer.isInternal;
             //updated fields
             employerProfile.Employer.IsApproved = true;
             employerProfile.Employer.ApprovalStatus = "Approved";
             _db.Update(employerProfile.Employer);
             _db.SaveChanges();
-            return RedirectToAction("pendingEmployers");
+            return RedirectToAction("PendingEmployers");
         }
 
         //POST
         [HttpPost]
-        public IActionResult approverRejectEmployer(EmployerProfileViewModel employerProfile)
+        public IActionResult ApproverRejectEmployer(EmployerProfileViewModel employerProfile)
         {
 
             //updated fields
@@ -114,18 +96,18 @@ namespace SEP.Controllers
             employerProfile.Employer.ApprovalStatus = "Rejected";
             _db.Update(employerProfile.Employer);
             _db.SaveChanges();
-            return RedirectToAction("pendingEmployers");
+            return RedirectToAction("PendingEmployers");
 
 
         }
 
-        public IActionResult pendingPosts()
+        public IActionResult PendingPosts()
         {
             IEnumerable<Post> posts = _db.Posts.Where(p => p.IsApproved == false && p.PostStatus.Equals("Pending"));
             return View(posts);
         }
 
-        public IActionResult approverUpdatePost(int id)
+        public IActionResult ApproverUpdatePost(Guid id)
         {
 
             Post postObj = _db.Posts.Find(id);
@@ -152,12 +134,12 @@ namespace SEP.Controllers
             return View(postViewModel);
         }
         [HttpPost]
-
-        public IActionResult approverUpdatePost(PostViewModel postViewModelObject)
+        [ValidateAntiForgeryToken]
+        public IActionResult ApproverUpdatePost(PostViewModel postViewModelObject)
         {
             _db.Posts.Update(postViewModelObject.post);
             _db.SaveChanges();
-            return RedirectToAction("pendingPosts");
+            return RedirectToAction("PendingPosts");
         }
        
         public async Task<IActionResult> ApproverApprovePost(Guid id)
@@ -168,25 +150,25 @@ namespace SEP.Controllers
             postToBeApproved.IsApproved = true;
             _db.Posts.Update(postToBeApproved);
             _db.SaveChanges();
-            return RedirectToAction("pendingPosts");
+            return RedirectToAction("PendingPosts");
         }
        
-        public async Task<IActionResult> approverRejectPost(Guid id)
+        public async Task<IActionResult> ApproverRejectPost(Guid id)
         {
             var postToBeRejected = await _db.Posts.Where(p => p.PostId == id).SingleOrDefaultAsync();
             postToBeRejected.ApprovalStatus = "Rejected";
             _db.Posts.Update(postToBeRejected);
             _db.SaveChanges();
-            return RedirectToAction("pendingPosts");
+            return RedirectToAction("PendingPosts");
         }
         
-        public async Task<IActionResult> approverQueryPostAsync(Guid id)
+        public async Task<IActionResult> ApproverQueryPostAsync(Guid id)
         {
             var postToBeQueried = await _db.Posts.Where(p => p.PostId == id).SingleOrDefaultAsync();
             postToBeQueried.ApprovalStatus = "Queried";
             _db.Posts.Update(postToBeQueried);
             _db.SaveChanges();
-            return RedirectToAction("pendingPosts");
+            return RedirectToAction("PendingPosts");
         }
 
     }

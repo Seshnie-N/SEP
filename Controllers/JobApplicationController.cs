@@ -175,7 +175,7 @@ namespace SEP.Controllers
                 application.Status = "Pending";
                 _db.Update(application);
                 _db.SaveChanges();
-                return RedirectToAction("FilteredJobPosts", "Post");
+                return RedirectToAction("FilteredJobPosts", "Student");
             } else
             {
                 TempData["Message"] = "You cannot submit an empty application. Please upload the necessary documents.";

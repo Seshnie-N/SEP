@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -10,6 +11,7 @@ namespace SEP.Models.DomainModels
 		public Guid QualificationId { get; set; }
 		[ForeignKey(nameof(Student))]
 		public string StudentId { get; set; }
+		[ValidateNever]
 		public Student Student { get; set; }
         [Required(ErrorMessage = "Enter the name of the institution at which the qualification was obtained.")]
         public string Institution { get; set; }

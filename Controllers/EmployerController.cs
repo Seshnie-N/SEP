@@ -8,7 +8,7 @@ using SEP.Models.ViewModels;
 
 namespace SEP.Controllers
 {
-    [Authorize]
+    [Authorize(Roles ="Employer")]
     public class EmployerController : Controller
     {
         private readonly ApplicationDbContext _db;
@@ -27,7 +27,7 @@ namespace SEP.Controllers
         }
 
         //GET
-        public async Task<IActionResult> CreateEmployer()
+        public async Task<IActionResult> Create()
         {
             ApplicationUser user = await _userManager.GetUserAsync(User);
 
@@ -51,14 +51,16 @@ namespace SEP.Controllers
         //POST
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult CreateEmployer(EmployerProfileViewModel employerProfile)
+        public IActionResult Create(EmployerProfileViewModel employerProfile)
         {
-            
-             employerProfile.Employer.ApprovalStatus = "Pending";
-           
+            if (!ModelState.IsValid)
+            {
+                return View(employerProfile);
+            }
+             employerProfile.Employer.ApprovalStatus = "Pending"; 
             _db.Employers.Add(employerProfile.Employer);
             _db.SaveChanges();
-            return RedirectToAction("EmployerHome", "Home");
+            return RedirectToAction("Index", "Home");
         }
 
         //cascading drop-down
@@ -66,7 +68,7 @@ namespace SEP.Controllers
         {
             return Json(_db.Departments.Where(d => d.FacultyId.Equals(id)));
         }
-        public async Task<IActionResult> UpdateEmployer()
+        public async Task<IActionResult> Update()
         {
             ApplicationUser user = await _userManager.GetUserAsync(User);
 
@@ -76,7 +78,7 @@ namespace SEP.Controllers
                 {
                     User = user,
                     UserId = user.Id
-                };
+                }; 
 
             EmployerProfileViewModel employerProfile = new()
             {
@@ -90,8 +92,13 @@ namespace SEP.Controllers
         //POST
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> UpdateEmployer(EmployerProfileViewModel employerProfile)
+        public async Task<IActionResult> Update(EmployerProfileViewModel employerProfile)
         {
+            if (!ModelState.IsValid)
+            {
+                return View();
+            }
+
             var employerRecord = _db.Employers.Find(employerProfile.Employer.UserId);
             ApplicationUser userRecord = await _userManager.GetUserAsync(User);
 
@@ -118,15 +125,9 @@ namespace SEP.Controllers
                 _db.SaveChanges();
                 return RedirectToAction("Index", "Home");
             }
-            else
-            {
-                _db.Employers.Add(employerProfile.Employer);
-                _db.SaveChanges();
-                return RedirectToAction("EmployerHome", "Home");
-            }
+			return RedirectToAction("EmployerHome", "Home");
 
-
-        }
+		}
 		public IActionResult AwaitingApproval()
 		{
 			return View();

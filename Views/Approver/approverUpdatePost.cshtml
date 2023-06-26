@@ -1,6 +1,6 @@
 ﻿@model SEP.Models.ViewModels.PostViewModel
 
-<form method="post" asp-action="approverUpdatePost">
+<form method="post" asp-action="ApproverUpdatePost">
 
     <input asp-for="@Model.post.PostId" hidden />
     <input asp-for="@Model.post.EmployerId" hidden />
@@ -291,15 +291,15 @@
     </div>
 
     <div class="col pl-3 pt-2">
-        <a type="submit" asp-controller="Approver" asp-action="approverApprovePost" asp-route-id="@Model.post.PostId" class="btn btn-success btn-sm">Approve</a>
-        <a type="submit" asp-controller="Approver" asp-action="approverRejectPost" asp-route-id="@Model.post.PostId" class="btn btn-success btn-sm">Reject</a>
-        <a type="submit" asp-controller="Approver" asp-action="approverQueryPost" asp-route-id="@Model.post.PostId" class="btn btn-success btn-sm">Query</a>
+        <a type="submit" asp-controller="Approver" asp-action="ApproverApprovePost" asp-route-id="@Model.post.PostId" class="btn btn-success btn-sm">Approve</a>
+        <a type="submit" asp-controller="Approver" asp-action="ApproverRejectPost" asp-route-id="@Model.post.PostId" class="btn btn-success btn-sm">Reject</a>
+        <a type="submit" asp-controller="Approver" asp-action="ApproverQueryPost" asp-route-id="@Model.post.PostId" class="btn btn-success btn-sm">Query</a>
     </div>
 
 
     <div class="col pl-3 pt-2">
         <button type="submit" class="btn btn-success btn-sm">Save changes</button>
-        <a asp-controller="Approver" asp-action="pendingPosts" class="btn btn-secondary btn-sm">Back</a>
+        <a asp-controller="Approver" asp-action="PendingPosts" class="btn btn-secondary btn-sm">Back</a>
     </div>
 
 </form>

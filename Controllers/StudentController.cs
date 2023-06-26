@@ -52,7 +52,6 @@ namespace SEP.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(Student student)
         {
-            ModelState.Remove("Student.User");
             if (ModelState.IsValid)
             {
                 _db.Students.Add(student);
@@ -109,11 +108,6 @@ namespace SEP.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Update(UpdateStudentViewModel updateDetails)
         {
-            ModelState.Remove("Student.User");
-            ModelState.Remove("Student.User.Student");
-            ModelState.Remove("Student.User.Employer");
-            ModelState.Remove("User.Student");
-            ModelState.Remove("User.Employer");
             if (!ModelState.IsValid)
             {
                 ApplicationUser user = await _userManager.GetUserAsync(User);
