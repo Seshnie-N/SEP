@@ -1,9 +1,8 @@
-﻿using LinqKit;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using SEP.Areas.Identity.Data;
+using SEP.Data;
 using SEP.Models.DomainModels;
 using SEP.Models.ViewModels;
 
@@ -26,7 +25,7 @@ namespace SEP.Controllers
 		public async Task<IActionResult> Index()
 		{
 			ApplicationUser user = await _userManager.GetUserAsync(User);
-			IEnumerable<Post> posts = _db.Posts.Where(p => p.UserID.Equals(user.Id));
+			IEnumerable<Post> posts = _db.Posts.Where(p => p.EmployerId.Equals(user.Id));
 
 			return View(posts);
 		}
@@ -41,24 +40,47 @@ namespace SEP.Controllers
 			ApplicationUser user = await _userManager.GetUserAsync(User);
 
 
-			PostViewModel postViewModel = new PostViewModel();
-			Post newPost = new Post();
-			newPost.UserID = user.Id;
-			newPost.startDate = DateTime.Now;
-			newPost.endDate = DateTime.Now;
-			newPost.applicationClosingDate = DateTime.Now;
+			PostViewModel postViewModel = new();
+			Post newPost = new();
+			newPost.EmployerId = user.Id;
+			newPost.StartDate = DateTime.Now;
+			newPost.EndDate = DateTime.Now;
+			newPost.ApplicationClosingDate = DateTime.Now;
 			postViewModel.post = newPost;
-			postViewModel.faculty = faculties;
-			postViewModel.department = departments;
-			postViewModel.partTimeHours = partTimeHours;
+			postViewModel.Faculty = faculties;
+			postViewModel.Department = departments;
+			postViewModel.PartTimeHours = partTimeHours;
 
 			return View(postViewModel);
 		}
 		[HttpPost]
-		public IActionResult CreatePost(PostViewModel postViewModelObject)
+		public async Task<IActionResult> Create(PostViewModel postViewModelObject)
 		{
-			postViewModelObject.post.postStatus = "Pending";
-			postViewModelObject.post.approvalStatus = "Pending";
+			ModelState.Remove("Post.PostStatus");
+			ModelState.Remove("Post.ApprovalStatus");
+			if (!ModelState.IsValid)
+			{
+				IEnumerable<Faculty> faculties = _db.Faculties;
+				IEnumerable<Department> departments = _db.Departments;
+				IEnumerable<PartTimeHours> partTimeHours = _db.partTimeHours;
+
+				ApplicationUser user = await _userManager.GetUserAsync(User);
+
+
+				PostViewModel postViewModel = new();
+				Post newPost = new();
+				newPost.EmployerId = user.Id;
+				newPost.StartDate = DateTime.Now;
+				newPost.EndDate = DateTime.Now;
+				newPost.ApplicationClosingDate = DateTime.Now;
+				postViewModel.post = newPost;
+				postViewModel.Faculty = faculties;
+				postViewModel.Department = departments;
+				postViewModel.PartTimeHours = partTimeHours;
+				return View(postViewModel);
+			}
+			postViewModelObject.post.PostStatus = "Pending";
+			postViewModelObject.post.ApprovalStatus = "Pending";
 
 			_db.Posts.Add(postViewModelObject.post);
 			_db.SaveChanges();
@@ -70,13 +92,13 @@ namespace SEP.Controllers
 		{
 
 			Post postObj = _db.Posts.Find(id);
-			var facId = postObj.facultyName;
+			var facId = postObj.FacultyName;
 
 			IEnumerable<Faculty> faculties = _db.Faculties;
 			IEnumerable<Department> departments = _db.Departments.Where(d => d.FacultyId.Equals(facId));
             IEnumerable<PartTimeHours> partTimeHours = _db.partTimeHours;
 
-            PostViewModel postViewModel = new PostViewModel();
+            PostViewModel postViewModel = new();
 
 			if (postObj != null)
 			{
@@ -86,9 +108,9 @@ namespace SEP.Controllers
 			{
 				return NotFound();
 			}
-			postViewModel.faculty = faculties;
-			postViewModel.department = departments;
-            postViewModel.partTimeHours = partTimeHours;
+			postViewModel.Faculty = faculties;
+			postViewModel.Department = departments;
+            postViewModel.PartTimeHours = partTimeHours;
 
             return View(postViewModel);
 		}
@@ -104,7 +126,7 @@ namespace SEP.Controllers
 		[HttpPost]
 		public IActionResult ClosePost(PostViewModel postViewModelObject)
 		{
-			postViewModelObject.post.postStatus = "Closed";
+			postViewModelObject.post.PostStatus = "Closed";
 			_db.Posts.Update(postViewModelObject.post);
 			_db.SaveChanges();
 			return RedirectToAction("Index");
@@ -112,7 +134,7 @@ namespace SEP.Controllers
 		[HttpPost]
 		public IActionResult WithdrawPost(PostViewModel postViewModelObject)
 		{
-			postViewModelObject.post.postStatus = "Withdrawn";
+			postViewModelObject.post.PostStatus = "Withdrawn";
 			_db.Posts.Update(postViewModelObject.post);
 			_db.SaveChanges();
 			return RedirectToAction("Index");
@@ -123,90 +145,15 @@ namespace SEP.Controllers
 			return Json( _db.Departments.Where(d => d.FacultyId.Equals(id)) );
 		}
 
-        public async Task<IActionResult> FilteredJobPosts()
+		public async Task<ActionResult> Details(Guid id)
 		{
-			var user = await _userManager.GetUserAsync(User);
-            var student = await _db.Students.Where(s => s.UserId == user.Id).SingleOrDefaultAsync();
-
-			var predicate = PredicateBuilder.New<Post>();
-			predicate = predicate.And(p => p.isApproved);
-			predicate = predicate.And(p => p.postStatus.Equals("Approved"));
-			//filter if student is not a south african citizen
-			if (!student.IsSouthAfrican)
-			{
-				predicate = predicate.And(p => !p.limitedToSA);
-			}
-
-			//filter by student's year of study
-            string YearOfStudy = student.YearOfStudy.ToString();
-			switch (YearOfStudy)
-			{
-				case "FirstYear":
-					predicate = predicate.And(p => p.limitedTo1stYear);
-					break;
-                case "SecondYear":
-                    predicate = predicate.And(p => p.limitedTo2ndYear);
-                    break;
-                case "ThirdYear":
-                    predicate = predicate.And(p => p.limitedTo3rdYear);
-                    break;
-                case "Honours":
-                    predicate = predicate.And(p => p.limitedToHonours);
-                    break;
-                case "Graduate":
-                    predicate = predicate.And(p => p.limitedToGraduate);
-                    break;
-                case "Masters":
-                    predicate = predicate.And(p => p.limitedToMasters);
-                    break;
-				case "PhD":
-                    predicate = predicate.And(p => p.limitedToPhd);
-                    break;
-				case "Postdoc":
-                    predicate = predicate.And(p => p.limitedToPostdoc);
-                    break;
-            }
-            predicate = predicate.Or(p => p.isApproved && p.postStatus.Equals("Approved") && !p.limitedTo1stYear && !p.limitedTo2ndYear && !p.limitedTo3rdYear && !p.limitedToHonours && !p.limitedToGraduate && !p.limitedToMasters && !p.limitedToPhd && !p.limitedToPostdoc);
-
-
-			//filter out job posts that have already been applied to
-			var postsAppliedToIds = _db.JobApplications.Where(a => a.StudentId == user.Id).Select(a => a.PostId);
-
-			var posts = _db.Posts.Where(predicate).ToList();
-			posts = posts.Where(p => !postsAppliedToIds.Contains(p.postId)).ToList();
-			
-
-            List<StudentPostViewModel> studentPosts = new();
-
-            foreach (var post in posts )
-			{
-				var studentPostsVm = new StudentPostViewModel
-				{
-					postId = post.postId,
-					jobTitle = post.jobTitle,
-					departmentName = post.departmentName,
-					jobType = post.jobType,
-					startDate = post.startDate,
-					endDate	= post.endDate,
-					partTimeHour = post.partTimeHour,
-					hourlyRate = post.hourlyRate
-				};
-				studentPosts.Add(studentPostsVm);
-			}
-
-
-			return View(studentPosts);
-		}
-
-		public async Task<ActionResult> Details(int id)
-		{
-			var post = await _db.Posts.FirstAsync(p => p.postId == id);
+			var post = await _db.Posts.FirstAsync(p => p.PostId == id);
 			if (post == null)
 			{
 				return NotFound();
 			}
 
-            var facId = post.facultyName;
+            var facId = post.FacultyName;
             IEnumerable<Faculty> faculties = _db.Faculties;
             IEnumerable<Department> departments = _db.Departments.Where(d => d.FacultyId.Equals(facId));
             IEnumerable<PartTimeHours> partTimeHours = _db.partTimeHours;
@@ -214,9 +161,9 @@ namespace SEP.Controllers
 			PostViewModel postViewModel = new()
 			{
 				post = post,
-				faculty = faculties,
-				department = departments,
-				partTimeHours = partTimeHours
+				Faculty = faculties,
+				Department = departments,
+				PartTimeHours = partTimeHours
 			};
 
             return View(postViewModel);

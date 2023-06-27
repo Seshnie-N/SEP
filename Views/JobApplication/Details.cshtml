@@ -11,26 +11,26 @@
     </div>
     <h2>Job Post Details</h2>
     <div class="col pb-2">
-        <label asp-for="@Model.JobApplication.Post.jobTitle" class="col-2"></label>
-        <input asp-for="@Model.JobApplication.Post.jobTitle" readonly />
+        <label asp-for="@Model.JobApplication.Post.JobTitle" class="col-2"></label>
+        <input asp-for="@Model.JobApplication.Post.JobTitle" readonly />
     </div>
     <div class="col pb-2">
-        <label asp-for="@Model.JobApplication.Post.jobLocation" class="col-2"></label>
-        <input asp-for="@Model.JobApplication.Post.jobLocation" readonly />
+        <label asp-for="@Model.JobApplication.Post.JobLocation" class="col-2"></label>
+        <input asp-for="@Model.JobApplication.Post.JobLocation" readonly />
     </div>
     <div class="col pb-2">
-        <label asp-for="@Model.JobApplication.Post.jobDescription" class="col-2"></label>
-        <input asp-for="@Model.JobApplication.Post.jobDescription" readonly />
+        <label asp-for="@Model.JobApplication.Post.JobDescription" class="col-2"></label>
+        <input asp-for="@Model.JobApplication.Post.JobDescription" readonly />
     </div>
     <div class="col pb-2">
-        <label asp-for="@Model.JobApplication.Post.resposibilities" class="col-2"></label>
-        <input asp-for="@Model.JobApplication.Post.resposibilities" readonly />
+        <label asp-for="@Model.JobApplication.Post.Responsibilities" class="col-2"></label>
+        <input asp-for="@Model.JobApplication.Post.Responsibilities" readonly />
     </div>
     <div class="col pb-2">
-        <label asp-for="@Model.JobApplication.Post.jobType" class="col-2"></label>
-        <select id="jobType" asp-for="@Model.JobApplication.Post.jobType">
+        <label asp-for="@Model.JobApplication.Post.JobType" class="col-2"></label>
+        <select id="jobType" asp-for="@Model.JobApplication.Post.JobType">
             <option value="" selected disabled>Select job type</option>
-            @if (@Model.JobApplication.Post.jobType == "Fulltime")
+            @if (@Model.JobApplication.Post.JobType == "Fulltime")
             {
                 <option value="Fulltime">Fulltime</option>
                 <option value="Part-time" disabled>Part-time</option>
@@ -44,47 +44,47 @@
         </select>
     </div>
     <div class="col pb-2">
-        <label asp-for="@Model.JobApplication.Post.partTimeHour"></label>
-        <select asp-for="@Model.JobApplication.Post.partTimeHour">
+        <label asp-for="@Model.JobApplication.Post.PartTimeHour"></label>
+        <select asp-for="@Model.JobApplication.Post.PartTimeHour">
             <option value="" selected>Range</option>
-            @foreach (var hour in @Model.partTimeHours)
+            @foreach (var hour in @Model.PartTimeHours)
             {
-                @if (@hour.timeRange == @Model.JobApplication.Post.partTimeHour)
+                @if (@hour.TimeRange == @Model.JobApplication.Post.PartTimeHour)
                 {
-                    <option value=@hour.timeRange> @hour.timeRange </option>
+                    <option value=@hour.TimeRange> @hour.TimeRange </option>
                 }
                 else
                 {
-                    <option value=@hour.timeRange disabled> @hour.timeRange </option>
+                    <option value=@hour.TimeRange disabled> @hour.TimeRange </option>
                 }
 
             }
         </select>
     </div>
     <div class="col pb-2">
-        <label asp-for="@Model.JobApplication.Post.hourlyRate" class="col-2"></label>
-        <input asp-for="@Model.JobApplication.Post.hourlyRate" readonly />
+        <label asp-for="@Model.JobApplication.Post.HourlyRate" class="col-2"></label>
+        <input asp-for="@Model.JobApplication.Post.HourlyRate" readonly />
     </div>
     <div class="col pb-2">
-        <label asp-for="@Model.JobApplication.Post.startDate" class="col-2"></label>
-        <input type="date" asp-for="@Model.JobApplication.Post.startDate" readonly />
+        <label asp-for="@Model.JobApplication.Post.StartDate" class="col-2"></label>
+        <input type="date" asp-for="@Model.JobApplication.Post.StartDate" readonly />
     </div>
     <div class="col pb-2">
-        <label asp-for="@Model.JobApplication.Post.endDate" class="col-2"></label>
-        <input type="date" asp-for="@Model.JobApplication.Post.endDate" readonly />
+        <label asp-for="@Model.JobApplication.Post.EndDate" class="col-2"></label>
+        <input type="date" asp-for="@Model.JobApplication.Post.EndDate" readonly />
     </div>
     <div class="col pb-2">
-        <label asp-for="@Model.JobApplication.Post.applicationClosingDate" class="col-2"></label>
-        <input type="date" asp-for="@Model.JobApplication.Post.applicationClosingDate" readonly />
+        <label asp-for="@Model.JobApplication.Post.ApplicationClosingDate" class="col-2"></label>
+        <input type="date" asp-for="@Model.JobApplication.Post.ApplicationClosingDate" readonly />
     </div>
 
     <div class="col pb-2">
-        <label asp-for="@Model.JobApplication.Post.minimumRequirment" class="col-2"></label>
-        <input asp-for="@Model.JobApplication.Post.minimumRequirment" readonly />
+        <label asp-for="@Model.JobApplication.Post.MinimumRequirement" class="col-2"></label>
+        <input asp-for="@Model.JobApplication.Post.MinimumRequirement" readonly />
     </div>
     <div class="col pb-2">
-        <label asp-for="@Model.JobApplication.Post.applicationInstruction" class="col-2"></label>
-        <input asp-for="@Model.JobApplication.Post.applicationInstruction" readonly />
+        <label asp-for="@Model.JobApplication.Post.ApplicationInstruction" class="col-2"></label>
+        <input asp-for="@Model.JobApplication.Post.ApplicationInstruction" readonly />
     </div>
 </div>
 <div>

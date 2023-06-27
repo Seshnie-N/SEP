@@ -6,11 +6,11 @@ namespace SEP.Models.ViewModels
     public class ApplicationDetailsViewModel
     {
         public JobApplication JobApplication { get; set; }
-        public IEnumerable<Faculty> faculty { get; set; }
+        public IEnumerable<Faculty> Faculty { get; set; }
 
-        public IEnumerable<Department> department { get; set; }
+        public IEnumerable<Department> Department { get; set; }
 
-        public IEnumerable<PartTimeHours> partTimeHours { get; set; }
+        public IEnumerable<PartTimeHours> PartTimeHours { get; set; }
         public List<ApplicationDocument> Documents { get; set; } = new List<ApplicationDocument>();
 
     }

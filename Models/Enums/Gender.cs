@@ -1,18 +1,13 @@
-﻿namespace SEP.Models.Enums
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace SEP.Models.Enums
 {
     public enum Gender
     {
-        Male = 1,
-        Female = 2
+        [Display(Name ="Prefer not to specify")]
+        Unspecified = 1,
+        Male = 2,
+        Female = 3
     }
 
-    //public enum BusinessType
-    //{
-
-    //}
-
-    //public enum WeekHour
-    //{
-
-    //}
 }

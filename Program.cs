@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using SEP.Areas.Identity.Data;
+using SEP.CustomValidation;
+using SEP.Data;
 using SEP.Models;
 using SEP.Models.DomainModels;
 using SEP.SeedData;
@@ -17,8 +18,9 @@ namespace SEP
             builder.Services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(connectionString));
 
-            builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = false)
+            builder.Services.AddDefaultIdentity<ApplicationUser>()
                 .AddRoles<IdentityRole>()
+                .AddErrorDescriber<DuplicateUserValidator>()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
 
             // Add services to the container.

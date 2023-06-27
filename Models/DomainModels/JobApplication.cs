@@ -1,4 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
+using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SEP.Models.DomainModels
@@ -6,14 +8,17 @@ namespace SEP.Models.DomainModels
     public class JobApplication
     {
         [Key]
-        public int ApplicationId { get; set; }
+        public Guid ApplicationId { get; set; }
         [ForeignKey("StudentId")]
         public string StudentId { get; set; }
-        public Student Student { get; set; }
+		[ValidateNever]
+		public Student Student { get; set; }
         [ForeignKey("PostId")]
-        public int PostId { get; set; }
-        public Post Post { get; set; }
-        public string? Status { get; set; }
+        public Guid PostId { get; set; }
+		[ValidateNever]
+		public Post Post { get; set; }
+        [DisplayName("Application Status")]
+        public string Status { get; set; }
         
     }
 }

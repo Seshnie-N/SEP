@@ -14,25 +14,25 @@
         <thead>
             <tr>
                 <th>
-                    @Html.DisplayNameFor(model => model.jobTitle)
+                    @Html.DisplayNameFor(model => model.JobTitle)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.departmentName)
+                    @Html.DisplayNameFor(model => model.DepartmentName)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.jobType)
+                    @Html.DisplayNameFor(model => model.JobType)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.partTimeHour)
+                    @Html.DisplayNameFor(model => model.PartTimeHour)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.startDate)
+                    @Html.DisplayNameFor(model => model.StartDate)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.endDate)
+                    @Html.DisplayNameFor(model => model.EndDate)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.hourlyRate)
+                    @Html.DisplayNameFor(model => model.HourlyRate)
                 </th>
 
                 <th></th>
@@ -43,28 +43,28 @@
             {
                 <tr>
                     <td>
-                        @item.jobTitle
+                        @item.JobTitle
                     </td>
                     <td>
-                        @item.departmentName
+                        @item.DepartmentName
                     </td>
                     <td>
-                        @item.jobType
+                        @item.JobType
                     </td>
                     <td>
-                        @item.partTimeHour
+                        @item.PartTimeHour
                     </td>
                     <td>
-                        @item.startDate.ToString("d")
+                        @item.StartDate.ToString("d")
                     </td>
                     <td>
-                        @item.endDate.ToString("d")
+                        @item.EndDate.ToString("d")
                     </td>
                     <td>
-                        @item.hourlyRate
+                        @item.HourlyRate
                     </td>
                     <td>
-                        <a class="btn btn-primary" asp-action="Details" asp-route-id="@item.postId">Details</a>
+                        <a class="btn btn-primary" asp-controller="Post" asp-action="Details" asp-route-id="@item.PostId">Details</a>
                     </td>
                 </tr>
             }
