@@ -11,6 +11,7 @@ using SEP.Models.ViewModels;
 
 namespace SEP.Controllers
 {
+    [Authorize]
     public class ProfileController : Controller
     {
         private readonly ApplicationDbContext _db;

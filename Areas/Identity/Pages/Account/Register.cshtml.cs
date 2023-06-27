@@ -79,7 +79,7 @@ namespace SEP.Areas.Identity.Pages.Account
             public string ConfirmPassword { get; set; }
 
             [Phone]
-            //[RegularExpression("^(\\+27|0)[6-8][0-9]{8}$", ErrorMessage = "Invalid phone number")]
+            [RegularExpression("^(\\+27|0)[6-8][0-9]{8}$", ErrorMessage = "Invalid phone number")]
             [Display(Name = "Phone number")]
             public string PhoneNumber { get; set; }
 

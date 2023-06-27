@@ -5,9 +5,11 @@ using SEP.Models.DomainModels;
 using Microsoft.EntityFrameworkCore;
 using SEP.Models.ViewModels;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.AspNetCore.Authorization;
 
 namespace SEP.Controllers
 {
+    [Authorize]
     public class JobApplicationController : Controller
     {
         private readonly ApplicationDbContext _db;
@@ -211,7 +213,6 @@ namespace SEP.Controllers
                 JobTitle = post.jobTitle,
                 JobDescription = post.jobDescription
             };
-
             return View(viewmodel);
         }
 

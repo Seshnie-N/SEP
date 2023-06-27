@@ -1,15 +1,14 @@
 ﻿@model SEP.Models.DomainModels.Referee
 
 @{
-    ViewData["Title"] = "AddReferee";
+    ViewData["Title"] = "Add Referee";
 }
 
-<h1>AddReferee</h1>
-
-<h4>Referee</h4>
-<hr />
 <div class="row">
-    <div class="col-md-4">
+    <div class="mx-auto col-10 col-md-8 col-lg-6">
+        <h1>Add Referee</h1>
+        <h4>Enter referee details</h4>
+        <hr />
         <form method="post" asp-action="AddReferee">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
@@ -39,15 +38,11 @@
             </div>
             <div class="form-group pt-2">
                 <input type="submit" value="Add" class="btn btn-primary" />
+                <a class="btn btn-primary" value="Add" asp-action="UpdateStudent">Back</a>
             </div>
         </form>
     </div>
 </div>
-
-<div id="buttons" class="pt-2">
-    <a class="btn btn-primary" value="Add" asp-action="UpdateStudent">Back</a>
-</div>
-
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
