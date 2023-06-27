@@ -1,0 +1,61 @@
+﻿@model SEP.Models.DomainModels.WorkExperience
+
+@{
+    ViewData["Title"] = "Add WorkExperience";
+}
+
+<div class="row">
+    <div class="mx-auto col-10 col-md-8 col-lg-6">
+        <h1>Add Work Experience</h1>
+        <h4>Enter work expeience details</h4>
+        <hr />
+        <form method="post" asp-action="AddWorkExperience">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="EmployerName" class="control-label"></label>
+                <input asp-for="EmployerName" class="form-control" />
+                <span asp-validation-for="EmployerName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="StartDate" class="control-label"></label>
+                <input asp-for="StartDate" class="form-control" />
+                <span asp-validation-for="StartDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="EndDate" class="control-label"></label>
+                <input asp-for="EndDate" class="form-control" />
+                <span asp-validation-for="EndDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="JobTitle" class="control-label"></label>
+                <input asp-for="JobTitle" class="form-control" />
+                <span asp-validation-for="JobTitle" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="TasksAndResponsibilities" class="control-label"></label>
+                <textarea asp-for="TasksAndResponsibilities" class="form-control autoresizing" ></textarea>
+                <span asp-validation-for="TasksAndResponsibilities" class="text-danger"></span>
+            </div>
+            <div class="form-group pt-2">
+                <input type="submit" value="Add" class="btn btn-primary" />
+                <a class="btn btn-primary" asp-action="UpdateStudent">Back</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="pt-2">
+    <a class="btn btn-primary" asp-action="Update">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script type="text/javascript">
+        $('.autoresizing').on('input', function () {
+            this.style.height = 'auto';
+
+            this.style.height =
+                (this.scrollHeight) + 'px';
+        });
+    </script>
+}

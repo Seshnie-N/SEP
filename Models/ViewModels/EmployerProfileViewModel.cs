@@ -1,4 +1,4 @@
-﻿using SEP.Areas.Identity.Data;
+﻿using SEP.Data;
 using SEP.Models.DomainModels;
 
 namespace SEP.Models.ViewModels

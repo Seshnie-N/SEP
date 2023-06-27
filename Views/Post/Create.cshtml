@@ -1,156 +1,175 @@
 ﻿@model SEP.Models.ViewModels.PostViewModel
 
-<form method="post" asp-action="CreatePost">
-	<input asp-for="@Model.post.postreviewComment"  hidden/>
-	<input asp-for="@Model.post.UserID"  hidden/>
-
+<form method="post" asp-action="Create">
+	<input asp-for="@Model.post.PostReviewComment"  hidden/>
+	<input asp-for="@Model.post.EmployerId"  hidden/>
+	<input asp-for="@Model.post.ApprovalStatus" hidden/>
+	<div asp-validation-summary="ModelOnly" class="text-danger"></div>
 	<div class="col pb-2">
-		<label asp-for="@Model.post.jobTitle" class="col-2"></label>
-		<input asp-for="@Model.post.jobTitle" />
+		<label asp-for="@Model.post.JobTitle"></label>
+		<input class="form-control" asp-for="@Model.post.JobTitle" />
+		<span asp-validation-for="@Model.post.JobTitle" class="text-danger"></span>
 	</div>
 	<div class="col pb-2">
-		<label asp-for="@Model.post.jobLocation" class="col-2"></label>
-		<input asp-for="@Model.post.jobLocation" />
+		<label asp-for="@Model.post.JobLocation" ></label>
+		<input class="form-control" asp-for="@Model.post.JobLocation" />
+		<span asp-validation-for="@Model.post.JobLocation" class="text-danger"></span>
 	</div>
 	<div class="col pb-2">
-		<label asp-for="@Model.post.jobDescription" class="col-2"></label>
-		<input asp-for="@Model.post.jobDescription" />
+		<label asp-for="@Model.post.JobDescription" ></label>
+		<input class="form-control" asp-for="@Model.post.JobDescription" />
+		<span asp-validation-for="@Model.post.JobDescription" class="text-danger"></span>
 	</div>
 	<div class="col pb-2">
-		<label asp-for="@Model.post.resposibilities" class="col-2"></label>
-		<input asp-for="@Model.post.resposibilities" />
+		<label asp-for="@Model.post.Responsibilities" ></label>
+		<input class="form-control" asp-for="@Model.post.Responsibilities" />
+		<span asp-validation-for="@Model.post.Responsibilities" class="text-danger"></span>
 	</div>
 	<div class="col pb-2">
-		<label asp-for="@Model.post.jobType" class="col-2"></label>
-		<select asp-for="@Model.post.jobType" >
-			<option value="" selected disabled>Select job type</option>
+		<label asp-for="@Model.post.JobType" ></label>
+		<select class="form-select" id="jobtypeid" asp-for="@Model.post.JobType">
+			<option value=@null selected disabled>Select job type</option>
 			<option value="Fulltime">Fulltime</option>
 			<option value="Part-time">Part-time</option>
 		</select>
+		<span asp-validation-for="@Model.post.JobType" class="text-danger"></span>
 	</div>
-	<div class="col pb-2">
-		<label asp-for="@Model.post.partTimeHour"></label>
-		<select asp-for="@Model.post.partTimeHour">
+	<div id="parttimehouris" class="col pb-2">
+		<label asp-for="@Model.post.PartTimeHour"></label>
+		<select class="form-select"  asp-for="@Model.post.PartTimeHour">
 			<option value=""selected >Range</option>
-			<option value=" < 2 "> < 2 </option>
-			<option value="2 - 4">2 - 4</option>
-			<option value="4 - 6">4 - 6</option>
-			<option value="6-8">4 - 8</option>
-			<option value="8 - 12">8 - 12</option>
-			<option value="> 12"> > 12</option>
+			@foreach( var hour in @Model.PartTimeHours)
+			{
+				<option value=@hour.TimeRange> @hour.TimeRange </option>
+			}
 		</select>
 	</div>
 	<div class="col pb-2">
-		<label asp-for="@Model.post.startDate" class="col-2"></label>
-		<input type="date" asp-for="@Model.post.startDate" />
+		<label asp-for="@Model.post.StartDate" ></label>
+		<input class="form-control" type="date" asp-for="@Model.post.StartDate" />
+		<span asp-validation-for="@Model.post.StartDate" class="text-danger"></span>
 	</div>
 	<div class="col pb-2">
-		<label asp-for="@Model.post.endDate" class="col-2"></label>
-		<input type="date" asp-for="@Model.post.endDate" />
+		<label asp-for="@Model.post.EndDate" ></label>
+		<input class="form-control" type="date" asp-for="@Model.post.EndDate" />
+		<span asp-validation-for="@Model.post.EndDate" class="text-danger"></span>
 	</div>
 	<div class="col pb-2">
-		<label asp-for="@Model.post.hourlyRate" class="col-2"></label>
-		<input  asp-for="@Model.post.hourlyRate" />
+		<label asp-for="@Model.post.HourlyRate" ></label>
+		<input class="form-control" asp-for="@Model.post.HourlyRate" />
+		<span asp-validation-for="@Model.post.HourlyRate" class="text-danger"></span>
 	</div>
 	<div class="col pb-2">
 		<label >Limited to</label>
-		<div class="col-5">
+		<div class="d-flex row-cols-auto flex-wrap">
 			<div class="form-check form-check-inline">
-				 <input class="form-check-input" type="checkbox" asp-for="@Model.post.limitedTo1stYear" value="true" id="1stYear">
+				 <input class="form-check-input" type="checkbox" asp-for="@Model.post.LimitedTo1stYear" value="true" id="1stYear">
 				 <label class="form-check-label" for="1stYear">1st Year</label>
 			</div>
 			<div class="form-check form-check-inline">
-				 <input class="form-check-input" type="checkbox" asp-for="@Model.post.limitedTo2ndYear" value="true" id="2ndYear">
+				 <input class="form-check-input" type="checkbox" asp-for="@Model.post.LimitedTo2ndYear" value="true" id="2ndYear">
 				 <label class="form-check-label" for="2ndYear">2nd Year</label>
 			</div>
 			<div class="form-check form-check-inline">
-				 <input class="form-check-input" type="checkbox" asp-for="@Model.post.limitedTo3rdYear" value="true" id="3rdYear">
+				 <input class="form-check-input" type="checkbox" asp-for="@Model.post.LimitedTo3rdYear" value="true" id="3rdYear">
 				 <label class="form-check-label" for="3rdYear">3rd Year</label>
 			</div>
 			<div class="form-check form-check-inline">
-				 <input class="form-check-input" type="checkbox" asp-for="@Model.post.limitedToHonours" value="true" id="Honours">
+				 <input class="form-check-input" type="checkbox" asp-for="@Model.post.LimitedToHonours" value="true" id="Honours">
 				 <label class="form-check-label" for="Honours">Honours</label>
 			</div>
 			<div class="form-check form-check-inline">
-				 <input class="form-check-input" type="checkbox" asp-for="@Model.post.limitedToGraduate" value="true" id="Graduates">
+				 <input class="form-check-input" type="checkbox" asp-for="@Model.post.LimitedToGraduate" value="true" id="Graduates">
 				 <label class="form-check-label" for="Graduates">Graduates</label>
 			</div>
 			<div class="form-check form-check-inline">
-				 <input class="form-check-input" type="checkbox" asp-for="@Model.post.limitedToMasters" value="true" id="Masters">
+				 <input class="form-check-input" type="checkbox" asp-for="@Model.post.LimitedToMasters" value="true" id="Masters">
 				 <label class="form-check-label" for="Masters">Masters</label>
 			</div>
 			<div class="form-check form-check-inline">
-				 <input class="form-check-input" type="checkbox" asp-for="@Model.post.limitedToPhd" value="true" id="PHD">
+				 <input class="form-check-input" type="checkbox" asp-for="@Model.post.LimitedToPhd" value="true" id="PHD">
 				 <label class="form-check-label" for="PHD">PHD</label>
 			</div>
 			<div class="form-check form-check-inline">
-				 <input class="form-check-input" type="checkbox" asp-for="@Model.post.limitedToPostdoc" value="true" id="Postdoc">
+				 <input class="form-check-input" type="checkbox" asp-for="@Model.post.LimitedToPostdoc" value="true" id="Postdoc">
 				 <label class="form-check-label" for="Postdoc">Postdoc</label>
 			</div>
 			<div class="form-check form-check-inline">
-				 <input class="form-check-input" type="checkbox" asp-for="@Model.post.limitedToFaculty" value="true" id="Faculty">
+				 <input class="form-check-input" type="checkbox" asp-for="@Model.post.LimitedToFaculty" value="true" id="Faculty">
 				 <label class="form-check-label" for="Faculty">Faculty</label>
 			</div>
 			<div class="form-check form-check-inline">
-				 <input class="form-check-input" type="checkbox" asp-for="@Model.post.limitedToDepartment" value="true" id="Department">
+				 <input class="form-check-input" type="checkbox" asp-for="@Model.post.LimitedToDepartment" value="true" id="Department">
 				 <label class="form-check-label" for="Department">Department</label>
 			</div>
 		</div>
 	</div>
 	<div class="col pb-2">
-		<label asp-for="@Model.post.limitedToCountry"></label>
+		<label asp-for="@Model.post.LimitedToSA"></label>
 		<div class="form-check">
-			 <input class="form-check-input" type="radio" asp-for="@Model.post.limitedToCountry" value="South African citizens or" id="SAonly">
+			 <input class="form-check-input" type="radio" asp-for="@Model.post.LimitedToSA" value="true" id="SAonly">
 			 <label class="form-check-label" for="SAonly">South African citizens or</label>
 		</div>
 		<div class="form-check">
-			 <input class="form-check-input" type="radio" asp-for="@Model.post.limitedToCountry" value="Open to everyone" id="everyone">
+			 <input class="form-check-input" type="radio" asp-for="@Model.post.LimitedToSA" value="false" id="everyone">
 			 <label class="form-check-label" for="everyone">Open to everyone</label>
 		</div>
 	</div>
 
 	<div class="col pb-2">
-		<select asp-for="@Model.post.jobType" >
-			<option value="" selected disabled>Select faculty</option>
-			@foreach(var faculty in @Model.faculty){
-				<option value="@faculty.facultyName" >@faculty.facultyName</option>
+		<label asp-for="@Model.post.FacultyName"></label>
+		<select id="facultyNameID" class="form-select" asp-for="@Model.post.FacultyName">
+			<option value=@null selected disabled>Select faculty</option>
+			@foreach (var faculty in @Model.Faculty)
+			{
+				<option value="@faculty.FacultyId">@faculty.FacultyName</option>
 			}
 		</select>
+		<span asp-validation-for="@Model.post.FacultyName" class="text-danger"></span>
 	</div>
 	<div class="col pb-2">
-		<select asp-for="@Model.post.departmentName" >
-			<option value=""  selected disabled>Select department</option>
-			@foreach(var departments in @Model.department){
-				<option value="@departments.departmentName" >@departments.departmentName</option>
+		<label asp-for="@Model.post.DepartmentName"></label>
+		<select id="departmentNameID" class="form-select" asp-for="@Model.post.DepartmentName">
+			<option value=@null selected disabled>Select department</option>
+			@foreach (var dep in @Model.Department)
+			{
+				<option value="@dep.DepartmentName">@dep.DepartmentName</option>
 			}
 		</select>
+		<span asp-validation-for="@Model.post.DepartmentName" class="text-danger"></span>
 	</div>
 
 	<div class="col pb-2">
-		<label asp-for="@Model.post.minimumRequirment" class="col-2"></label>
-		<input  asp-for="@Model.post.minimumRequirment" />
+		<label asp-for="@Model.post.MinimumRequirement" class="col-2"></label>
+		<input  class="form-control" asp-for="@Model.post.MinimumRequirement" />
+		<span asp-validation-for="@Model.post.MinimumRequirement" class="text-danger"></span>
 	</div>
 	<div class="col pb-2">
-		<label asp-for="@Model.post.applicationInstruction" class="col-2"></label>
-		<input asp-for="@Model.post.applicationInstruction" />
-	</div>
-
-	<div class="col pb-2">
-		<label asp-for="@Model.post.applicationClosingDate" class="col-2"></label>
-		<input type="date" asp-for="@Model.post.applicationClosingDate" />
+		<label asp-for="@Model.post.ApplicationInstruction" ></label>
+		<input class="form-control" asp-for="@Model.post.ApplicationInstruction" />
+		<span asp-validation-for="@Model.post.ApplicationInstruction" class="text-danger"></span>
 	</div>
 
 	<div class="col pb-2">
-		<label asp-for="@Model.post.conatctPersonName" class="col-2"></label>
-		<input asp-for="@Model.post.conatctPersonName" />
+		<label asp-for="@Model.post.ApplicationClosingDate" ></label>
+		<input class="form-control" type="date" asp-for="@Model.post.ApplicationClosingDate" />
+		<span asp-validation-for="@Model.post.ApplicationClosingDate" class="text-danger"></span>
+	</div>
+
+	<div class="col pb-2">
+		<label asp-for="@Model.post.ContactPersonName" ></label>
+		<input class="form-control" asp-for="@Model.post.ContactPersonName" />
+		<span asp-validation-for="@Model.post.ContactPersonName" class="text-danger"></span>
 	</div>
 	<div class="col pb-2">
-		<label asp-for="@Model.post.conatctPersonEmail" class="col-2"></label>
-		<input asp-for="@Model.post.conatctPersonEmail" />
+		<label asp-for="@Model.post.ContactPersonEmail" ></label>
+		<input class="form-control" asp-for="@Model.post.ContactPersonEmail" />
+		<span asp-validation-for="@Model.post.ContactPersonEmail" class="text-danger"></span>
 	</div>
 	<div class="col pb-2">
-		<label asp-for="@Model.post.conatctPersonNumber" class="col-2"></label>
-		<input asp-for="@Model.post.conatctPersonNumber" />
+		<label asp-for="@Model.post.ContactPersonNumber"></label>
+		<input class="form-control" asp-for="@Model.post.ContactPersonNumber" />
+		<span asp-validation-for="@Model.post.ContactPersonNumber" class="text-danger"></span>
 	</div>
 	<div class="col pl-3">
 		<button type="submit"  class="btn btn-success btn-sm">Create post</button>
@@ -158,4 +177,37 @@
 	</div>
 
 </form>
+
+@section scripts{
+	<script type="text/javascript">
+		$(document).ready(function(){
+			$('#jobtypeid').change(function () {
+				if (this.value == "Fulltime") {
+					$('#parttimehouris').hide();
+				}
+				else {
+					$('#parttimehouris').show();
+				}
+
+			});
+
+			$('#facultyNameID').change(function(){
+				var obId = this.value
+				$('#departmentNameID').empty();
+				$.ajax({
+					type:'GET',
+					url: '@Url.Action("GetDepartmentById")',
+					dataType: 'json',
+					data: {id : obId},
+					success: function(dep){
+						$.each(dep,function(index,item){
+							$('#departmentNameID').append('<option value="'+item.departmentName+'">' +item.departmentName+ '</option>')
+						});
+					}
+				});
+
+			});
+		});
+	</script>
+}
 

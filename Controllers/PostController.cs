@@ -1,12 +1,15 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using SEP.Areas.Identity.Data;
+using Microsoft.EntityFrameworkCore;
+using SEP.Data;
 using SEP.Models.DomainModels;
 using SEP.Models.ViewModels;
 
 namespace SEP.Controllers
 {
-	public class PostController : Controller
+    [Authorize]
+    public class PostController : Controller
 	{
 		private readonly ApplicationDbContext _db;
 
@@ -22,7 +25,7 @@ namespace SEP.Controllers
 		public async Task<IActionResult> Index()
 		{
 			ApplicationUser user = await _userManager.GetUserAsync(User);
-			IEnumerable<Post> posts = _db.Posts.Where(p => p.UserID.Equals(user.Id));
+			IEnumerable<Post> posts = _db.Posts.Where(p => p.EmployerId.Equals(user.Id));
 
 			return View(posts);
 		}
@@ -32,26 +35,52 @@ namespace SEP.Controllers
 
 			IEnumerable<Faculty> faculties = _db.Faculties;
 			IEnumerable<Department> departments = _db.Departments;
+			IEnumerable<PartTimeHours> partTimeHours = _db.partTimeHours;
 
 			ApplicationUser user = await _userManager.GetUserAsync(User);
 
 
-			PostViewModel postViewModel = new PostViewModel();
-			Post newPost = new Post();
-			newPost.UserID = user.Id;
-			newPost.startDate = DateTime.Now;
-			newPost.endDate = DateTime.Now;
-			newPost.applicationClosingDate = DateTime.Now;
+			PostViewModel postViewModel = new();
+			Post newPost = new();
+			newPost.EmployerId = user.Id;
+			newPost.StartDate = DateTime.Now;
+			newPost.EndDate = DateTime.Now;
+			newPost.ApplicationClosingDate = DateTime.Now;
 			postViewModel.post = newPost;
-			postViewModel.faculty = faculties;
-			postViewModel.department = departments;
+			postViewModel.Faculty = faculties;
+			postViewModel.Department = departments;
+			postViewModel.PartTimeHours = partTimeHours;
 
 			return View(postViewModel);
 		}
 		[HttpPost]
-		public IActionResult CreatePost(PostViewModel postViewModelObject)
+		public async Task<IActionResult> Create(PostViewModel postViewModelObject)
 		{
-			postViewModelObject.post.postStatus = "Pending";
+			ModelState.Remove("Post.PostStatus");
+			ModelState.Remove("Post.ApprovalStatus");
+			if (!ModelState.IsValid)
+			{
+				IEnumerable<Faculty> faculties = _db.Faculties;
+				IEnumerable<Department> departments = _db.Departments;
+				IEnumerable<PartTimeHours> partTimeHours = _db.partTimeHours;
+
+				ApplicationUser user = await _userManager.GetUserAsync(User);
+
+
+				PostViewModel postViewModel = new();
+				Post newPost = new();
+				newPost.EmployerId = user.Id;
+				newPost.StartDate = DateTime.Now;
+				newPost.EndDate = DateTime.Now;
+				newPost.ApplicationClosingDate = DateTime.Now;
+				postViewModel.post = newPost;
+				postViewModel.Faculty = faculties;
+				postViewModel.Department = departments;
+				postViewModel.PartTimeHours = partTimeHours;
+				return View(postViewModel);
+			}
+			postViewModelObject.post.PostStatus = "Pending";
+			postViewModelObject.post.ApprovalStatus = "Pending";
 
 			_db.Posts.Add(postViewModelObject.post);
 			_db.SaveChanges();
@@ -63,10 +92,13 @@ namespace SEP.Controllers
 		{
 
 			Post postObj = _db.Posts.Find(id);
-			IEnumerable<Faculty> faculties = _db.Faculties;
-			IEnumerable<Department> departments = _db.Departments;
+			var facId = postObj.FacultyName;
 
-			PostViewModel postViewModel = new PostViewModel();
+			IEnumerable<Faculty> faculties = _db.Faculties;
+			IEnumerable<Department> departments = _db.Departments.Where(d => d.FacultyId.Equals(facId));
+            IEnumerable<PartTimeHours> partTimeHours = _db.partTimeHours;
+
+            PostViewModel postViewModel = new();
 
 			if (postObj != null)
 			{
@@ -76,14 +108,17 @@ namespace SEP.Controllers
 			{
 				return NotFound();
 			}
-			postViewModel.faculty = faculties;
-			postViewModel.department = departments;
+			postViewModel.Faculty = faculties;
+			postViewModel.Department = departments;
+            postViewModel.PartTimeHours = partTimeHours;
 
-			return View(postViewModel);
+            return View(postViewModel);
 		}
 		[HttpPost]
 		public IActionResult UpdatePost(PostViewModel postViewModelObject)
 		{
+			//change post status to pending and wait for approval
+			//if post is approved, do not allow update
 			_db.Posts.Update(postViewModelObject.post);
 			_db.SaveChanges();
 			return RedirectToAction("Index");
@@ -91,7 +126,7 @@ namespace SEP.Controllers
 		[HttpPost]
 		public IActionResult ClosePost(PostViewModel postViewModelObject)
 		{
-			postViewModelObject.post.postStatus = "Closed";
+			postViewModelObject.post.PostStatus = "Closed";
 			_db.Posts.Update(postViewModelObject.post);
 			_db.SaveChanges();
 			return RedirectToAction("Index");
@@ -99,12 +134,40 @@ namespace SEP.Controllers
 		[HttpPost]
 		public IActionResult WithdrawPost(PostViewModel postViewModelObject)
 		{
-			postViewModelObject.post.postStatus = "Withrawed";
+			postViewModelObject.post.PostStatus = "Withdrawn";
 			_db.Posts.Update(postViewModelObject.post);
 			_db.SaveChanges();
 			return RedirectToAction("Index");
 		}
+		// get Departments by Id
+		public JsonResult GetDepartmentById(int id)
+		{
+			return Json( _db.Departments.Where(d => d.FacultyId.Equals(id)) );
+		}
 
+		public async Task<ActionResult> Details(Guid id)
+		{
+			var post = await _db.Posts.FirstAsync(p => p.PostId == id);
+			if (post == null)
+			{
+				return NotFound();
+			}
+
+            var facId = post.FacultyName;
+            IEnumerable<Faculty> faculties = _db.Faculties;
+            IEnumerable<Department> departments = _db.Departments.Where(d => d.FacultyId.Equals(facId));
+            IEnumerable<PartTimeHours> partTimeHours = _db.partTimeHours;
+
+			PostViewModel postViewModel = new()
+			{
+				post = post,
+				Faculty = faculties,
+				Department = departments,
+				PartTimeHours = partTimeHours
+			};
+
+            return View(postViewModel);
+		}
 
 	}
 }

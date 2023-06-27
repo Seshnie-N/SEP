@@ -2,24 +2,13 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 #nullable disable
 
-using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Text.Encodings.Web;
-using System.Threading;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.AspNetCore.WebUtilities;
-using Microsoft.Extensions.Logging;
-using SEP.Areas.Identity.Data;
-using SEP.Models.DomainModels;
+using SEP.Data;
 using SEP.Models.Enums;
 
 namespace SEP.Areas.Identity.Pages.Account
@@ -60,7 +49,7 @@ namespace SEP.Areas.Identity.Pages.Account
 
         public class InputModel
         {
-            [Required]
+            [Required(ErrorMessage = "Please enter email address.")]
             [EmailAddress]
             [Display(Name = "Email")]
             public string Email { get; set; }
@@ -75,21 +64,24 @@ namespace SEP.Areas.Identity.Pages.Account
             [Display(Name = "Confirm password")]
             [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
             public string ConfirmPassword { get; set; }
-
-            [Phone]
+            [Required(ErrorMessage = "Please enter phone number.")]
+            [RegularExpression("^(\\+27|0)[6-8][0-9]{8}$", ErrorMessage = "Invalid phone number")]
             [Display(Name = "Phone number")]
             public string PhoneNumber { get; set; }
 
-            [Display(Name ="First name")]
+            [Display(Name = "Are you a member of staff at Wits?")]
+            public bool isInternal { get; set; }
+            [Required(ErrorMessage = "Please enter your first name.")]
+            [Display(Name = "First name")]
             public string FirstName { get; set; }
-
+            [Required(ErrorMessage = "Please enter your last name.")]
             [Display(Name = "Last name")]
             public string LastName { get; set; }
-
-            [Display(Name ="Profile type")]
+            [Required(ErrorMessage = "Please select a profile type.")]
+            [Display(Name = "Profile type")]
             public UserRoles Role { get; set; }
-        }
 
+        }
 
         public async Task OnGetAsync(string returnUrl = null)
         {
@@ -108,44 +100,25 @@ namespace SEP.Areas.Identity.Pages.Account
                 user.FirstName = Input.FirstName;
                 user.LastName = Input.LastName;
                 user.PhoneNumber = Input.PhoneNumber;
-                
+
+                await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
                 await _userStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);
-                await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);       
-               
+
                 var result = await _userManager.CreateAsync(user, Input.Password);
 
+                //if user created successfully in AspnetUsers table
                 if (result.Succeeded)
                 {
+                    //assign role to user
                     var selectedRole = _roleManager.FindByNameAsync(Input.Role.ToString()).Result;
 
                     if (selectedRole != null)
                     {
-                        IdentityResult roleresult = await _userManager.AddToRoleAsync(user, selectedRole.Name);
+                        await _userManager.AddToRoleAsync(user, selectedRole.Name);
                     }
 
-                    _logger.LogInformation("User created a new account with password.");
-
-                    var userId = await _userManager.GetUserIdAsync(user);
-                    var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-                    code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
-                    var callbackUrl = Url.Page(
-                        "/Account/ConfirmEmail",
-                        pageHandler: null,
-                        values: new { area = "Identity", userId = userId, code = code, returnUrl = returnUrl },
-                        protocol: Request.Scheme);
-
-                    await _emailSender.SendEmailAsync(Input.Email, "Confirm your email",
-                        $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
-
-                    if (_userManager.Options.SignIn.RequireConfirmedAccount)
-                    {
-                        return RedirectToPage("RegisterConfirmation", new { email = Input.Email, returnUrl = returnUrl });
-                    }
-                    else
-                    {
-                        await _signInManager.SignInAsync(user, isPersistent: false);
-                        return LocalRedirect(returnUrl);
-                    }
+                    await _signInManager.SignInAsync(user, isPersistent: false);
+                    return LocalRedirect(returnUrl);
                 }
                 foreach (var error in result.Errors)
                 {
@@ -179,5 +152,7 @@ namespace SEP.Areas.Identity.Pages.Account
             }
             return (IUserEmailStore<ApplicationUser>)_userStore;
         }
+
+
     }
 }

@@ -7,9 +7,8 @@ namespace SEP.Models.DomainModels
 	public class Faculty
 	{
 		[Key]
-		public int facultyId { get; set; }
-		public string facultyName { get; set; }
-
-		//public Department department { get; set; }
+		public int FacultyId { get; set; }
+		[DisplayName("Faculty")]
+		public string FacultyName { get; set; }
 	}
 }

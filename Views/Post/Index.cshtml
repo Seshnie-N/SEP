@@ -8,7 +8,7 @@
 				<thead>
 					<tr>
 						<th>
-							Job tille
+							Job Title
 						</th>
 						<th>
 							Department
@@ -32,27 +32,27 @@
 					{
 						<tr>
 							<td width="15%">
-								@post.jobTitle
+								@post.JobTitle
 							</td>
 							<td width="20%">
-								@post.departmentName
+								@post.DepartmentName
 							</td>
 							<td width="15%">
-								@post.jobType
+								@post.JobType
 							</td>
 							<td width="15%">
-								@post.startDate.ToString("yyyy/mm/dd")
+								@post.StartDate.ToString("d")
 							</td>
 							<td width="15%">
-								@post.endDate.ToString("yyyy/mm/dd")
+								@post.EndDate.ToString("d")
 							</td>
 							<td width="20%">
 								<div class="row">
 									<div class="col">
-										@post.postStatus
+										@post.PostStatus
 									</div>
 									<div class="col">
-										<a asp-controller="Post" asp-action="Update" asp-route-id="@post.postId" class="btn btn-info btn-sm" value="">Review</a>
+										<a asp-controller="Post" asp-action="Update" asp-route-id="@post.PostId" class="btn btn-info btn-sm" value="">Review</a>
 									</div>
 
 								</div>
@@ -65,12 +65,12 @@
 	}
 	else
 	{
-		<h1>You do not have post yet</h1>
+		<h1>You have not created any posts yet.</h1>
 	}
 </div>
 <div>
 	<a asp-controller="Post" asp-action="Create" class="btn btn-info">Create post</a>
-	<a asp-controller="Post" asp-action="Index" class="btn btn-secondary">Back</a>
+	<a asp-controller="Home" asp-action="Index" class="btn btn-secondary">Back</a>
 </div>
 
 

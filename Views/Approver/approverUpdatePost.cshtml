@@ -1,0 +1,386 @@
+﻿@model SEP.Models.ViewModels.PostViewModel
+
+<form method="post" asp-action="ApproverUpdatePost">
+
+    <input asp-for="@Model.post.PostId" hidden />
+    <input asp-for="@Model.post.EmployerId" hidden />
+    <input asp-for="@Model.post.IsApproved" hidden />
+
+
+    <div class="col pb-2">
+        <label asp-for="@Model.post.JobTitle" class="col-2"></label>
+        <input asp-for="@Model.post.JobTitle" readonly />
+    </div>
+    <div class="col pb-2">
+        <label asp-for="@Model.post.JobLocation" class="col-2"></label>
+        <input asp-for="@Model.post.JobLocation" readonly />
+    </div>
+    <div class="col pb-2">
+        <label asp-for="@Model.post.JobDescription" class="col-2"></label>
+        <input asp-for="@Model.post.JobDescription" readonly />
+    </div>
+    <div class="col pb-2">
+        <label asp-for="@Model.post.Responsibilities" class="col-2"></label>
+        <input asp-for="@Model.post.Responsibilities" readonly />
+    </div>
+    <div class="col pb-2">
+        <label asp-for="@Model.post.JobType" class="col-2"></label>
+        <select id="jobType" asp-for="@Model.post.JobType">
+            <option value="" selected disabled>Select job type</option>
+            @if (@Model.post.JobType == "Fulltime")
+            {
+                <option value="Fulltime">Fulltime</option>
+                <option value="Part-time" disabled>Part-time</option>
+            }
+            else
+            {
+                <option value="Part-time">Part-time</option>
+                <option value="Fulltime" disabled>Fulltime</option>
+            }
+
+        </select>
+    </div>
+    <div class="col pb-2">
+        <label asp-for="@Model.post.PartTimeHour"></label>
+        <select asp-for="@Model.post.PartTimeHour">
+            <option value="" selected>Range</option>
+            @foreach (var hour in @Model.PartTimeHours)
+            {
+                @if (@hour.TimeRange == @Model.post.PartTimeHour)
+                {
+                    <option value=@hour.TimeRange> @hour.TimeRange </option>
+                }
+                else
+                {
+                    <option value=@hour.TimeRange disabled> @hour.TimeRange </option>
+                }
+
+            }
+        </select>
+    </div>
+    <div class="col pb-2">
+        <label asp-for="@Model.post.StartDate" class="col-2"></label>
+        <input type="date" asp-for="@Model.post.StartDate" readonly />
+    </div>
+    <div class="col pb-2">
+        <label asp-for="@Model.post.EndDate" class="col-2"></label>
+        <input type="date" asp-for="@Model.post.EndDate" readonly />
+    </div>
+    <div class="col pb-2">
+        <label asp-for="@Model.post.HourlyRate" class="col-2"></label>
+        <input asp-for="@Model.post.HourlyRate" readonly />
+    </div>
+    <div class="col pb-2">
+        <label>Limited to</label>
+        <div class="col-5">
+            <div class="form-check form-check-inline">
+                @if (@Model.post.LimitedTo1stYear == true)
+                {
+                    <input class="form-check-input" type="checkbox" asp-for="@Model.post.LimitedTo1stYear" value="true" id="1stYear">
+                }
+                else
+                {
+                    <input class="form-check-input" type="checkbox" asp-for="@Model.post.LimitedTo1stYear" value="true" id="1stYear" disabled>
+                }
+                @*<input class="form-check-input" type="checkbox" asp-for="@Model.post.limitedTo1stYear" value="true" id="1stYear" >*@
+                <label class="form-check-label" for="1stYear">1st Year</label>
+            </div>
+            <div class="form-check form-check-inline">
+                @if (@Model.post.LimitedTo2ndYear == true)
+                {
+                    <input class="form-check-input" type="checkbox" asp-for="@Model.post.LimitedTo2ndYear" value="true" id="2ndYear">
+                }
+                else
+                {
+                    <input class="form-check-input" type="checkbox" asp-for="@Model.post.LimitedTo2ndYear" value="true" id="2ndYear" disabled>
+                }
+                @*<input class="form-check-input" type="checkbox" asp-for="@Model.post.limitedTo2ndYear" value="true" id="2ndYear" >*@
+                <label class="form-check-label" for="2ndYear">2nd Year</label>
+            </div>
+            <div class="form-check form-check-inline">
+                @if (@Model.post.LimitedTo3rdYear == true)
+                {
+                    <input class="form-check-input" type="checkbox" asp-for="@Model.post.LimitedTo3rdYear" value="true" id="3rdYear">
+                }
+                else
+                {
+                    <input class="form-check-input" type="checkbox" asp-for="@Model.post.LimitedTo3rdYear" value="true" id="3rdYear" disabled>
+                }
+                @*<input  class="form-check-input" type="checkbox" asp-for="@Model.post.limitedTo3rdYear" value="true" id="3rdYear" >*@
+                <label class="form-check-label" for="3rdYear">3rd Year</label>
+            </div>
+            <div class="form-check form-check-inline">
+                @if (@Model.post.LimitedToHonours == true)
+                {
+                    <input class="form-check-input" type="checkbox" asp-for="@Model.post.LimitedToHonours" value="true" id="Honours">
+                }
+                else
+                {
+                    <input class="form-check-input" type="checkbox" asp-for="@Model.post.LimitedToHonours" value="true" id="Honours" disabled>
+                }
+                @*<input class="form-check-input" type="checkbox" asp-for="@Model.post.limitedToHonours" value="true" id="Honours" >*@
+                <label class="form-check-label" for="Honours">Honours</label>
+            </div>
+            <div class="form-check form-check-inline">
+                @if (@Model.post.LimitedToGraduate == true)
+                {
+                    <input class="form-check-input" type="checkbox" asp-for="@Model.post.LimitedToGraduate" value="true" id="Graduates">
+                }
+                else
+                {
+                    <input class="form-check-input" type="checkbox" asp-for="@Model.post.LimitedToGraduate" value="true" id="Graduates" disabled>
+                }
+                @*<input class="form-check-input" type="checkbox" asp-for="@Model.post.limitedToGraduate" value="true" id="Graduates" >*@
+                <label class="form-check-label" for="Graduates">Graduates</label>
+            </div>
+            <div class="form-check form-check-inline">
+                @if (@Model.post.LimitedToMasters == true)
+                {
+                    <input class="form-check-input" type="checkbox" asp-for="@Model.post.LimitedToMasters" value="true" id="Masters">
+                }
+                else
+                {
+                    <input class="form-check-input" type="checkbox" asp-for="@Model.post.LimitedToMasters" value="true" id="Masters" disabled>
+                }
+                @*<input class="form-check-input" type="checkbox" asp-for="@Model.post.limitedToMasters" value="true" id="Masters" >*@
+                <label class="form-check-label" for="Masters">Masters</label>
+            </div>
+            <div class="form-check form-check-inline">
+                @if (@Model.post.LimitedToPhd == true)
+                {
+                    <input class="form-check-input" type="checkbox" asp-for="@Model.post.LimitedToPhd" value="true" id="PHD">
+                }
+                else
+                {
+                    <input class="form-check-input" type="checkbox" asp-for="@Model.post.LimitedToPhd" value="true" id="PHD" disabled>
+                }
+                @*<input class="form-check-input" type="checkbox" asp-for="@Model.post.limitedToPhd" value="true" id="PHD" >*@
+                <label class="form-check-label" for="PHD">PHD</label>
+            </div>
+            <div class="form-check form-check-inline">
+                @if (@Model.post.LimitedToPostdoc == true)
+                {
+                    <input class="form-check-input" type="checkbox" asp-for="@Model.post.LimitedToPostdoc" value="true" id="Postdoc">
+                }
+                else
+                {
+                    <input class="form-check-input" type="checkbox" asp-for="@Model.post.LimitedToPostdoc" value="true" id="Postdoc" disabled>
+                }
+                @*<input class="form-check-input" type="checkbox" asp-for="@Model.post.limitedToPostdoc" value="true" id="Postdoc" >*@
+                <label class="form-check-label" for="Postdoc">Postdoc</label>
+            </div>
+            <div class="form-check form-check-inline">
+                @if (@Model.post.LimitedToFaculty == true)
+                {
+                    <input class="form-check-input" type="checkbox" asp-for="@Model.post.LimitedToFaculty" value="true" id="Faculty">
+                }
+                else
+                {
+                    <input class="form-check-input" type="checkbox" asp-for="@Model.post.LimitedToFaculty" value="true" id="Faculty" disabled>
+                }
+                @*<input class="form-check-input" type="checkbox" asp-for="@Model.post.limitedToFaculty" value="true" id="Faculty" >*@
+                <label class="form-check-label" for="Faculty">Faculty</label>
+            </div>
+            <div class="form-check form-check-inline">
+                @if (@Model.post.LimitedToDepartment == true)
+                {
+                    <input class="form-check-input" type="checkbox" asp-for="@Model.post.LimitedToDepartment" value="true" id="Department">
+                }
+                else
+                {
+                    <input class="form-check-input" type="checkbox" asp-for="@Model.post.LimitedToDepartment" value="true" id="Department" disabled>
+                }
+                @* <input class="form-check-input" type="checkbox" asp-for="@Model.post.limitedToDepartment" value="true" id="Department" >*@
+                <label class="form-check-label" for="Department">Department</label>
+            </div>
+
+        </div>
+    </div>
+    <div class="col pb-2">
+        <label asp-for="@Model.post.LimitedToSA"></label>
+        <div class="form-check ">
+            @if (@Model.post.LimitedToSA == true)
+            {
+                <input class="form-check-input" type="radio" asp-for="@Model.post.LimitedToSA" value="South African citizens or" id="SAonly">
+            }
+            else
+            {
+                <input class="form-check-input" type="radio" asp-for="@Model.post.LimitedToSA" value="South African citizens or" id="SAonly" disabled>
+            }
+            @* <input class="form-check-input" type="radio" asp-for="@Model.post.limitedToCountry" value="South African citizens or" id="SAonly" >*@
+            <label class="form-check-label" for="SAonly">South African citizens or</label>
+        </div>
+        <div class="form-check ">
+            @if (@Model.post.LimitedToSA == false)
+            {
+                <input class="form-check-input" type="radio" asp-for="@Model.post.LimitedToSA" value="Open to everyone" id="everyone">
+            }
+            else
+            {
+                <input class="form-check-input" type="radio" asp-for="@Model.post.LimitedToSA" value="Open to everyone" id="everyone" disabled>
+            }
+            @*<input class="form-check-input" type="radio" asp-for="@Model.post.limitedToCountry"  value="Open to everyone" id="everyone" >*@
+            <label class="form-check-label" for="everyone">Open to everyone</label>
+        </div>
+    </div>
+
+    <div class="col pb-2">
+        <select id="facultyNameID" asp-for="@Model.post.FacultyName">
+            <option value="" selected disabled>Select faculty</option>
+            @foreach (var faculty in @Model.Faculty)
+            {
+                <option value="@faculty.FacultyId">@faculty.FacultyName</option>
+            }
+        </select>
+    </div>
+    <div class="col pb-2">
+        <select id="departmentNameID" asp-for="@Model.post.DepartmentName">
+            <option value="" selected disabled>Select department</option>
+            @foreach (var department in @Model.Department)
+            {
+                @if (@department.DepartmentName == @Model.post.DepartmentName)
+                {
+                    <option value="@department.DepartmentName">@department.DepartmentName</option>
+                }
+                else
+                {
+                    <option value="@department.DepartmentName" disabled>@department.DepartmentName</option>
+                }
+
+            }
+        </select>
+    </div>
+
+    <div class="col pb-2">
+        <label asp-for="@Model.post.MinimumRequirement" class="col-2"></label>
+        <input asp-for="@Model.post.MinimumRequirement" readonly />
+    </div>
+    <div class="col pb-2">
+        <label asp-for="@Model.post.ApplicationInstruction" class="col-2"></label>
+        <input asp-for="@Model.post.ApplicationInstruction" readonly />
+    </div>
+
+    <div class="col pl-1">
+        <label asp-for="@Model.post.ApplicationClosingDate" class="col-2"></label>
+        <input type="date" asp-for="@Model.post.ApplicationClosingDate" readonly />
+    </div>
+
+    <div class="col pb-2">
+        <label asp-for="@Model.post.ContactPersonName" class="col-2"></label>
+        <input asp-for="@Model.post.ContactPersonName" readonly />
+    </div>
+    <div class="col pb-2">
+        <label asp-for="@Model.post.ContactPersonEmail" class="col-2"></label>
+        <input asp-for="@Model.post.ContactPersonEmail" readonly />
+    </div>
+    <div class="col pb-2">
+        <label asp-for="@Model.post.ContactPersonNumber" class="col-2"></label>
+        <input asp-for="@Model.post.ContactPersonNumber" />
+    </div>
+    <div class="col pb-2">
+        <label asp-for="@Model.post.PostStatus" class="col-2"></label>
+        <input asp-for="@Model.post.PostStatus" readonly />
+    </div>
+    <div class="col pb-2">
+        <label asp-for="@Model.post.ApprovalStatus" class="col-2"></label>
+        <input asp-for="@Model.post.ApprovalStatus" readonly />
+    </div>
+    <div class="col pb-2">
+        <label asp-for="@Model.post.PostReviewComment" class="col-2"></label>
+        <textarea asp-for="@Model.post.PostReviewComment"></textarea>
+    </div>
+
+    <div class="col pl-3 pt-2">
+        <a type="submit" asp-controller="Approver" asp-action="ApproverApprovePost" asp-route-id="@Model.post.PostId" class="btn btn-success btn-sm">Approve</a>
+        <a type="submit" asp-controller="Approver" asp-action="ApproverRejectPost" asp-route-id="@Model.post.PostId" class="btn btn-success btn-sm">Reject</a>
+        <a type="submit" asp-controller="Approver" asp-action="ApproverQueryPost" asp-route-id="@Model.post.PostId" class="btn btn-success btn-sm">Query</a>
+    </div>
+
+
+    <div class="col pl-3 pt-2">
+        <button type="submit" class="btn btn-success btn-sm">Save changes</button>
+        <a asp-controller="Approver" asp-action="PendingPosts" class="btn btn-secondary btn-sm">Back</a>
+    </div>
+
+</form>
+@section scripts{
+    <script>
+        //function hideapprovernote(){
+        //    $('#approvernote').hide();
+        //}
+        $(document).ready(function () {
+
+            $('#1stYear').change(function () {
+                $('#1stYear').prop("checked", true);
+            });
+
+            $('#2ndYear').change(function () {
+                $('#2ndYear').prop("checked", true);
+            });
+            $('#3rdYear').change(function () {
+                $('#3rdYear').prop("checked", true);
+            });
+
+            $('#Honours').change(function () {
+                $('#Honours').prop("checked", true);
+            });
+
+            $('#Graduates').change(function () {
+                $('#Graduates').prop("checked", true);
+            });
+            $('#Masters').change(function () {
+                $('#Masters').prop("checked", true);
+            });
+            $('#PHD').change(function () {
+                $('#PHD').prop("checked", true);
+            });
+
+            $('#Postdoc').change(function () {
+                $('#Postdoc').prop("checked", true);
+            });
+            $('#Faculty').change(function () {
+                $('#Faculty').prop("checked", true);
+            });
+
+            $('#Department').change(function () {
+                $('#Department').prop("checked", true);
+            });
+
+            //$('#graduates').attr("disabled", true);
+
+            //hideapprovernote();
+            //var note = $('#approvalstatus').val()
+            //if(note != "pending"  && note!=""){
+            //    $('#approvernote').show();
+            //}
+
+
+        });
+    </script>
+}
+
+
+@*@section scripts{
+	<script type="text/javascript">
+		$(document).ready(function(){
+			$('#facultyNameID').change(function(){
+				var obId = this.value
+				//alert(obId);
+				$('#departmentNameID').empty();
+				$.ajax({
+					type:'GET',
+					url: '@Url.Action("GetDepartmentById")',
+					dataType: 'json',
+					data: {id : obId},
+					success: function(dep){
+						$.each(dep,function(index,item){
+							$('#departmentNameID').append('<option value="'+item.departmentName+'">' +item.departmentName+ '</option>')
+						});
+					}
+				});
+
+			});
+		});
+	</script>
+}*@
+

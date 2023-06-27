@@ -1,0 +1,81 @@
+﻿@model IEnumerable<SEP.Models.DomainModels.Post>
+@{
+	ViewData["Title"] = "Pending Job Posts";
+}
+<h2>Pending Job Posts</h2>
+<div>
+	@if (Model.Count() > 0)
+	{
+		<div>
+			<table class="table table-bordered" style="width:100%">
+				<thead>
+					<tr>
+						<th>
+							Job title
+						</th>
+						<th>
+							Department
+						</th>
+						<th>
+							Job type
+						</th>
+						<th>
+							Start date
+						</th>
+						<th>
+							End date
+						</th>
+						<th>
+							Status
+						</th>
+					</tr>
+				</thead>
+				<tbody>
+					@foreach (var post in Model)
+					{
+						<tr>
+							<td width="15%">
+								@post.JobTitle
+							</td>
+							<td width="20%">
+								@post.DepartmentName
+							</td>
+							<td width="15%">
+								@post.JobType
+							</td>
+							<td width="15%">
+								@post.StartDate.ToString("d")
+							</td>
+							<td width="15%">
+								@post.EndDate.ToString("d")
+							</td>
+							<td width="20%">
+								<div class="row">
+									<div class="col">
+										@post.ApprovalStatus
+									</div>
+									<div class="col">
+										<a asp-controller="Approver" asp-action="ApproverUpdatePost" asp-route-id="@post.PostId" class="btn btn-info btn-sm" value="">Review</a>
+									</div>
+
+								</div>
+							</td>
+						</tr>
+					}
+				</tbody>
+			</table>
+		</div>
+	}
+	else
+	{
+		<p>There are no job posts awaiting approval.</p>
+	}
+</div>
+<div>
+	<a asp-controller="Home" asp-action="ApproverHome" class="btn btn-secondary">Back</a>
+</div>
+
+
+
+
+

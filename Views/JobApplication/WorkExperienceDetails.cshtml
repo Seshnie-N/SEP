@@ -1,0 +1,28 @@
+﻿@model SEP.Models.DomainModels.WorkExperience
+@{
+	ViewData["Message"] = "Employment Details";
+}
+<h1>Employment Details</h1>
+<hr />
+<div class="row">
+    <div class="col-md-12">
+        <div>
+            <p><b>Employer Name: </b>@Model.EmployerName</p>
+        </div>
+        <div>
+            <p><b>Start Date: </b> @Model.StartDate.ToString("d")</p>
+        </div>
+        <div>
+            <p><b>End Date: </b> @Model.EndDate.ToString("d")</p>
+        </div>
+        <div>
+            <p><b>Job Title: </b> @Model.JobTitle</p>
+        </div>
+        <div>
+            <p><b>Tasks and Responsibilities: </b> @Model.TasksAndResponsibilities</p>
+        </div>
+    </div>
+</div>
+<div class="pt-2">
+    <a class="btn btn-primary" href="##" onClick="history.go(-1); return false;">Back</a>
+</div>
