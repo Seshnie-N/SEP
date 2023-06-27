@@ -58,7 +58,7 @@ else
                 </td>
                 <td>
                     @if(@item.Status.Equals("Incomplete")){
-                        <a class="btn btn-primary" asp-controller="JobApplication" asp-action="Create" asp-route-id="@item.PostId">Edit</a>
+                        <a class="btn btn-primary" asp-controller="JobApplication" asp-action="Create" asp-route-id="@item.PostId" asp-route-returnTo="ApplicationHistory">Edit</a>
                     } else
                     {
                         <a class="btn btn-primary" asp-controller="JobApplication" asp-action="Details" asp-route-id="@item.ApplicationId">Details</a>

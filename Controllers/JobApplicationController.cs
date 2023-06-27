@@ -23,8 +23,9 @@ namespace SEP.Controllers
 
         private readonly string[] permittedExtensions = { ".jpg", ".pdf", ".png" };
 
-        public async Task<IActionResult> Create(Guid id) 
+        public async Task<IActionResult> Create(Guid id, string returnTo) 
         {
+            TempData["ReturnTo"] = returnTo;
             var post = await _db.Posts.Where(p => p.PostId == id).SingleOrDefaultAsync();
             if (post == null)
             {
@@ -61,7 +62,7 @@ namespace SEP.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> UploadDocument(List<IFormFile> files, string description, Guid id)
+        public async Task<IActionResult> UploadDocument(List<IFormFile> files, string description, Guid id, string returnTo)
         {
             var application = await _db.JobApplications.Where(a => a.ApplicationId == id).SingleOrDefaultAsync();
             foreach (var file in files)
@@ -77,7 +78,7 @@ namespace SEP.Controllers
                 {
                     TempData["Message"] = "Invalid file type. You can only upload .png, .jpg and .pdf files.";
                     TempData["MessageType"] = "Danger";
-                    return RedirectToAction("Create", new { id = application.PostId });
+                    return RedirectToAction("Create", new { id = application.PostId, returnTo });
                 }
                 if (!System.IO.File.Exists(filePath))
                 {
@@ -106,8 +107,59 @@ namespace SEP.Controllers
                 }
             }
   
-            return RedirectToAction("Create",new { id = application.PostId});
+            return RedirectToAction("Create",new { id = application.PostId, returnTo});
         }
+
+        public async Task<IActionResult> ViewDocumentAsync(Guid id)
+        {      
+            var file = await _db.Documents.Where(x => x.DocumentId == id).FirstOrDefaultAsync();
+
+            if (file == null) return NotFound();
+            var stream = new FileStream(file.FilePath, FileMode.Open);
+            return File(stream, file.FileType);
+        }
+        public async Task<IActionResult> DeleteFile(Guid id, string returnTo)
+        {
+            var file = await _db.Documents.Include("JobApplication").Where(d => d.DocumentId == id).FirstOrDefaultAsync();
+            if (file == null) return NotFound();
+            if (System.IO.File.Exists(file.FilePath))
+            {
+                System.IO.File.Delete(file.FilePath);
+            }
+            _db.Documents.Remove(file);
+            _db.SaveChanges();
+            TempData["Message"] = $"Removed {file.Name + file.Extension} successfully.";
+            TempData["MessageType"] = "Success";
+            return RedirectToAction("Create", new { id = file.JobApplication.PostId, returnTo });
+        }
+        
+        public async Task<IActionResult> SubmitApplication(Guid id, string returnTo)
+        {
+            //change application status to pending 
+            var application = await _db.JobApplications.Where(a => a.ApplicationId == id).SingleOrDefaultAsync();
+            if (application == null)
+            {
+                return NotFound();
+            }
+            var documents = await _db.Documents.Where(d => d.JobApplicationId == id).ToListAsync();
+            if (documents.Count > 0)
+            {
+                application.Status = "Pending";
+                _db.Update(application);
+                _db.SaveChanges();
+                if (returnTo.Equals("ApplicationHistory"))
+                {
+                    return RedirectToAction("ApplicationHistory");
+                }
+                return RedirectToAction("FilteredJobPosts", "Student");
+            } else
+            {
+                TempData["Message"] = "You cannot submit an empty application. Please upload the necessary documents.";
+                TempData["MessageType"] = "Danger";
+                return RedirectToAction("Create", new { id = application.PostId });
+            }
+        }
+
         [Authorize(Roles = "Student")]
         public async Task<IActionResult> ApplicationHistory()
         {
@@ -137,53 +189,6 @@ namespace SEP.Controllers
             };
             return View(applicationDetails);
         }
-
-        public async Task<IActionResult> ViewDocumentAsync(Guid id)
-        {
-            var file = await _db.Documents.Where(x => x.DocumentId == id).FirstOrDefaultAsync();
-
-            if (file == null) return NotFound();
-            var stream = new FileStream(file.FilePath, FileMode.Open);
-            return File(stream, file.FileType);
-        }
-        public async Task<IActionResult> DeleteFile(Guid id)
-        {
-            var file = await _db.Documents.Include("JobApplication").Where(d => d.DocumentId == id).FirstOrDefaultAsync();
-            if (file == null) return NotFound();
-            if (System.IO.File.Exists(file.FilePath))
-            {
-                System.IO.File.Delete(file.FilePath);
-            }
-            _db.Documents.Remove(file);
-            _db.SaveChanges();
-            TempData["Message"] = $"Removed {file.Name + file.Extension} successfully.";
-            TempData["MessageType"] = "Success";
-            return RedirectToAction("Create", new { id = file.JobApplication.PostId });
-        }
-        
-        public async Task<IActionResult> SubmitApplication(Guid id)
-        {
-            //change application status to pending 
-            var application = await _db.JobApplications.Where(a => a.ApplicationId == id).SingleOrDefaultAsync();
-            if (application == null)
-            {
-                return NotFound();
-            }
-            var documents = await _db.Documents.Where(d => d.JobApplicationId == id).ToListAsync();
-            if (documents.Count > 0)
-            {
-                application.Status = "Pending";
-                _db.Update(application);
-                _db.SaveChanges();
-                return RedirectToAction("FilteredJobPosts", "Student");
-            } else
-            {
-                TempData["Message"] = "You cannot submit an empty application. Please upload the necessary documents.";
-                TempData["MessageType"] = "Danger";
-                return RedirectToAction("Create", new { id = application.PostId });
-            }
-        }
-
         //after lookup tables added, can include faculty and department to get the actual values instead of numbers
         public async Task<IActionResult> ViewApplicants(Guid id)
         {

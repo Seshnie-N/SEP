@@ -1,6 +1,7 @@
 ﻿@model SEP.Models.ViewModels.ApplicationViewModel
 @{
-	ViewData["Title"] = "Upload";
+    ViewData["Title"] = "Upload";
+
 }
 @if (ViewBag.Message != null)
 {
@@ -44,7 +45,7 @@ else
                     <td>@file.Description</td>
                     <td>
                         <a type="button" class="btn btn-primary" href="@Url.Action("ViewDocument", "JobApplication", new {id = file.DocumentId})" target="_blank">View</a>
-                        <a type="button" class="btn btn-danger" asp-controller="JobApplication" asp-action="DeleteFile" asp-route-id="@file.DocumentId">Delete</a>
+                        <a type="button" class="btn btn-danger" asp-controller="JobApplication" asp-action="DeleteFile" asp-route-id="@file.DocumentId" asp-route-returnTo=@TempData["ReturnTo"]>Delete</a>
                     </td>
                 </tr>
             }
@@ -56,13 +57,13 @@ else
 <hr />
     <form method="post" enctype="multipart/form-data">
         <input type="text" autocomplete="off" placeholder="Enter File Description" name="description" required />
-        <button class="btn btn-success" type="submit" asp-route-id=@Model.Application.ApplicationId asp-controller="JobApplication" asp-action="UploadDocument">Upload</button>
+        <button class="btn btn-success" type="submit" asp-route-id=@Model.Application.ApplicationId asp-controller="JobApplication" asp-action="UploadDocument" asp-route-returnTo=@TempData["ReturnTo"]>Upload</button>
         <div>
             <input type="file" name="files" multiple required />
         </div>
     </form>
 </section>
 <div class="pt-3">
-    <a class="btn btn-success" asp-controller="JobApplication" asp-action="SubmitApplication" asp-route-id=@Model.Application.ApplicationId>Submit</a>
-    <a class="btn btn-primary" asp-controller="Post" asp-action="Details" asp-route-id="@Model.Application.PostId">Back</a>
+    <a class="btn btn-success" asp-controller="JobApplication" asp-action="SubmitApplication" asp-route-id=@Model.Application.ApplicationId asp-route-returnTo=@TempData["ReturnTo"]>Submit</a>
+    <a class="btn btn-primary" href="##" onClick="history.go(-1); return false;">Back</a>
 </div>
