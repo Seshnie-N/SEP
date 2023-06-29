@@ -128,7 +128,10 @@
 	<div class="col pb-2">
 		<select id="departmentNameID" asp-for="@Model.post.DepartmentName" >
 			<option value=""  selected disabled>Select department</option>
-			 
+			@foreach (var department in @Model.Department)
+			{
+				<option value="@department.DepartmentId">@department.DepartmentName</option>
+			}
 		</select>
 	</div>
 

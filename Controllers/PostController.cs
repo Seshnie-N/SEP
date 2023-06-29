@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using AspNetCoreHero.ToastNotification.Abstractions;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -15,13 +16,15 @@ namespace SEP.Controllers
 
 		private readonly UserManager<ApplicationUser> _userManager;
 		private readonly ILogger<HomeController> _logger;
-        //ApplicationUser user = await _userManager.GetUserAsync(User);
+		//ApplicationUser user = await _userManager.GetUserAsync(User);
+		private readonly INotyfService _toastNotification;
 
-        public PostController(ILogger<HomeController> logger, ApplicationDbContext db, UserManager<ApplicationUser> userManager)
+        public PostController(ILogger<HomeController> logger, ApplicationDbContext db, UserManager<ApplicationUser> userManager, INotyfService notyfService)
 		{
 			_logger = logger;
 			_db = db;
 			_userManager = userManager;
+			_toastNotification = notyfService;
 		}
 
 		public async Task<IActionResult> Index()
@@ -34,7 +37,7 @@ namespace SEP.Controllers
 
 		public async Task<JsonResult> allUserPosts() {
 			ApplicationUser user = await _userManager.GetUserAsync(User);
-			return Json(_db.Posts.Where(p => p.UserID.Equals(user.Id)));
+			return Json(_db.Posts.Where(p => p.EmployerId.Equals(user.Id)));
         }
 
 		public async Task<IActionResult> Create()
@@ -91,11 +94,12 @@ namespace SEP.Controllers
 
 			_db.Posts.Add(postViewModelObject.post);
 			_db.SaveChanges();
+			_toastNotification.Success("Job post is successfully created");
 			return RedirectToAction("Index");
 		}
 
 
-		public IActionResult Update(int id)
+		public IActionResult Update(Guid id)
 		{
 
 			Post postObj = _db.Posts.Find(id);
@@ -128,7 +132,8 @@ namespace SEP.Controllers
 			//if post is approved, do not allow update
 			_db.Posts.Update(postViewModelObject.post);
 			_db.SaveChanges();
-			return RedirectToAction("Index");
+            _toastNotification.Success("Job post is successfully updated");
+            return RedirectToAction("Index");
 		}
 		[HttpPost]
 		public IActionResult ClosePost(PostViewModel postViewModelObject)
@@ -136,7 +141,8 @@ namespace SEP.Controllers
 			postViewModelObject.post.PostStatus = "Closed";
 			_db.Posts.Update(postViewModelObject.post);
 			_db.SaveChanges();
-			return RedirectToAction("Index");
+            _toastNotification.Success("Job post is Closed");
+            return RedirectToAction("Index");
 		}
 		[HttpPost]
 		public IActionResult WithdrawPost(PostViewModel postViewModelObject)
@@ -144,7 +150,8 @@ namespace SEP.Controllers
 			postViewModelObject.post.PostStatus = "Withdrawn";
 			_db.Posts.Update(postViewModelObject.post);
 			_db.SaveChanges();
-			return RedirectToAction("Index");
+            _toastNotification.Success("Job post is withdrawn");
+            return RedirectToAction("Index");
 		}
 
 		// get all faculties

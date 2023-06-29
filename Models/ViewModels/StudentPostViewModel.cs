@@ -14,7 +14,7 @@ namespace SEP.Models.ViewModels
         public string JobTitle { get; set; }
 
         [DisplayName("Department")]
-        public string DepartmentName { get; set; }
+        public int DepartmentName { get; set; }
 
         [DisplayName("FT/PT")]
         public string JobType { get; set; }

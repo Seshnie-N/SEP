@@ -7,6 +7,7 @@ using SEP.Models.ViewModels;
 using Microsoft.EntityFrameworkCore;
 using LinqKit;
 using System.Security.Claims;
+using AspNetCoreHero.ToastNotification.Abstractions;
 
 namespace SEP.Controllers
 {
@@ -15,11 +16,13 @@ namespace SEP.Controllers
     {
         private readonly ApplicationDbContext _db;
         private readonly UserManager<ApplicationUser> _userManager;
+		private readonly INotyfService _toastNotification;
 
-        public StudentController(ApplicationDbContext db, UserManager<ApplicationUser> userManager)
+		public StudentController(ApplicationDbContext db, UserManager<ApplicationUser> userManager, INotyfService notyfService)
         {
             _db = db;
             _userManager = userManager;
+            _toastNotification = notyfService;
         }
         //GET
         public async Task<IActionResult> Create()
@@ -56,7 +59,8 @@ namespace SEP.Controllers
             {
                 _db.Students.Add(student);
                 _db.SaveChanges();
-                return RedirectToAction("Index", "Home");
+				_toastNotification.Success("Profile successfully created.");
+				return RedirectToAction("Index", "Home");
             }
             ApplicationUser user = await _userManager.GetUserAsync(User);
             IEnumerable<Faculty> faculties = _db.Faculties;
@@ -158,7 +162,8 @@ namespace SEP.Controllers
                 studentRecord.Achievements = updateDetails.Student.Achievements;
                 studentRecord.Interests = updateDetails.Student.Interests;
                 _db.SaveChanges();
-            }
+				_toastNotification.Success("Profile successfully updated.");
+			}
             return RedirectToAction("StudentHome", "Home");
 
         }
@@ -184,7 +189,8 @@ namespace SEP.Controllers
             qualification.StudentId = user.Id;
             _db.Qualifications.Add(qualification);
             _db.SaveChanges();
-            return RedirectToAction("Update");
+			_toastNotification.Success("Qualification successfully added.");
+			return RedirectToAction("Update");
         }
         //GET
         public IActionResult ViewQualification(Guid id)
@@ -215,7 +221,8 @@ namespace SEP.Controllers
                 qualificationRecord.SubMajors = qualification.SubMajors;
                 qualificationRecord.Research = qualification.Research;
                 _db.SaveChanges();
-                return RedirectToAction("Update");
+				_toastNotification.Success("Qualification successfully updated.");
+				return RedirectToAction("Update");
             }
 
             return View();
@@ -230,7 +237,8 @@ namespace SEP.Controllers
             {
                 _db.Qualifications.Remove(qualificationRecord);
                 _db.SaveChanges();
-                return RedirectToAction("Update");
+				_toastNotification.Success("Education successfully updated.");
+				return RedirectToAction("Update");
             }
             return RedirectToAction("Update"); ;
         }
@@ -250,7 +258,8 @@ namespace SEP.Controllers
             workExperience.StudentId = user.Id;
             _db.WorkExperiences.Add(workExperience);
             _db.SaveChanges();
-            return RedirectToAction("Update");
+			_toastNotification.Success("Qualification successfully added.");
+			return RedirectToAction("Update");
         }
         //GET
         public IActionResult ViewWorkExperience(Guid id)
@@ -276,7 +285,8 @@ namespace SEP.Controllers
                 obj.JobTitle = workExperience.JobTitle;
                 obj.TasksAndResponsibilities = workExperience.TasksAndResponsibilities;
                 _db.SaveChanges();
-                return RedirectToAction("Update");
+				_toastNotification.Success("Work experience successfully added.");
+				return RedirectToAction("Update");
             }
 
             return View();
@@ -291,7 +301,8 @@ namespace SEP.Controllers
             {
                 _db.WorkExperiences.Remove(obj);
                 _db.SaveChanges();
-                return RedirectToAction("Update");
+				_toastNotification.Success("Work experience successfully updated.");
+				return RedirectToAction("Update");
             }
             return View();
         }
@@ -311,7 +322,8 @@ namespace SEP.Controllers
             referee.StudentId = user.Id;
             _db.Referees.Add(referee);
             _db.SaveChanges();
-            return RedirectToAction("Update");
+			_toastNotification.Success("Referee successfully added.");
+			return RedirectToAction("Update");
         }
         //GET
         public IActionResult ViewReferee(Guid id)
@@ -336,7 +348,8 @@ namespace SEP.Controllers
                 obj.Cell = referee.Cell;
                 obj.Email = referee.Email;
                 _db.SaveChanges();
-                return RedirectToAction("Update");
+				_toastNotification.Success("Referee successfully updated.");
+				return RedirectToAction("Update");
             }
 
             return View();
@@ -351,7 +364,8 @@ namespace SEP.Controllers
             {
                 _db.Referees.Remove(obj);
                 _db.SaveChanges();
-                return RedirectToAction("Update");
+				_toastNotification.Success("Referee successfully updated.");
+				return RedirectToAction("Update");
             }
             return View();
         }

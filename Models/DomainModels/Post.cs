@@ -21,7 +21,7 @@ namespace SEP.Models.DomainModels
 		//need to create foreign key relationship here
 		[Required(ErrorMessage = "Please select a department.")]
 		[DisplayName("Department")]
-        public string DepartmentName { get; set; }
+        public int DepartmentName { get; set; }
 		//may not need this property anymore
 		[Required(ErrorMessage = "Please select a department.")]
 		[DisplayName("Faculty")]

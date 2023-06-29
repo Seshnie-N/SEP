@@ -1,15 +1,16 @@
+using AspNetCoreHero.ToastNotification.Notyf.Models;
+using AspNetCoreHero.ToastNotification;
 using AutoMapper;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using SEP.CustomValidation;
 using SEP.Data;
-using SEP.Areas.Identity.Data;
 using SEP.Mapper;
 using SEP.Models;
 using SEP.Models.DomainModels;
 using SEP.Models.FrontEndModels;
 using SEP.SeedData;
-
+using AspNetCoreHero.ToastNotification.Extensions;
 
 namespace SEP
 {
@@ -50,6 +51,14 @@ namespace SEP
             //    options.Password.RequireUppercase = false;
             //});
 
+            // adding toast notifications
+            builder.Services.AddNotyf(config =>
+            {
+                config.DurationInSeconds = 5;
+                config.IsDismissable = true;
+                config.Position = NotyfPosition.TopCenter;
+            });
+
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
@@ -76,6 +85,9 @@ namespace SEP
             app.MapRazorPages();
           
             await app.SeedDataAsync();
+
+            //using toasts
+            app.UseNotyf();
 
             app.Run();
         }

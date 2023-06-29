@@ -291,7 +291,7 @@ namespace SEP.Migrations
 
                     b.HasIndex("FacultyId");
 
-                    b.ToTable("Departments", (string)null);
+                    b.ToTable("Departments");
                 });
 
             modelBuilder.Entity("SEP.Models.DomainModels.Employer", b =>
@@ -340,7 +340,7 @@ namespace SEP.Migrations
 
                     b.HasKey("UserId");
 
-                    b.ToTable("Employer", (string)null);
+                    b.ToTable("Employer");
                 });
 
             modelBuilder.Entity("SEP.Models.DomainModels.Faculty", b =>
@@ -357,7 +357,7 @@ namespace SEP.Migrations
 
                     b.HasKey("FacultyId");
 
-                    b.ToTable("Faculties", (string)null);
+                    b.ToTable("Faculties");
                 });
 
             modelBuilder.Entity("SEP.Models.DomainModels.JobApplication", b =>
@@ -400,7 +400,7 @@ namespace SEP.Migrations
 
                     b.HasKey("TimeId");
 
-                    b.ToTable("partTimeHours", (string)null);
+                    b.ToTable("partTimeHours");
                 });
 
             modelBuilder.Entity("SEP.Models.DomainModels.Post", b =>
@@ -432,9 +432,8 @@ namespace SEP.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("DepartmentName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("DepartmentName")
+                        .HasColumnType("int");
 
                     b.Property<string>("EmployerId")
                         .HasColumnType("nvarchar(450)");
@@ -525,7 +524,7 @@ namespace SEP.Migrations
 
                     b.HasIndex("EmployerId");
 
-                    b.ToTable("Posts", (string)null);
+                    b.ToTable("Posts");
                 });
 
             modelBuilder.Entity("SEP.Models.DomainModels.Qualification", b =>
@@ -568,7 +567,7 @@ namespace SEP.Migrations
 
                     b.HasIndex("StudentId");
 
-                    b.ToTable("Qualifications", (string)null);
+                    b.ToTable("Qualifications");
                 });
 
             modelBuilder.Entity("SEP.Models.DomainModels.Referee", b =>
@@ -605,7 +604,7 @@ namespace SEP.Migrations
 
                     b.HasIndex("StudentId");
 
-                    b.ToTable("Referees", (string)null);
+                    b.ToTable("Referees");
                 });
 
             modelBuilder.Entity("SEP.Models.DomainModels.Student", b =>
@@ -657,7 +656,7 @@ namespace SEP.Migrations
 
                     b.HasKey("UserId");
 
-                    b.ToTable("Student", (string)null);
+                    b.ToTable("Student");
                 });
 
             modelBuilder.Entity("SEP.Models.DomainModels.WorkExperience", b =>
@@ -692,7 +691,7 @@ namespace SEP.Migrations
 
                     b.HasIndex("StudentId");
 
-                    b.ToTable("WorkExperiences", (string)null);
+                    b.ToTable("WorkExperiences");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

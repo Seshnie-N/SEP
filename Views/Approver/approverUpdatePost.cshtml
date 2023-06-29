@@ -238,7 +238,7 @@
             <option value="" selected disabled>Select department</option>
             @foreach (var department in @Model.Department)
             {
-                @if (@department.DepartmentName == @Model.post.DepartmentName)
+                @if (@department.DepartmentId == @Model.post.DepartmentName)
                 {
                     <option value="@department.DepartmentName">@department.DepartmentName</option>
                 }

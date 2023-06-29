@@ -2,7 +2,7 @@
 
 <div>
 
-    <div class="col d-flex justify-content-evenly">
+    <div  class="col d-flex justify-content-evenly">
 
 
         @*facultie list*@
@@ -13,7 +13,7 @@
                     <option value="" selected disabled>Select faculty</option>
                 </select>
             </div>
-            <button id="searchFacultyClear" style="width: 2.0rem;  height: 2.0rem;border: 1px solid black; border-left:0; border-right:0; border-radius:0;" class="btn btn-sm"> <svg style="color: red" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x" viewBox="0 0 16 16"> <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z" fill="red"></path> </svg></button>
+            <button id="searchFacultyClear" style="width: 2.0rem;  height: 2.0rem;border: 1px solid black; border-left:0; border-radius:0;" class="btn btn-sm"> <svg style="color: red" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x" viewBox="0 0 16 16"> <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z" fill="red"></path> </svg></button>
         </div>
 
         @*departments list*@
@@ -24,7 +24,7 @@
                     <option value="" selected disabled>Select department</option>
                 </select>
             </div>
-            <button id="searchDepartmentClear" style="width: 2.0rem;  height: 2.0rem;border: 1px solid black; border-left:0; border-right:0; border-radius:0;" class="btn btn-sm"> <svg style="color: red" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x" viewBox="0 0 16 16"> <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z" fill="red"></path> </svg></button>
+            <button id="searchDepartmentClear" style="width: 2.0rem;  height: 2.0rem;border: 1px solid black; border-left:0; border-radius:0;" class="btn btn-sm"> <svg style="color: red" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x" viewBox="0 0 16 16"> <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z" fill="red"></path> </svg></button>
         </div>
 
 
@@ -132,7 +132,7 @@
                 $.each(posts, function (index, item) {
 
                     $('#tbody').append(
-                        '<tr><td width="15%" >' + item.jobTitle + '</td><td width = "20%">' + item.departmentName + '</td><td width = "15%">' + item.jobType + '</td><td width = "15%">' + item.startDate.toString("d") + '</td><td width = "15%" >' + item.endDate.toString("d") + '</td> <td width = "20%"> <div class="row" > <div class="col">' + item.postStatus + '</div><div class= "col" ><a href="/Post/Update/' + item.postId + '" class= "btn btn-info btn-sm" value = "" > Review </a></div></div></td></tr>'
+                        '<tr><td width="15%" >' + item.jobTitle + '</td><td width = "20%">' + item.departmentName + '</td><td width = "15%">' + item.jobType + '</td><td width = "15%">' + item.startDate.split("T")[0] + '</td><td width = "15%" >' + item.endDate.split("T")[0] + '</td> <td width = "20%"> <div class="row" > <div class="col">' + item.postStatus + '</div><div class= "col" ><a href="/Post/Update/' + item.postId + '" class= "btn btn-info btn-sm" value = "" > Review </a></div></div></td></tr>'
                     );
                 });
             }
@@ -143,6 +143,18 @@
                 dataType: 'json',
                 data: {},
                 success: function (post) {
+
+                    
+
+                    if (post.length == 0){
+                        $('#facultyNameID').hide();
+                        $('#searchFacultyClear').hide();
+                        $('#departmentNameID').hide();
+                        $('#searchDepartmentClear').hide();
+                        $('#search').hide();
+                        $('#searchClear').hide();
+                        $('#searchButton').hide();
+                    }
                     Iposts.push(post);
                     fillTable(post);
                     //$.each(post, function (index, item) {

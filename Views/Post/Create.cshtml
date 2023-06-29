@@ -133,7 +133,7 @@
 			<option value=@null selected disabled>Select department</option>
 			@foreach (var dep in @Model.Department)
 			{
-				<option value="@dep.DepartmentName">@dep.DepartmentName</option>
+				<option value="@dep.DepartmentId">@dep.DepartmentName</option>
 			}
 		</select>
 		<span asp-validation-for="@Model.post.DepartmentName" class="text-danger"></span>
@@ -179,6 +179,7 @@
     </form>
 </div>
 @section scripts{
+	<partial name="_ValidationScriptsPartial" />
 	<script type="text/javascript">
 		$(document).ready(function(){
 			$('#jobtypeid').change(function () {
@@ -188,7 +189,6 @@
 				else {
 					$('#parttimehouris').show();
 				}
-
 			});
 
 			$('#facultyNameID').change(function(){

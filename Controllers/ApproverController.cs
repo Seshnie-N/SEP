@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using AspNetCoreHero.ToastNotification.Abstractions;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -14,10 +15,12 @@ namespace SEP.Controllers
 
         private readonly ApplicationDbContext _db;
         private readonly SignInManager<ApplicationUser> _signInManager;
-        public ApproverController(ApplicationDbContext db, SignInManager<ApplicationUser> signInManager)
+		private readonly INotyfService _toastNotification;
+		public ApproverController(ApplicationDbContext db, SignInManager<ApplicationUser> signInManager, INotyfService notyfService)
         {
             _db = db;
             _signInManager = signInManager;
+            _toastNotification = notyfService;
         }
 
         public string GetSignedRole()
@@ -83,6 +86,8 @@ namespace SEP.Controllers
             employerProfile.Employer.ApprovalStatus = "Approved";
             _db.Update(employerProfile.Employer);
             _db.SaveChanges();
+			_toastNotification.Success("Employer is approved.");
+			_toastNotification.Information("Employer can now access the system.");
             return RedirectToAction("PendingEmployers");
         }
 
@@ -92,11 +97,12 @@ namespace SEP.Controllers
         {
 
             //updated fields
-            employerProfile.Employer.IsApproved = employerProfile.Employer.IsApproved;
-            employerProfile.Employer.ApprovalStatus = "Rejected";
+            employerProfile.Employer.IsApproved = employerProfile.Employer.IsApproved;	
+			employerProfile.Employer.ApprovalStatus = "Rejected";
             _db.Update(employerProfile.Employer);
             _db.SaveChanges();
-            return RedirectToAction("PendingEmployers");
+			_toastNotification.Success("Employer is rejected.");
+			return RedirectToAction("PendingEmployers");
 
 
         }
@@ -139,7 +145,8 @@ namespace SEP.Controllers
         {
             _db.Posts.Update(postViewModelObject.post);
             _db.SaveChanges();
-            return RedirectToAction("PendingPosts");
+			_toastNotification.Success("Job post successfully updated.");
+			return RedirectToAction("PendingPosts");
         }
        
         public async Task<IActionResult> ApproverApprovePost(Guid id)
@@ -150,7 +157,9 @@ namespace SEP.Controllers
             postToBeApproved.IsApproved = true;
             _db.Posts.Update(postToBeApproved);
             _db.SaveChanges();
-            return RedirectToAction("PendingPosts");
+			_toastNotification.Success("Job post accepted.");
+			_toastNotification.Information("students can apply for this post.");
+			return RedirectToAction("PendingPosts");
         }
        
         public async Task<IActionResult> ApproverRejectPost(Guid id)
@@ -159,7 +168,8 @@ namespace SEP.Controllers
             postToBeRejected.ApprovalStatus = "Rejected";
             _db.Posts.Update(postToBeRejected);
             _db.SaveChanges();
-            return RedirectToAction("PendingPosts");
+			_toastNotification.Success("Job post rejected.");
+			return RedirectToAction("PendingPosts");
         }
         
         public async Task<IActionResult> ApproverQueryPostAsync(Guid id)
@@ -168,7 +178,8 @@ namespace SEP.Controllers
             postToBeQueried.ApprovalStatus = "Queried";
             _db.Posts.Update(postToBeQueried);
             _db.SaveChanges();
-            return RedirectToAction("PendingPosts");
+			_toastNotification.Success("Job post queried.");
+			return RedirectToAction("PendingPosts");
         }
 
     }

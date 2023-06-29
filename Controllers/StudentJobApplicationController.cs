@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
-using SEP.Areas.Identity.Data;
+using SEP.Data;
 using SEP.Models.FrontEndModels;
 using SEP.Mapper;
 using SEP.Models.DomainModels;
