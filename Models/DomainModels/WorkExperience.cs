@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
+using SEP.CustomValidation;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -20,6 +21,7 @@ namespace SEP.Models.DomainModels
         public DateTime StartDate { get; set; }
         [DataType(DataType.Date)]
         [DisplayName("End Date")]
+        //[StartAndEndDateValidator("Start Date")]
         public DateTime EndDate { get; set; }
         [DisplayName("Job Title")]
         public string JobTitle { get; set;}

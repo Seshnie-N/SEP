@@ -246,8 +246,22 @@ namespace SEP.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> AddWorkExperienceAsync(WorkExperience workExperience)
         {
+            var startDate = workExperience.StartDate;
+            var endDate = workExperience.EndDate;
+            int result = DateTime.Compare(startDate, endDate);
+            if ( result > 0)
+            {
+                ModelState.AddModelError("StartDate",
+                                         "Start Date cannot be after End Date");
+            }
+            ModelState.Remove("StudentId");
+            if (!ModelState.IsValid)
+            {
+                return View(workExperience); 
+            }
             ApplicationUser user = await _userManager.GetUserAsync(User);
             workExperience.StudentId = user.Id;
+
             _db.WorkExperiences.Add(workExperience);
             _db.SaveChanges();
             return RedirectToAction("Update");

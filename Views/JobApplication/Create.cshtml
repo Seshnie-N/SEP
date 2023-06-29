@@ -32,7 +32,6 @@ else
     <table class="table table-striped">
         <thead>
             <tr>            
-                <th>Name</th>
                 <th>Description</th>
                 <th>Actions</th>
             </tr>
@@ -41,7 +40,6 @@ else
             @foreach (var file in Model.Documents)
             {
                 <tr>
-                    <td>@file.Name</td>
                     <td>@file.Description</td>
                     <td>
                         <a type="button" class="btn btn-primary" href="@Url.Action("ViewDocument", "JobApplication", new {id = file.DocumentId})" target="_blank">View</a>

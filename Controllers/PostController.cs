@@ -88,7 +88,7 @@ namespace SEP.Controllers
 		}
 
 
-		public IActionResult Update(int id)
+		public IActionResult Update(Guid id)
 		{
 
 			Post postObj = _db.Posts.Find(id);
