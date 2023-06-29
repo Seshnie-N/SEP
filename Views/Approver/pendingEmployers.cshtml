@@ -1,5 +1,5 @@
 ﻿@{
-    ViewData["Title"] = "pendingEmployers";
+    ViewData["Title"] = "Pending Employer Accounts";
 }
 
 
@@ -39,12 +39,12 @@
             var table = $('#tbody');
             $.ajax({
                 type: 'GET',
-                url: '@Url.Action("getPendingEmployers")',
+                url: '@Url.Action("GetPendingEmployers")',
                 dataType: 'json',
                 data: {},
                 success: function(pendingEmp){
                     $.each(pendingEmp,function(index,item){
-                        table.append('<tr><td width="20%">' + item.lastName + " " + item.firstName + '</td><td width="20%">' + item.legalName + '</td>   <td width="20%">' + item.tradingName + '</td> <td width="20%">' + item.regNumber + '</td> <td width="20%">' + item.status + ' <a href="/Approver/approverUpdateEmployer/'+item.id+'" class="btn btn-info btn-sm">Review</a></td> </tr>');
+                        table.append('<tr><td width="20%">' + item.firstName + " " + item.lastName + '</td><td width="20%">' + item.legalName + '</td>   <td width="20%">' + item.tradingName + '</td> <td width="20%">' + item.regNumber + '</td> <td width="20%">' + item.status + ' <a href="/Approver/approverUpdateEmployer/'+item.id+'" class="btn btn-info btn-sm">Review</a></td> </tr>');
                     });
                 }, 
             

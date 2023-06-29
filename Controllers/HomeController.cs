@@ -1,8 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
-using SEP.Areas.Identity.Data;
+using SEP.Data;
 using SEP.Models;
 using System.Diagnostics;
 
@@ -11,14 +10,12 @@ namespace SEP.Controllers
     [Authorize]
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly ApplicationDbContext _db;
 
-        public HomeController(ILogger<HomeController> logger, SignInManager<ApplicationUser> signInManager, UserManager<ApplicationUser> userManager, ApplicationDbContext db)
+        public HomeController(SignInManager<ApplicationUser> signInManager, UserManager<ApplicationUser> userManager, ApplicationDbContext db)
         {
-            _logger = logger;
             _signInManager = signInManager;
             _userManager = userManager;
             _db = db;
@@ -38,7 +35,7 @@ namespace SEP.Controllers
                     } else
                     {
                         //direct to complete profile 
-                        return RedirectToAction("CreateStudent", "Profile");
+                        return RedirectToAction("Create", "Student");
                     }  
                 } 
                 else if (User.IsInRole("Employer"))
@@ -48,16 +45,19 @@ namespace SEP.Controllers
                     if (employer != null)
                     {
                         //employer profile  created
-                        if (employer.ApprovalStatus != "Pending")
+                        if (employer.ApprovalStatus == "Approved")
                         {
                             return RedirectToAction("EmployerHome");
+                        } else if (employer.ApprovalStatus == "Rejected")
+                        {
+                            return RedirectToAction("Update", "Employer");
                         }
-                        return RedirectToAction("AwaitingApproval", "Profile");
+                        return RedirectToAction("AwaitingApproval", "Employer");
 
                     } else
                     {
                         //direct to complete profile 
-						return RedirectToAction("CreateEmployer", "Profile");
+						return RedirectToAction("Create", "Employer");
 					}
                 }
 				else if (User.IsInRole("Approver"))
@@ -73,19 +73,21 @@ namespace SEP.Controllers
 
             return View();
         }
-
+        [Authorize(Roles = "Student")]
         public IActionResult StudentHome()
         {
             return View();
         }
-
-		public IActionResult EmployerHome()
+        [Authorize(Roles = "Employer")]
+        public IActionResult EmployerHome()
         {
             return View();
         }
+        [Authorize(Roles = "Approver")]
         public IActionResult ApproverHome() { 
             return View();
         }
+        [Authorize(Roles = "Admin")]
         public IActionResult AdminHome()
         {
             return View();

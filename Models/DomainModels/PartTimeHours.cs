@@ -1,12 +1,14 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 
 namespace SEP.Models.DomainModels
 {
     public class PartTimeHours
     {
         [Key]
-        public int timeId { get; set; } 
-
-        public string timeRange { get; set; }
+        public int TimeId { get; set; }
+        [DisplayName("Range")] 
+        
+        public string TimeRange { get; set; }
     }
 }

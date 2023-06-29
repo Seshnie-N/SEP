@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace SEP.Migrations
 {
-    public partial class init : Migration
+    public partial class Initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -54,71 +54,26 @@ namespace SEP.Migrations
                 name: "Faculties",
                 columns: table => new
                 {
-                    facultyId = table.Column<int>(type: "int", nullable: false)
+                    FacultyId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    facultyName = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    FacultyName = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Faculties", x => x.facultyId);
+                    table.PrimaryKey("PK_Faculties", x => x.FacultyId);
                 });
 
             migrationBuilder.CreateTable(
                 name: "partTimeHours",
                 columns: table => new
                 {
-                    timeId = table.Column<int>(type: "int", nullable: false)
+                    TimeId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    timeRange = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    TimeRange = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_partTimeHours", x => x.timeId);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Posts",
-                columns: table => new
-                {
-                    postId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    jobTitle = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    jobLocation = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    jobDescription = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    resposibilities = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    jobType = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    partTimeHour = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    startDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    endDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    hourlyRate = table.Column<int>(type: "int", nullable: false),
-                    limitedToCountry = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    minimumRequirment = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    applicationInstruction = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    applicationClosingDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    conatctPersonName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    conatctPersonEmail = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    conatctPersonNumber = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    postreviewComment = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    isApproved = table.Column<bool>(type: "bit", nullable: false),
-                    approvalStatus = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    postStatus = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    departmentName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    facultyName = table.Column<int>(type: "int", nullable: false),
-                    limitedTo1stYear = table.Column<bool>(type: "bit", nullable: false),
-                    limitedTo2ndYear = table.Column<bool>(type: "bit", nullable: false),
-                    limitedTo3rdYear = table.Column<bool>(type: "bit", nullable: false),
-                    limitedToHonours = table.Column<bool>(type: "bit", nullable: false),
-                    limitedToGraduate = table.Column<bool>(type: "bit", nullable: false),
-                    limitedToMasters = table.Column<bool>(type: "bit", nullable: false),
-                    limitedToPhd = table.Column<bool>(type: "bit", nullable: false),
-                    limitedToPostdoc = table.Column<bool>(type: "bit", nullable: false),
-                    limitedToDepartment = table.Column<bool>(type: "bit", nullable: false),
-                    limitedToFaculty = table.Column<bool>(type: "bit", nullable: false),
-                    UserID = table.Column<string>(type: "nvarchar(max)", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Posts", x => x.postId);
+                    table.PrimaryKey("PK_partTimeHours", x => x.TimeId);
                 });
 
             migrationBuilder.CreateTable(
@@ -239,10 +194,10 @@ namespace SEP.Migrations
                     BusinessName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Address = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     BusinessType = table.Column<int>(type: "int", nullable: false),
-                    isApproved = table.Column<bool>(type: "bit", nullable: false),
+                    IsApproved = table.Column<bool>(type: "bit", nullable: false),
                     ApproverNote = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ApprovalStatus = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    isInternal = table.Column<bool>(type: "bit", nullable: false)
+                    IsInternal = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -266,13 +221,13 @@ namespace SEP.Migrations
                     CareerObjective = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Gender = table.Column<int>(type: "int", nullable: false),
                     Race = table.Column<int>(type: "int", nullable: false),
-                    isSouthAfrican = table.Column<bool>(type: "bit", nullable: false),
-                    YOS = table.Column<int>(type: "int", nullable: false),
+                    IsSouthAfrican = table.Column<bool>(type: "bit", nullable: false),
+                    YearOfStudy = table.Column<int>(type: "int", nullable: false),
                     Faculty = table.Column<int>(type: "int", nullable: false),
                     Department = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Skills = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Achievements = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Interests = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Skills = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Achievements = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Interests = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -289,37 +244,85 @@ namespace SEP.Migrations
                 name: "Departments",
                 columns: table => new
                 {
-                    departmentId = table.Column<int>(type: "int", nullable: false)
+                    DepartmentId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     FacultyId = table.Column<int>(type: "int", nullable: false),
-                    departmentName = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    DepartmentName = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Departments", x => x.departmentId);
+                    table.PrimaryKey("PK_Departments", x => x.DepartmentId);
                     table.ForeignKey(
                         name: "FK_Departments_Faculties_FacultyId",
                         column: x => x.FacultyId,
                         principalTable: "Faculties",
-                        principalColumn: "facultyId",
+                        principalColumn: "FacultyId",
                         onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Posts",
+                columns: table => new
+                {
+                    PostId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    EmployerId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    DepartmentName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    FacultyName = table.Column<int>(type: "int", nullable: false),
+                    JobTitle = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    JobLocation = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    JobDescription = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Responsibilities = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    JobType = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    PartTimeHour = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    StartDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    EndDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    HourlyRate = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    LimitedToSA = table.Column<bool>(type: "bit", nullable: false),
+                    MinimumRequirement = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ApplicationInstruction = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ApplicationClosingDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    ContactPersonName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ContactPersonEmail = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ContactPersonNumber = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    PostReviewComment = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    IsApproved = table.Column<bool>(type: "bit", nullable: false),
+                    ApprovalStatus = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    PostStatus = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    LimitedTo1stYear = table.Column<bool>(type: "bit", nullable: false),
+                    LimitedTo2ndYear = table.Column<bool>(type: "bit", nullable: false),
+                    LimitedTo3rdYear = table.Column<bool>(type: "bit", nullable: false),
+                    LimitedToHonours = table.Column<bool>(type: "bit", nullable: false),
+                    LimitedToGraduate = table.Column<bool>(type: "bit", nullable: false),
+                    LimitedToMasters = table.Column<bool>(type: "bit", nullable: false),
+                    LimitedToPhd = table.Column<bool>(type: "bit", nullable: false),
+                    LimitedToPostdoc = table.Column<bool>(type: "bit", nullable: false),
+                    LimitedToDepartment = table.Column<bool>(type: "bit", nullable: false),
+                    LimitedToFaculty = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Posts", x => x.PostId);
+                    table.ForeignKey(
+                        name: "FK_Posts_Employer_EmployerId",
+                        column: x => x.EmployerId,
+                        principalTable: "Employer",
+                        principalColumn: "UserId");
                 });
 
             migrationBuilder.CreateTable(
                 name: "Qualifications",
                 columns: table => new
                 {
-                    QualificationId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    QualificationId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     StudentId = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     Institution = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     StartDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     EndDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     QualificationName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Subjects = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Majors = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    SubMajors = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Research = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Subjects = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Majors = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    SubMajors = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Research = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -336,8 +339,7 @@ namespace SEP.Migrations
                 name: "Referees",
                 columns: table => new
                 {
-                    RefereeId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    RefereeId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     StudentId = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     JobTitle = table.Column<string>(type: "nvarchar(max)", nullable: false),
@@ -360,8 +362,7 @@ namespace SEP.Migrations
                 name: "WorkExperiences",
                 columns: table => new
                 {
-                    WorkExperienceId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    WorkExperienceId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     StudentId = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     EmployerName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     StartDate = table.Column<DateTime>(type: "datetime2", nullable: false),
@@ -377,6 +378,56 @@ namespace SEP.Migrations
                         column: x => x.StudentId,
                         principalTable: "Student",
                         principalColumn: "UserId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "JobApplications",
+                columns: table => new
+                {
+                    ApplicationId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    StudentId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    PostId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Status = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_JobApplications", x => x.ApplicationId);
+                    table.ForeignKey(
+                        name: "FK_JobApplications_Posts_PostId",
+                        column: x => x.PostId,
+                        principalTable: "Posts",
+                        principalColumn: "PostId",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_JobApplications_Student_StudentId",
+                        column: x => x.StudentId,
+                        principalTable: "Student",
+                        principalColumn: "UserId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Documents",
+                columns: table => new
+                {
+                    DocumentId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    FileType = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Extension = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    FilePath = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    JobApplicationId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Documents", x => x.DocumentId);
+                    table.ForeignKey(
+                        name: "FK_Documents_JobApplications_JobApplicationId",
+                        column: x => x.JobApplicationId,
+                        principalTable: "JobApplications",
+                        principalColumn: "ApplicationId",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -425,6 +476,26 @@ namespace SEP.Migrations
                 column: "FacultyId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Documents_JobApplicationId",
+                table: "Documents",
+                column: "JobApplicationId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_JobApplications_PostId",
+                table: "JobApplications",
+                column: "PostId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_JobApplications_StudentId",
+                table: "JobApplications",
+                column: "StudentId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Posts_EmployerId",
+                table: "Posts",
+                column: "EmployerId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Qualifications_StudentId",
                 table: "Qualifications",
                 column: "StudentId");
@@ -461,13 +532,10 @@ namespace SEP.Migrations
                 name: "Departments");
 
             migrationBuilder.DropTable(
-                name: "Employer");
+                name: "Documents");
 
             migrationBuilder.DropTable(
                 name: "partTimeHours");
-
-            migrationBuilder.DropTable(
-                name: "Posts");
 
             migrationBuilder.DropTable(
                 name: "Qualifications");
@@ -485,7 +553,16 @@ namespace SEP.Migrations
                 name: "Faculties");
 
             migrationBuilder.DropTable(
+                name: "JobApplications");
+
+            migrationBuilder.DropTable(
+                name: "Posts");
+
+            migrationBuilder.DropTable(
                 name: "Student");
+
+            migrationBuilder.DropTable(
+                name: "Employer");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");

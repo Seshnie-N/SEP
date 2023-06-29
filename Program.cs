@@ -1,6 +1,8 @@
 using AutoMapper;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using SEP.CustomValidation;
+using SEP.Data;
 using SEP.Areas.Identity.Data;
 using SEP.Mapper;
 using SEP.Models;
@@ -29,14 +31,16 @@ namespace SEP
             builder.Services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(connectionString));
 
-            builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = false)
+            builder.Services.AddDefaultIdentity<ApplicationUser>()
                 .AddRoles<IdentityRole>()
+                .AddErrorDescriber<DuplicateUserValidator>()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
 
             // add mapper service
             builder.Services.AddAutoMapper(typeof(Program));
 
             // Add services to the container.
+            builder.Services.AddAutoMapper(typeof(Program));
             builder.Services.AddControllersWithViews();
             builder.Services.AddRazorPages();
 

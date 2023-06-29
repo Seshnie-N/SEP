@@ -1,0 +1,138 @@
+﻿@model SEP.Models.ViewModels.ApplicantDetailsViewModel
+@using SEP.Models.DomainModels;
+@using SEP.Models.Enums
+@{
+    ViewData["Message"] = "Applicant Details";
+}
+<h1>Applicant Details</h1>
+<hr />
+<div>
+    <p><b>Job Title: </b> @Model.JobTitle</p>
+    <p><b>Job Description:</b> @Model.JobDescription</p>
+</div>
+<div>
+    <section>
+        <p>Department: @Model.Faculty</p>
+        <p>Course: @Model.Application.Student.Department</p>
+        <p>Level: @Model.Application.Student.YearOfStudy</p>
+    </section>
+    <section class="pb-2">
+        <p>Name: @Model.Application.Student.User.FirstName</p>
+        <p>Surname: @Model.Application.Student.User.LastName</p>
+        <p>Email Address: @Model.Application.Student.User.Email</p>
+        <p>Phone Number: @Model.Application.Student.User.PhoneNumber</p>
+    </section>
+    <section>
+        @{
+            string nationality;
+        }
+        <p>Gender: @Model.Application.Student.Gender</p>
+        @if (Model.Application.Student.IsSouthAfrican)
+        {
+            nationality = "South African";
+        } else
+        {
+            nationality = "Non-South African";
+        }
+        <p>Nationality: @nationality</p>
+    </section>
+    <section>
+        <h2><b>Education</b></h2>
+        @if (Model.Qualifications.Count() > 0)
+        {
+            @foreach (var qualification in @Model.Qualifications)
+            {
+                <div >
+
+                    <p>
+                        @qualification.QualificationName
+                        <a class="btn btn-sm btn-primary"  asp-action="QualificationDetails" asp-route-id="@qualification.QualificationId">View</a>
+                    </p>
+
+                </div>
+            }
+        }
+        else
+        {
+            <p>No Qualifications</p>
+        }
+    </section>
+    <section>
+        <h2><b>Employment</b></h2>
+        @if (Model.WorkExperience.Count() > 0)
+        {
+            @foreach (var workExperience in @Model.WorkExperience)
+            {
+                <div>
+
+                    <p>
+                        @workExperience.JobTitle
+                        <a class="btn btn-sm btn-primary" asp-action="WorkExperienceDetails" asp-route-id="@workExperience.WorkExperienceId">View</a>
+                    </p>
+
+                </div>
+            }
+        }
+        else
+        {
+            <p>No Work Experience</p>
+        }
+    </section>
+    <section>
+		<p class="mb-0"><b>Skills:</b> </p>
+        <p>@Model.Application.Student.Skills</p>
+	</section>
+    <section>
+        <p class="mb-0"><b>Achievements:</b> </p>
+        <p>@Model.Application.Student.Achievements</p>
+    </section>
+    <section>
+        <p class="mb-0"><b>Interests:</b> </p>
+        <p>@Model.Application.Student.Interests</p>
+    </section>
+    <section>
+        <h2><b>Referees:</b></h2>
+        @if (Model.Referee.Count() > 0)
+        {
+            @foreach (var referee in @Model.Referee)
+            {
+               <div>
+
+					<p>@referee.Name
+						<a class="btn btn-sm btn-primary" asp-action="RefereeDetails" asp-route-id="@referee.RefereeId">View</a>
+					</p>
+                    
+               </div>              
+            }
+        }
+        else
+        {
+            <p>No Referees</p>
+        }
+    </section>
+</div>
+
+@{int i = 1;}
+<div>
+    @foreach (var document in Model.Documents)
+    {
+        <div>
+            <a type="text/html" href="@Url.Action("ViewDocument", "JobApplication", new {id = document.DocumentId})" target="_blank">Document @i</a>
+            @document.Description
+        </div>
+        i++;
+    }
+</div>
+<div>
+    <form method="post" asp-action="UpdateApplicationStatus" asp-route-id="@Model.Application.ApplicationId">
+        <label>Outcome status</label>
+        <select asp-for="@Model.Status" asp-items="@Model.statusList">
+            <option selected disabled value="@Model.Status">@Model.Status</option>
+        </select>
+        <div class="pt-3">
+            <input type="submit" value="Save" class="btn btn-success" />
+            <a class="btn btn-primary" asp-controller="JobApplication" asp-action="ViewApplicants" asp-route-id="@Model.PostId">Back</a>
+        </div>
+    </form>
+</div>
+

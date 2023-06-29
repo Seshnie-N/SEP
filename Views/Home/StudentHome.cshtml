@@ -3,7 +3,8 @@
 }
 
 <div class="text-center">
-    <a asp-controller="Profile" asp-action="UpdateStudent" class="btn btn-light">Manage Profile</a>
-    <button type="button" class="btn btn-light">Search and Apply</button>
-    <button type="button" class="btn btn-light">View Application History</button>
+    <p>Welcome Student!</p>
+    <a asp-controller="Student" asp-action="Update" class="btn btn-light">Manage Profile</a>
+    <a asp-controller="Student" asp-action="FilteredJobPosts" class="btn btn-light">Search and Apply</a>
+    <a asp-controller="JobApplication" asp-action="ApplicationHistory" type="button" class="btn btn-light">View Application History</a>
 </div>
