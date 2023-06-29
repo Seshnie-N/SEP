@@ -13,9 +13,20 @@
     <input asp-for="@Model.User" hidden />
     <input asp-for="@Model.Employer.isApproved" hidden />
 
-    <div class="form-check form-check-inline">
-        <input class="form-check-input" type="checkbox" asp-for="@Model.Employer.isInternal" value="true" id="isInternal">
-        <label class="form-check-label" for="isInternal">Internal?</label>
+    <div class="row pb-2" style="border: 2px solid black; border-radius:1rem;width:30rem; border-top: 0;padding:1rem;padding-top:0; margin-bottom:1rem;">
+        <label asp-for="@Model.Employer.isInternal">Are you a wits employee?</label>
+        <div class="col">
+            <div class="form-check-inline">
+                <input type="radio" asp-for="@Model.Employer.isInternal" id="Emp" value="true" />
+                <label for="Emp">Yes</label>
+            </div>
+            <div class="form-check-inline">
+                <input type="radio" asp-for="@Model.Employer.isInternal" id="NotEmp" value="false" />
+                <label for="NotEmp">No</label>
+            </div>
+        </div>
+
+        <span asp-validation-for="@Model.Employer.isInternal" class="text-danger"></span>
     </div>
 
     <div class="form-floating pb-3">

@@ -93,12 +93,12 @@
     </div>
 
     <div class="row pb-2" style="border: 2px solid black; border-radius:1rem;width:30rem; border-top: 0;padding:1rem;padding-top:0; margin-bottom:1rem;">
-        <label asp-for="@Model.Employer.Address" class="col-3">Address</label>
-        <textarea asp-for="@Model.Employer.Address"></textarea>
+        <label asp-for="@Model.Employer.Address" >Address</label>
+        <textarea style="border: none;" asp-for="@Model.Employer.Address"></textarea>
         <span asp-validation-for="@Model.Employer.Address" class="text-danger"></span>
     </div>
     <div id="approvernote" class="row pb-2" style="border: 2px solid black; border-radius:1rem;width:30rem; border-top: 0;padding:1rem;padding-top:0; margin-bottom:1rem;">
-        <label asp-for="@Model.Employer.ApproverNote" class="col-3">Approver's note'</label>
+        <label asp-for="@Model.Employer.ApproverNote" >Approver's note'</label>
         <textarea style="border: none;" asp-for="@Model.Employer.ApproverNote" readonly></textarea>
         <span asp-validation-for="@Model.Employer.ApproverNote" class="text-danger"></span>
     </div>
