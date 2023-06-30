@@ -39,7 +39,7 @@
 
     <div>
         <h1>Education</h1>
-        <a class="btn btn-primary" asp-action="AddQualification">Add</a>
+        <a class="btn btn-primary" onclick="showInPopup('@Url.Action("AddQualification", "Student",null, Context.Request.Scheme)','Add Education')">Add</a>
         <table class="table">
             <tbody>
                 @foreach (var qualification in @Model.Qualifications)

@@ -2,20 +2,20 @@
 
 @{
     ViewData["Title"] = "Add Qualification";
+    Layout = null;
 }
 
-<h1>Add Education</h1>
-<hr />
 <div class="row">
-    <div class="mx-auto col-10 col-md-8 col-lg-6">
-        <form method="post" asp-action="AddQualification">
+    <div class="align-content-center">
+        <form method="post" asp-action="AddQualification" onsubmit="return jQueryAjaxPost(this);" >
             <partial name ="_QualificationDetails"/>
             <div class="form-group">
                 <input type="submit" value="Add" class="btn btn-primary" />
             </div>
         </form>
         <div class="pt-2">
-            <a class="btn btn-primary" href="##" onClick="history.go(-1); return false;">Back</a>
+            @*make this a close button*@
+            <a class="btn btn-primary" asp-action="Update" asp-controller="Student">Back</a>
         </div>
     </div>
 </div>

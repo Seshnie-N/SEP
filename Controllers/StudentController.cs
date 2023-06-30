@@ -178,13 +178,13 @@ namespace SEP.Controllers
         //POST
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> AddQualificationAsync(Qualification qualification)
+        public async Task<IActionResult> AddQualification(Qualification qualification)
         {
             ApplicationUser user = await _userManager.GetUserAsync(User);
             qualification.StudentId = user.Id;
             _db.Qualifications.Add(qualification);
             _db.SaveChanges();
-            return RedirectToAction("Update");
+            return Json(new { isValid = true, html = Helper.RenderRazorViewToString(this,"AddQualification") });
         }
         //GET
         public IActionResult ViewQualification(Guid id)
@@ -282,11 +282,25 @@ namespace SEP.Controllers
         public IActionResult EditWorkExperience(WorkExperience workExperience)
         {
             var obj = _db.WorkExperiences.Find(workExperience.WorkExperienceId);
+
             if (obj != null)
             {
+                var startDate = workExperience.StartDate;
+                var endDate = workExperience.EndDate;
+                int result = DateTime.Compare(startDate, endDate);
+                if (result > 0)
+                {
+                    ModelState.AddModelError("StartDate",
+                                             "Start Date cannot be after End Date");
+                }
+                ModelState.Remove("StudentId");
+                if (!ModelState.IsValid)
+                {
+                    return View(workExperience);
+                }
                 obj.EmployerName = workExperience.EmployerName;
-                obj.StartDate = workExperience.StartDate;
-                obj.EndDate = workExperience.EndDate;
+                obj.StartDate = startDate;
+                obj.EndDate = endDate;
                 obj.JobTitle = workExperience.JobTitle;
                 obj.TasksAndResponsibilities = workExperience.TasksAndResponsibilities;
                 _db.SaveChanges();

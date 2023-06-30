@@ -63,7 +63,7 @@ namespace SEP.Models.DomainModels
 		[DisplayName("Limited to")]
 		public bool LimitedToSA { get; set; }
 		[Required(ErrorMessage = "Please provide a minimum requirements for the post.")]
-		[DisplayName("Minimum requirments")]
+		[DisplayName("Minimum requirements")]
 		public string MinimumRequirement { get; set; }
 		[Required(ErrorMessage = "Please provide a instructions for what should be submitted when applying.")]
 		[DisplayName("Application instruction")]
