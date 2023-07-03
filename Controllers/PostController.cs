@@ -159,8 +159,14 @@ namespace SEP.Controllers
 		{
 			return Json(_db.Faculties);
 		}
-		// get Departments by Id
-		public JsonResult GetDepartmentById(int id)
+
+        // get Departments by Id for cascading
+        public JsonResult GetDepartmentListById(int id)
+        {
+            return Json(_db.Departments.Where(d => d.FacultyId.Equals(id)));
+        }
+        // get Departments by Id for View
+        public JsonResult GetDepartmentNameById(int id)
 		{
 			return Json( _db.Departments.Where(d => d.DepartmentId.Equals(id)) );
 		}

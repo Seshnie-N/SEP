@@ -134,7 +134,7 @@
                     var depName ="";
                     $.ajax({
                         type: 'GET',
-                        url: '@Url.Action("GetDepartmentById")',
+                        url: '@Url.Action("GetDepartmentNameById")',
                         datatype: 'json',
                         data: { id: item.departmentName },
                         success: function(response){
@@ -206,7 +206,7 @@
 
                 $.ajax({
                     type: 'GET',
-                    url: '@Url.Action("GetDepartmentById")',
+                    url: '@Url.Action("GetDepartmentListById")',
                     dataType: 'json',
                     data: { id: obId },
                     success: function (dep) {

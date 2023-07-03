@@ -182,7 +182,7 @@
 				$('#departmentNameID').empty();
 				$.ajax({
 					type:'GET',
-					url: '@Url.Action("GetDepartmentById")',
+					url: '@Url.Action("GetDepartmentListById")',
 					dataType: 'json',
 					data: {id : obId},
 					success: function(dep){
