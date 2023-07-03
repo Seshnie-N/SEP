@@ -1,21 +1,18 @@
-﻿using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-using Microsoft.CodeAnalysis.CSharp;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
-using Microsoft.EntityFrameworkCore.Metadata;
+﻿using Microsoft.AspNetCore.Identity;
 using SEP.Data;
 using SEP.Models.DomainModels;
-using System.Security.Cryptography.Xml;
 
 namespace SEP.SeedData
 {
     public static class TaskInitializer
     {
+
+
         public static async Task<WebApplication> SeedDataAsync(this WebApplication app)
         {
             using var scope = app.Services.CreateScope();
             using var context = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+            
 
             IList<PartTimeHours> partTimeHours = new List<PartTimeHours>
                 {
@@ -52,8 +49,6 @@ namespace SEP.SeedData
                 }
             }
             context.SaveChanges();
-
-
 
             // Departments
             IList<Department> departments = new List<Department>
@@ -137,7 +132,6 @@ namespace SEP.SeedData
             }
 
             //seed approver
-            // userManager = scope.ServiceProvider.GetService<UserManager<ApplicationUser>>();
             if (userManager.FindByEmailAsync("approver0@gmail.com").Result == null)
             {
                 ApplicationUser user = new()
@@ -157,6 +151,10 @@ namespace SEP.SeedData
                     userManager.AddToRoleAsync(user, "Approver").Wait();
                 }
             }
+
+            //seed faker data
+            DataGenerator dataGenerator = new DataGenerator();
+            var fakePost = dataGenerator.GeneratePost();
 
             return app;
         }

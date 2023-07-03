@@ -22,7 +22,7 @@ namespace SEP.Controllers
         }
 
         public async Task<IActionResult> IndexAsync()
-        {
+        {          
             if (_signInManager.IsSignedIn(User))
             {
                 if (User.IsInRole("Student"))

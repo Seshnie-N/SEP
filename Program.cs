@@ -2,8 +2,6 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using SEP.CustomValidation;
 using SEP.Data;
-using SEP.Models;
-using SEP.Models.DomainModels;
 using SEP.SeedData;
 
 namespace SEP
@@ -27,12 +25,7 @@ namespace SEP
             builder.Services.AddAutoMapper(typeof(Program));
             builder.Services.AddControllersWithViews();
             builder.Services.AddRazorPages();
-
-            //configure default password validation
-            //builder.Services.Configure<IdentityOptions>(options =>
-            //{
-            //    options.Password.RequireUppercase = false;
-            //});
+            builder.Services.AddTransient<DataGenerator>();
 
             var app = builder.Build();
 

@@ -88,10 +88,10 @@ namespace SEP.Controllers
 		}
 
 
-		public IActionResult Update(int id)
+		public IActionResult Update(Guid id)
 		{
 
-			Post postObj = _db.Posts.Find(id);
+			var postObj = _db.Posts.Find(id);
 			var facId = postObj.FacultyName;
 
 			IEnumerable<Faculty> faculties = _db.Faculties;
