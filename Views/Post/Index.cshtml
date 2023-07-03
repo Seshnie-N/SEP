@@ -155,8 +155,14 @@
                         $('#searchClear').hide();
                         $('#searchButton').hide();
                     }
-                    Iposts.push(post);
-                    fillTable(post);
+                    else{
+                        // replace depertment Id by Department Name
+
+
+                        Iposts.push(post);
+                        fillTable(post);
+                    }
+                   
                     //$.each(post, function (index, item) {
 
                     //    $('#tbody').append(
