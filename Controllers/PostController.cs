@@ -162,7 +162,7 @@ namespace SEP.Controllers
 		// get Departments by Id
 		public JsonResult GetDepartmentById(int id)
 		{
-			return Json( _db.Departments.Where(d => d.FacultyId.Equals(id)) );
+			return Json( _db.Departments.Where(d => d.DepartmentId.Equals(id)) );
 		}
 
 		public async Task<ActionResult> Details(Guid id)
