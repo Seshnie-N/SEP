@@ -37,7 +37,7 @@ namespace SEP.Data
                 .RuleFor(p => p.EndDate, (f, p) => f.Date.Between(p.StartDate, p.StartDate.AddYears(3)))
                 .RuleFor(p => p.ApplicationClosingDate, (f, p) => f.Date.Between(DateTime.Now, p.StartDate))
                 .RuleFor(p => p.ContactPersonName, f => f.Name.FullName())
-                .RuleFor(p => p.ContactPersonEmail, (f, p) => f.Internet.Email(p.ContactPersonEmail))
+                .RuleFor(p => p.ContactPersonEmail, (f, p) => f.Internet.Email(p.ContactPersonName))
                 .RuleFor(p => p.ContactPersonNumber, f => f.Phone.PhoneNumber("0#########"))
                 .CustomInstantiator(f => new Post
                 {

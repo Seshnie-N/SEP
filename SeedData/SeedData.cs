@@ -152,12 +152,12 @@ namespace SEP.SeedData
             }
 
             //seed faker data
-            /*var dataGenerator = scope.ServiceProvider.GetService<DataGenerator>();
+            var dataGenerator = scope.ServiceProvider.GetService<DataGenerator>();
             var fakePosts = dataGenerator.GeneratePosts().Take(1);
             var existingPosts = context.Posts.Select(p => p.PostId).ToList();
             var newFakePosts = fakePosts.Where(p => !existingPosts.Contains(p.PostId)).ToList();
             context.Posts.AddRange(newFakePosts);
-            context.SaveChanges();*/
+            context.SaveChanges();
 
             return app;
         }
