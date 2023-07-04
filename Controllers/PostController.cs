@@ -154,16 +154,16 @@ namespace SEP.Controllers
             var workExperiences = await _db.WorkExperiences.Where(q => q.StudentId == user.Id).FirstOrDefaultAsync();
             var referees = await _db.Referees.Where(q => q.StudentId == user.Id).FirstOrDefaultAsync();
             bool profileCompleted = true;
-            if (qualifications == null || workExperiences == null || referees == null)
+            if (qualifications == null)
             {
                 profileCompleted = false;
             }
 
             var predicate = PredicateBuilder.New<Post>();
-            //predicate = predicate.And(p => p.isApproved);
-            //predicate = predicate.And(p => p.postStatus.Equals("Approved"));
-            //filter if student is not a south african citizen
-            if (!student.IsSouthAfrican)
+			predicate = predicate.And(p => p.IsApproved);
+			predicate = predicate.And(p => p.PostStatus.Equals("Approved"));
+			//filter if student is not a south african citizen
+			if (!student.IsSouthAfrican)
             {
                 predicate = predicate.And(p => !p.LimitedToSA);
             }
@@ -197,7 +197,7 @@ namespace SEP.Controllers
                     predicate = predicate.And(p => p.LimitedToPostdoc);
                     break;
             }
-            predicate = predicate.Or(p => /*p.isApproved &&*/ /*p.postStatus.Equals("Approved") &&*/ !p.LimitedTo1stYear && !p.LimitedTo2ndYear && !p.LimitedTo3rdYear && !p.LimitedToHonours && !p.LimitedToGraduate && !p.LimitedToMasters && !p.LimitedToPhd && !p.LimitedToPostdoc);
+            predicate = predicate.Or(p => p.IsApproved && p.PostStatus.Equals("Approved") && !p.LimitedTo1stYear && !p.LimitedTo2ndYear && !p.LimitedTo3rdYear && !p.LimitedToHonours && !p.LimitedToGraduate && !p.LimitedToMasters && !p.LimitedToPhd && !p.LimitedToPostdoc);
 
 
             //filter out job posts that have already been applied to

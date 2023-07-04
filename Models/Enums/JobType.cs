@@ -9,14 +9,4 @@ namespace SEP.Models.Enums
         [Display(Name = "Part-Time")]
         PartTime
     }
-
-    //public enum BusinessType
-    //{
-
-    //}
-
-    //public enum WeekHour
-    //{
-
-    //}
 }

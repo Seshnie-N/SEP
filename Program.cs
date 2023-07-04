@@ -2,7 +2,6 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using SEP.CustomValidation;
 using SEP.Data;
-using SEP.SeedData;
 
 namespace SEP
 {

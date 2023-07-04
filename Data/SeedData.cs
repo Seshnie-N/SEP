@@ -1,13 +1,12 @@
 ﻿using Microsoft.AspNetCore.Identity;
-using SEP.Data;
 using SEP.Models.DomainModels;
 
-namespace SEP.SeedData
+namespace SEP.Data
 {
     public static class TaskInitializer
     {
 
-
+        
         public static async Task<WebApplication> SeedDataAsync(this WebApplication app)
         {
             using var scope = app.Services.CreateScope();
@@ -153,7 +152,7 @@ namespace SEP.SeedData
 
             //seed faker data
             var dataGenerator = scope.ServiceProvider.GetService<DataGenerator>();
-            var fakePosts = dataGenerator.GeneratePosts().Take(1);
+            var fakePosts = dataGenerator.GeneratePosts().Take(100);
             var existingPosts = context.Posts.Select(p => p.PostId).ToList();
             var newFakePosts = fakePosts.Where(p => !existingPosts.Contains(p.PostId)).ToList();
             context.Posts.AddRange(newFakePosts);
@@ -161,5 +160,5 @@ namespace SEP.SeedData
 
             return app;
         }
-	}
+    }
 }

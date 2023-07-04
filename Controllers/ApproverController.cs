@@ -171,5 +171,10 @@ namespace SEP.Controllers
             return RedirectToAction("PendingPosts");
         }
 
+        public async Task<IActionResult> Stats()
+        {
+            return View();
+        }
+
     }
 }

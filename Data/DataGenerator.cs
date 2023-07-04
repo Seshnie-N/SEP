@@ -16,23 +16,23 @@ namespace SEP.Data
             var statusList = new List<string> {"Pending", "Approved", "Rejected", "Queried" };
             var postStatusList = new List<string> { "Approved", "Withdrawn", "Closed" };
 
-            Randomizer.Seed = new Random(91452);
+            Randomizer.Seed = new Random(50214);
             postFake = new Faker<Post>()
-                .RuleFor(p => p.PostId, f => f.Random.Guid())
+                .RuleFor(p => p.PostId, f => Guid.NewGuid())
                 .RuleFor(p => p.EmployerId, f => f.PickRandom(employers))
                 .RuleFor(p => p.FacultyName, f => f.PickRandom(faculties))
                 .RuleFor(p => p.DepartmentName, f => f.PickRandom(departments))
                 .RuleFor(p => p.JobTitle, f => f.Name.JobTitle())
-                .RuleFor(p => p.JobDescription, f => f.Lorem.Sentence())
+                .RuleFor(p => p.JobDescription, f => f.Name.JobDescriptor())
                 .RuleFor(p => p.JobLocation, f => f.Address.FullAddress())
-                .RuleFor(p => p.Responsibilities, f => f.Lorem.Sentences())
-                .RuleFor(p => p.HourlyRate, f => f.Finance.Amount(0, 50000, 2))
-                .RuleFor(p => p.ApplicationInstruction, f => f.Lorem.Text())
+                .RuleFor(p => p.Responsibilities, f => f.Lorem.Sentences(6))
+                .RuleFor(p => p.HourlyRate, f => f.Finance.Amount(100, 350, 2))
+                .RuleFor(p => p.ApplicationInstruction, f => f.Lorem.Lines())
                 .RuleFor(p => p.MinimumRequirement, f => f.Lorem.Text())
                 .RuleFor(p => p.ApprovalStatus, f => f.PickRandom(statusList))
                 .RuleFor(p => p.IsApproved, (f,p) => p.ApprovalStatus == "Approved" ? true : false)
                 .RuleFor(p => p.PostStatus, (f, p) => p.IsApproved ? f.PickRandom(postStatusList) : "Pending")
-                .RuleFor(p => p.PostReviewComment, (f, p) => p.ApprovalStatus != "Approved" ? null : f.Lorem.Sentences().OrNull(f, 0.2f))
+                .RuleFor(p => p.PostReviewComment, (f, p) => p.ApprovalStatus != "Approved" ? null : f.Lorem.Sentences(2).OrNull(f, 0.2f))
                 .RuleFor(p => p.StartDate, f => f.Date.Future())
                 .RuleFor(p => p.EndDate, (f, p) => f.Date.Between(p.StartDate, p.StartDate.AddYears(3)))
                 .RuleFor(p => p.ApplicationClosingDate, (f, p) => f.Date.Between(DateTime.Now, p.StartDate))

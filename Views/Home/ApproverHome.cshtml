@@ -1,9 +1,9 @@
 ﻿@{
-    ViewData["Title"] = "ApproverHome";
+    ViewData["Title"] = "Approver Home";
 }
 <div class="text-center">
     <h1>Welcome Approver!</h1>
     <a asp-controller="Approver" asp-action="pendingEmployers" class="btn btn-light">Review Pending Employers</a>
     <a asp-controller="Approver" asp-action="pendingPosts" class="btn btn-light">Review Posts</a>
-    <button class="btn btn-light" disabled>View Stats</button>
+     <a asp-controller="Approver" asp-action="Stats"class="btn btn-light">View Stats</a>
 </div>
