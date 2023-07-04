@@ -16,9 +16,9 @@ namespace SEP.Data
             var statusList = new List<string> {"Pending", "Approved", "Rejected", "Queried" };
             var postStatusList = new List<string> { "Approved", "Withdrawn", "Closed" };
 
-            Randomizer.Seed = new Random(50214);
+            Randomizer.Seed = new Random(1969);
             postFake = new Faker<Post>()
-                .RuleFor(p => p.PostId, f => Guid.NewGuid())
+                .RuleFor(p => p.PostId, f => f.Random.Guid())
                 .RuleFor(p => p.EmployerId, f => f.PickRandom(employers))
                 .RuleFor(p => p.FacultyName, f => f.PickRandom(faculties))
                 .RuleFor(p => p.DepartmentName, f => f.PickRandom(departments))

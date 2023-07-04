@@ -1,4 +1,5 @@
-﻿
+﻿@model SEP.Models.ViewModels.DepartmentHourlyRateStatViewModel
+@inject IJsonHelper Json;
 <h1>Stats</h1>
 <div class="row">
     <canvas id="myChart"> </canvas>
@@ -6,20 +7,27 @@
 @section Scripts{
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.3.0/dist/chart.umd.min.js"></script>
     <script >
-        $(document).ready(function() {
-           
-        });
+        //$(document).ready(function() {
+        //   $.ajax({
+        //       type:'GET',
+        //       url: @Url.Action("PostData","Approver"),
+        //       dataType: 'json',
+        //       success: function(posts){
+        //           alert("success");
+        //       }
+        //   });
+        //});
 
-
+        
         const ctx = document.getElementById('myChart');
-
+        
         new Chart(ctx, {
             type: 'bar',
             data: {
-                labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+                labels: @Json.Serialize(Model.Departments),
                 datasets: [{
-                    label: '# of Votes',
-                    data: [12, 19, 3, 5, 2, 3],
+                    label: 'Average Hourly Rate',
+                    data: @Json.Serialize(Model.HourlyRates),
                     borderWidth: 1
                 }]
             },

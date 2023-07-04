@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.EntityFrameworkCore;
 using SEP.Data;
 using SEP.Models.DomainModels;
@@ -173,8 +174,34 @@ namespace SEP.Controllers
 
         public async Task<IActionResult> Stats()
         {
-            return View();
+            List<Post> postsGroupByDepartment = _db.Posts
+                                                .GroupBy(p => p.DepartmentName)
+                                                .Select(p => new Post
+                                                {
+                                                    DepartmentName = p.First().DepartmentName,
+                                                    HourlyRate = p.Average(p => p.HourlyRate),
+                                                }).ToList();
+            List<string> departments = new();
+            List<decimal> averageHourlyRate = new();
+            foreach (Post post in postsGroupByDepartment)
+            {
+                departments.Add(post.DepartmentName);
+                averageHourlyRate.Add(post.HourlyRate);
+            }
+            var statsViewModel = new DepartmentHourlyRateStatViewModel()
+            {
+                Departments = departments,
+                HourlyRates = averageHourlyRate
+            };
+            return View(statsViewModel);
         }
+        //[HttpGet]
+        //[ValidateAntiForgeryToken]
+        //public async Task<JsonResult> PostData()
+        //{
+        //    var posts = _db.Posts.Distinct().Select(p =>new { p.DepartmentName , p.HourlyRate}).ToList();
+        //    return Json(posts);
+        //}
 
     }
 }
