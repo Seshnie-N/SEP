@@ -12,7 +12,6 @@ namespace SEP.SeedData
         {
             using var scope = app.Services.CreateScope();
             using var context = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
-            
 
             IList<PartTimeHours> partTimeHours = new List<PartTimeHours>
                 {
@@ -153,8 +152,12 @@ namespace SEP.SeedData
             }
 
             //seed faker data
-            DataGenerator dataGenerator = new DataGenerator();
-            var fakePost = dataGenerator.GeneratePost();
+            var dataGenerator = scope.ServiceProvider.GetService<DataGenerator>();
+            var fakePosts = dataGenerator.GeneratePosts().Take(1);
+            var existingPosts = context.Posts.Select(p => p.PostId).ToList();
+            var newFakePosts = fakePosts.Where(p => !existingPosts.Contains(p.PostId)).ToList();
+            context.Posts.AddRange(newFakePosts);
+            context.SaveChanges();
 
             return app;
         }
