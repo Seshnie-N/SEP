@@ -67,18 +67,18 @@
         <div class="col pb-2">
             <label asp-for="@Model.post.StartDate"></label>
             <input id="startdate" class="form-control" type="date" asp-for="@Model.post.StartDate" />
-            <span asp-validation-for="@Model.post.StartDate" class="text-danger"></span>
+            <span id="startdatespan" @*asp-validation-for="@Model.post.StartDate"*@ class="text-danger"></span>
         </div>
         <div class="col pb-2">
             <label asp-for="@Model.post.EndDate"></label>
-            <input  id="enddate" class="form-control" type="date" asp-for="@Model.post.EndDate" />
-            <span asp-validation-for="@Model.post.EndDate" class="text-danger"></span>
+            <input id="enddate" class="form-control" type="date" asp-for="@Model.post.EndDate" />
+            <span id="enddatespan" @*asp-validation-for="@Model.post.EndDate"*@ class="text-danger"></span>
         </div>
 
         <div class="col pb-2">
             <label asp-for="@Model.post.ApplicationClosingDate"></label>
             <input id="closingdate" class="form-control" type="date" asp-for="@Model.post.ApplicationClosingDate" />
-            <span asp-validation-for="@Model.post.ApplicationClosingDate" class="text-danger"></span>
+            <span id="closingdatespan" @*asp-validation-for="@Model.post.ApplicationClosingDate"*@ class="text-danger"></span>
         </div>
     </div>
 
@@ -206,6 +206,79 @@
     <script type="text/javascript">
         $(document).ready(function () {
 
+            // Validation for start date
+
+            function validateStartDate() {
+                let currentDate = new Date().toISOString().split('T')[0].split('-');
+                let startDate = $('#startdate').val().split("-");
+                $('#startdatespan').text("");
+                // validate if they are not selecting previous years
+                // validate if they are not selecting previous years
+                if (startDate[0] < currentDate[0] || startDate[0] == currentDate[0] && startDate[1] < currentDate[1] || startDate[0] == currentDate[0] && startDate[1] == currentDate[1] && startDate[1] < currentDate[1] ) {
+                    let err = ("year should be current year onwards");
+                    $('#startdatespan').text(err);
+                }
+            }
+
+            // validation for end date
+            function validateEndDate(){
+                let currentDate = new Date().toISOString().split('T')[0].split('-');
+                let startDate = $('#startdate').val().split("-");
+                let endDate = $('#enddate').val().split("-");
+                $('#startdatespan').text("");
+                $('#enddatespan').text("");
+                //check if start date is greater than end date
+                if (endDate[0] == startDate[0] && endDate[1] == startDate[1] && endDate[2] == startDate[2]) {
+                    let err = ("Start and end date can not be same");
+                    $('#startdatespan').text(err);
+                    $('#enddatespan').text(err);
+                }
+                else if (endDate[0] >= startDate[0] && endDate[1] < startDate[1]) {
+                    let err = ("start can not be after end date (month)");
+                    $('#startdatespan').text(err);
+                }
+
+                else if (endDate[0] == startDate[0] && endDate[1] == startDate[1] && endDate[2] < startDate[2]) {
+                    let err = ("Start date can not be after end date");
+                    $('#startdatespan').text(err);
+                }
+
+            }
+
+            // Validation for closing date
+            function validateClosingDate(){
+                let currentDate = new Date().toISOString().split('T')[0].split('-');
+                let startDate = $('#startdate').val().split("-");
+                let endDate = $('#enddate').val().split("-");
+                let closingdate = $('#closingdate').val().split("-");
+
+                $('#startdatespan').text("");
+                $('#enddatespan').text("");
+                $('#closingdatespan').text("");
+
+                // validating closing date aginst start date
+
+                if (closingdate[0] < currentDate[0]) {
+                    let err = ("Closing date can not be before today");
+                    $('#closingdatespan').text(err);
+                }
+
+                if (closingdate[0] > startDate[0]) {
+                    let err = ("Closing date can not be after start date");
+                    $('#closingdatespan').text(err);
+                }
+
+                else if (closingdate[0] == startDate[0] && closingdate[1] > startDate[1]) {
+                    let err = ("Closing date can not be after start date");
+                    $('#closingdatespan').text(err);
+                }
+
+                else if (closingdate[0] == startDate[0] && closingdate[1] == startDate[1] && closingdate[2] > startDate[2]) {
+                    let err = ("Closing date can not be after start date");
+                    $('#closingdatespan').text(err);
+                }
+            }
+
             $('#jobtypeid').change(function () {
                 if (this.value == "Fulltime") {
                     $('#parttimehours').hide();
@@ -234,18 +307,38 @@
             });
 
             // validate dates
-            $('#enddate').change( function() {
+
+            // start date
+            $('#startdate').change(function(){
+                validateStartDate();
+            });
+            //end date
+            $('#enddate').change(function() {
+                validateEndDate();
+            });
+
+            // closing date
+            $('#closingdate').change(function () {
+                validateClosingDate();
+            });
+
+
+            @*$('#enddate').change(function () {
                 let currentDate = new Date().toISOString().split('T')[0].split('-');
                 let startDate = $('#startdate').val().split("-");
                 let endDate = $('#enddate').val().split("-");
                 let closingdate = $('#closingdate').val().split("-");
 
+                $('#enddatespan').text("");
 
                 // validate if they are not selecting previous years
-                if(startDate[0] < currentDate[0]){
+                if (startDate[0] < currentDate[0]) {
                     alert("year should be current year onwards");
+                    $('#enddatespan').text("hello");
                 }
-                if(endDate[0] < currentDate[0]){
+
+
+                if (endDate[0] < currentDate[0]) {
                     alert("year should be current year onwards");
                 }
                 if (closingdate[0] < currentDate[0]) {
@@ -253,7 +346,7 @@
                 }
 
                 //check if start date is greater than end date
-                if (endDate[0] == startDate[0] && endDate[1] == startDate[1] && endDate[2] == startDate[2]){
+                if (endDate[0] == startDate[0] && endDate[1] == startDate[1] && endDate[2] == startDate[2]) {
                     alert(" all start and end date can not be same");
                 }
 
@@ -261,12 +354,12 @@
                     alert("start and end date can not after end date");
                 }
 
-                if (endDate[0] >= startDate[0] && endDate[1] < startDate[1] ) {
+                if (endDate[0] >= startDate[0] && endDate[1] < startDate[1]) {
                     alert("start and end date can not after end date (month)");
                 }
 
                 // validating closing date aginst start date
-                if(closingdate[0] < startDate[0]){
+                if (closingdate[0] < startDate[0]) {
                     alert("Error");
                 }
 
@@ -277,7 +370,7 @@
                 if (closingdate[0] == startDate[0] && closingdate[1] == startDate[1] && closingdate[1] >= startDate[1]) {
                     alert("Error");
                 }
-            });
+            });*@
 
 
         });
