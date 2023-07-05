@@ -206,6 +206,14 @@
     <script type="text/javascript">
         $(document).ready(function () {
 
+            // Auto resizing the text area
+            $('.autoresizing').on('input', function () {
+                this.style.height = 'auto';
+
+                this.style.height =
+                    (this.scrollHeight) + 'px';
+            });
+
             // Validation for start date
 
             function validateStartDate() {
