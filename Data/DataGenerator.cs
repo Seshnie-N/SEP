@@ -11,7 +11,7 @@ namespace SEP.Data
         {
             var employers = context.Employers.Where(e => e.IsApproved).Select(e => e.UserId).ToList();
             var faculties = context.Faculties.Select(f => f.FacultyId).ToList();
-            var departments = context.Departments.Select(d => d.DepartmentName).ToList();
+            var departments = context.Departments.Select(d => d.DepartmentId).ToList();
             var partTimeHours = context.partTimeHours.Select(p => p.TimeRange).ToList();
             var statusList = new List<string> {"Pending", "Approved", "Rejected", "Queried" };
             var postStatusList = new List<string> { "Approved", "Withdrawn", "Closed" };

@@ -21,7 +21,7 @@ namespace SEP.Models.DomainModels
 		//need to create foreign key relationship here
 		[Required(ErrorMessage = "Please select a department.")]
 		[DisplayName("Department")]
-        public string DepartmentName { get; set; }
+        public int DepartmentName { get; set; }
 		//may not need this property anymore
 		[Required(ErrorMessage = "Please select a department.")]
 		[DisplayName("Faculty")]
@@ -55,7 +55,7 @@ namespace SEP.Models.DomainModels
         [DisplayName("End date")]
         public DateTime EndDate { get; set; }
 		[DataType(DataType.Currency)]
-		[Column(TypeName = "decimal(18,2)")]
+		[Column(TypeName = "decimal(18.2)")]
 		[Range(1, int.MaxValue, ErrorMessage = "Please enter an hourly rate.")]
 		[DisplayName("Hourly rate")]
 		public decimal HourlyRate { get; set; }
@@ -69,7 +69,7 @@ namespace SEP.Models.DomainModels
 		[DisplayName("Application instruction")]
 		public string ApplicationInstruction { get; set; }
 		[Required(ErrorMessage = "Select a closing date for the post.")]
-		[DisplayName("Closing date")]
+		[DisplayName("Application closing date")]
 		[DataType(DataType.Date)]
 		public DateTime ApplicationClosingDate { get; set; }
 		[Required(ErrorMessage = "Please provide contact name")]

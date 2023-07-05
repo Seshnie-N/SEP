@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using AspNetCoreHero.ToastNotification.Abstractions;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -13,11 +14,13 @@ namespace SEP.Controllers
     {
         private readonly ApplicationDbContext _db;
         private readonly UserManager<ApplicationUser> _userManager;
+		private readonly INotyfService _toastNotification;
 
-        public EmployerController(ApplicationDbContext db, UserManager<ApplicationUser> userManager)
+		public EmployerController(ApplicationDbContext db, UserManager<ApplicationUser> userManager, INotyfService notyfService)
         {
             _db = db;
             _userManager = userManager;
+            _toastNotification = notyfService; 
         }
 
         public IActionResult Index()
@@ -60,6 +63,8 @@ namespace SEP.Controllers
              employerProfile.Employer.ApprovalStatus = "Pending"; 
             _db.Employers.Add(employerProfile.Employer);
             _db.SaveChanges();
+            _toastNotification.Success("Profile successfully created.");
+
             return RedirectToAction("Index", "Home");
         }
 
@@ -123,7 +128,8 @@ namespace SEP.Controllers
                 employerRecord.IsApproved = false;
                
                 _db.SaveChanges();
-                return RedirectToAction("Index", "Home");
+				_toastNotification.Success("Profile successfully updated.");
+				return RedirectToAction("Index", "Home");
             }
 			return RedirectToAction("EmployerHome", "Home");
 
