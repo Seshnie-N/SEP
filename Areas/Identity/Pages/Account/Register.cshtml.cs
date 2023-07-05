@@ -72,9 +72,11 @@ namespace SEP.Areas.Identity.Pages.Account
             [Display(Name = "Are you a member of staff at Wits?")]
             public bool isInternal { get; set; }
             [Required(ErrorMessage = "Please enter your first name.")]
+            [RegularExpression("^[^\\d]*$", ErrorMessage="Invalid characters in field.")]
             [Display(Name = "First name")]
             public string FirstName { get; set; }
             [Required(ErrorMessage = "Please enter your last name.")]
+            [RegularExpression("^[^\\d]*$", ErrorMessage = "Invalid characters in field.")]
             [Display(Name = "Last name")]
             public string LastName { get; set; }
             [Required(ErrorMessage = "Please select a profile type.")]

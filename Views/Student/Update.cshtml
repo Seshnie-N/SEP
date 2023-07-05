@@ -44,7 +44,7 @@
 
     <form id="addQualificationForm" method="post" data-ajax="true" data-ajax-method="post" data-ajax-complete="OnComplete" asp-action="AddQualification" asp-controller="Student">
         <div id="addQualificationModal" class="modal fade" tabindex="-1" role="dialog" data-bs-backdrop="static">
-            <div class="modal-dialog" role="document">
+            <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title">Add Education</h5>
@@ -53,7 +53,7 @@
                         </button>
                     </div>
                     <div class="modal-body" id="qualificationFormDetails">
-                        <partial name="_QualificationDetails" model="@Model.Qualification" />                        
+                        <partial name="_QualificationDetails" model="@Model.Qualification"/>                        
                     </div>
                     <div class="modal-footer">
                         <input id="btnSubmit" type="submit" value="Submit" class="btn btn-primary" />
@@ -66,7 +66,7 @@
 
     <table class="table">
         <tbody>
-            @foreach (var qualification in @Model.Qualifications)
+            @*@foreach (var qualification in @Model.Qualifications)
             {
                 <tr>
                     <td>@qualification.QualificationName</td>
@@ -75,7 +75,8 @@
                         <a class="btn btn-primary" asp-action="ViewQualification" asp-route-id="@qualification.QualificationId">View</a>
                     </td>
                 </tr>
-            }
+            }*@
+
         </tbody>
     </table>
 </div>
@@ -145,6 +146,8 @@
             $('#addQualificationModal').on('hidden.bs.modal', function () {
                 $('#addQualificationForm')[0].reset(); // Reset the form fields
             });
+
+
         });
         
         function OnComplete() {

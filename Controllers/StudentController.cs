@@ -5,7 +5,6 @@ using SEP.Data;
 using SEP.Models.DomainModels;
 using SEP.Models.ViewModels;
 using Microsoft.EntityFrameworkCore;
-using LinqKit;
 using System.Security.Claims;
 
 namespace SEP.Controllers
@@ -175,6 +174,11 @@ namespace SEP.Controllers
         {
             return View();
         }
+        //GET
+        //public JsonResult GetQualificationsList(int id)
+        //{
+        //    return Json(_db.Qualifications.Where());
+        //}
         //POST
         [HttpPost]
         [ValidateAntiForgeryToken]
