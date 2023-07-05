@@ -113,6 +113,11 @@ namespace SEP.Controllers
             return View(posts);
         }
 
+        public JsonResult GetPendingPosts()
+        {
+            return Json(_db.Posts.Where(p => p.IsApproved == false && p.PostStatus.Equals("Pending")));
+        }
+
         public IActionResult ApproverUpdatePost(Guid id)
         {
 
@@ -141,45 +146,60 @@ namespace SEP.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult ApproverUpdatePost(PostViewModel postViewModelObject)
+        public void ApproverUpdatePost(PostViewModel postViewModelObject)
         {
             _db.Posts.Update(postViewModelObject.post);
             _db.SaveChanges();
 			_toastNotification.Success("Job post successfully updated.");
-			return RedirectToAction("PendingPosts");
         }
        
-        public async Task<IActionResult> ApproverApprovePost(Guid id)
+        public async Task<IActionResult> ApproverApprovePost(PostViewModel postViewModelObject)
         {
-            var postToBeApproved = await _db.Posts.Where(p => p.PostId == id).SingleOrDefaultAsync();
-            postToBeApproved.PostStatus = "Approved";
-            postToBeApproved.ApprovalStatus = "Approved";
-            postToBeApproved.IsApproved = true;
-            _db.Posts.Update(postToBeApproved);
+           //var postToBeApproved = await _db.Posts.Where(p => p.PostId == id).SingleOrDefaultAsync();
+            postViewModelObject.post.PostStatus = "Approved";
+            postViewModelObject.post.ApprovalStatus = "Approved";
+            postViewModelObject.post.IsApproved = true;
+            _db.Posts.Update(postViewModelObject.post);
             _db.SaveChanges();
 			_toastNotification.Success("Job post accepted.");
 			_toastNotification.Information("students can apply for this post.");
 			return RedirectToAction("PendingPosts");
         }
        
-        public async Task<IActionResult> ApproverRejectPost(Guid id)
+        public async Task<IActionResult> ApproverRejectPost(PostViewModel postViewModelObject)
         {
-            var postToBeRejected = await _db.Posts.Where(p => p.PostId == id).SingleOrDefaultAsync();
-            postToBeRejected.ApprovalStatus = "Rejected";
-            _db.Posts.Update(postToBeRejected);
+            // var postToBeRejected = await _db.Posts.Where(p => p.PostId == id).SingleOrDefaultAsync();
+            postViewModelObject.post.ApprovalStatus = "Rejected";
+            _db.Posts.Update(postViewModelObject.post);
             _db.SaveChanges();
 			_toastNotification.Success("Job post rejected.");
 			return RedirectToAction("PendingPosts");
         }
-        
-        public async Task<IActionResult> ApproverQueryPostAsync(Guid id)
+
+        public IActionResult ApproverQueryPost(PostViewModel postViewModelObject)
         {
-            var postToBeQueried = await _db.Posts.Where(p => p.PostId == id).SingleOrDefaultAsync();
-            postToBeQueried.ApprovalStatus = "Queried";
-            _db.Posts.Update(postToBeQueried);
+            //var postToBeQueried = await _db.Posts.Where(p => p.PostId == id).SingleOrDefaultAsync();
+            postViewModelObject.post.ApprovalStatus = "Queried";
+            _db.Posts.Update(postViewModelObject.post);
             _db.SaveChanges();
-			_toastNotification.Success("Job post queried.");
-			return RedirectToAction("PendingPosts");
+            _toastNotification.Success("Job post queried.");
+            return RedirectToAction("PendingPosts");
+        }
+        // get all faculties
+        public JsonResult GetFaculties()
+        {
+            return Json(_db.Faculties);
+        }
+
+        // get Departments by Id for cascading
+        public JsonResult GetDepartmentListById(int id)
+        {
+            return Json(_db.Departments.Where(d => d.FacultyId.Equals(id)));
+        }
+        // get Departments by Id for View
+        public JsonResult GetDepartmentNameById(int id)
+        {
+            return Json(_db.Departments.Where(d => d.DepartmentId.Equals(id)));
         }
 
     }

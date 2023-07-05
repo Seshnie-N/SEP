@@ -307,7 +307,7 @@
                     data: { id: obId },
                     success: function (dep) {
                         $.each(dep, function (index, item) {
-                            $('#departmentNameID').append('<option value="' + item.departmentId + '">' + item.departmentName + '</option>')
+                            $('#departmentNameID').append('<option value="'+ item.departmentId +'">' + item.departmentName + '</option>')
                         });
                     }
                 });
@@ -329,57 +329,6 @@
             $('#closingdate').change(function () {
                 validateClosingDate();
             });
-
-
-            @*$('#enddate').change(function () {
-                let currentDate = new Date().toISOString().split('T')[0].split('-');
-                let startDate = $('#startdate').val().split("-");
-                let endDate = $('#enddate').val().split("-");
-                let closingdate = $('#closingdate').val().split("-");
-
-                $('#enddatespan').text("");
-
-                // validate if they are not selecting previous years
-                if (startDate[0] < currentDate[0]) {
-                    alert("year should be current year onwards");
-                    $('#enddatespan').text("hello");
-                }
-
-
-                if (endDate[0] < currentDate[0]) {
-                    alert("year should be current year onwards");
-                }
-                if (closingdate[0] < currentDate[0]) {
-                    alert("year should be current year onwards");
-                }
-
-                //check if start date is greater than end date
-                if (endDate[0] == startDate[0] && endDate[1] == startDate[1] && endDate[2] == startDate[2]) {
-                    alert(" all start and end date can not be same");
-                }
-
-                if (endDate[0] >= startDate[0] && endDate[1] >= startDate[1] && endDate[2] <= startDate[2]) {
-                    alert("start and end date can not after end date");
-                }
-
-                if (endDate[0] >= startDate[0] && endDate[1] < startDate[1]) {
-                    alert("start and end date can not after end date (month)");
-                }
-
-                // validating closing date aginst start date
-                if (closingdate[0] < startDate[0]) {
-                    alert("Error");
-                }
-
-                if (closingdate[0] == startDate[0] && closingdate[1] > startDate[1]) {
-                    alert("Error");
-                }
-
-                if (closingdate[0] == startDate[0] && closingdate[1] == startDate[1] && closingdate[1] >= startDate[1]) {
-                    alert("Error");
-                }
-            });*@
-
 
         });
     </script>

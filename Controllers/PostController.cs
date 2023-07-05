@@ -31,7 +31,6 @@ namespace SEP.Controllers
 		{
 			ApplicationUser user = await _userManager.GetUserAsync(User);
 			IEnumerable<Post> posts = _db.Posts.Where(p => p.EmployerId.Equals(user.Id));
-
 			return View(posts);
 		}
 

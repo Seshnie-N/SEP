@@ -108,8 +108,8 @@
     }
 </div>
 <div>
-    <a asp-controller="Post" asp-action="Create" class="btn btn-info" id="CreatePost">Create post</a>
-    <a asp-controller="Home" asp-action="Index" class="btn btn-secondary">Back</a>
+    <a style="width: 15%;" asp-controller="Post" asp-action="Create" class="btn btn-info" id="CreatePost">Create post</a>
+    <a style="width: 15%;" asp-controller="Home" asp-action="Index" class="btn btn-secondary">Back</a>
 </div>
 
 @section scripts{
@@ -154,9 +154,6 @@
                 dataType: 'json',
                 data: {},
                 success: function (post) {
-
-                    
-
                     if (post.length == 0){
                         $('#facultyNameID').hide();
                         $('#searchFacultyClear').hide();
@@ -168,18 +165,9 @@
                     }
                     else{
                         // replace depertment Id by Department Name
-
-
                         Iposts.push(post);
                         fillTable(post);
                     }
-                   
-                    //$.each(post, function (index, item) {
-
-                    //    $('#tbody').append(
-                    //        '<tr><td width="15%" >' + item.jobTitle + '</td><td width = "20%">' + item.departmentName + '</td><td width = "15%">' + item.jobType + '</td><td width = "15%">' + item.startDate.toString("d") + '</td><td width = "15%" >' + item.endDate.toString("d") + '</td> <td width = "20%"> <div class="row" > <div class="col">' + item.postStatus + '</div><div class= "col" ><a href="/Post/Update/' + item.postId + '" class= "btn btn-info btn-sm" value = "" > Review </a></div></div></td></tr>'
-                    //    );
-                    //});
                 }
             });
 
@@ -211,7 +199,7 @@
                     data: { id: obId },
                     success: function (dep) {
                         $.each(dep, function (index, item) {
-                            $('#departmentNameID').append('<option value="' + item.departmentName + '">' + item.departmentName + '</option>')
+                            $('#departmentNameID').append('<option value="' + item.departmentId + '">' + item.departmentName + '</option>')
                         });
                     }
                 });
@@ -260,27 +248,6 @@
 
             });
 
-            //$("#search").on("input", function () {
-            //    var searchVal = $('#search').val().trim();
-            //    $('#searchClear').show();
-
-            //    var newPosts = Iposts[0].filter((filterValue) => {
-            //        if (filterValue.jobTitle.toLowerCase().includes(searchVal.toLowerCase())) {
-            //            return filterValue;
-            //        }
-            //    });
-
-            //    if (newPosts.length >= 0 && searchVal != "") {
-            //        fillTable(newPosts);
-            //    }
-            //    else {
-            //        fillTable(Iposts[0])
-            //    }
-
-            //    if(searchVal == ''){
-            //        $('#searchClear').hide();
-            //    }
-            //});
 
             $("#search").keyup(function () {
                 var searchVal = $('#search').val().trim();
