@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace SEP.Migrations
 {
-    public partial class Initial : Migration
+    public partial class init : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -266,7 +266,7 @@ namespace SEP.Migrations
                 {
                     PostId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     EmployerId = table.Column<string>(type: "nvarchar(450)", nullable: true),
-                    DepartmentName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    DepartmentName = table.Column<int>(type: "int", nullable: false),
                     FacultyName = table.Column<int>(type: "int", nullable: false),
                     JobTitle = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     JobLocation = table.Column<string>(type: "nvarchar(max)", nullable: false),

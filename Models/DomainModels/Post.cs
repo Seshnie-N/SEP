@@ -55,7 +55,7 @@ namespace SEP.Models.DomainModels
         [DisplayName("End date")]
         public DateTime EndDate { get; set; }
 		[DataType(DataType.Currency)]
-		[Column(TypeName = "decimal(18.2)")]
+		[Column(TypeName = "decimal(18,2)")]
 		[Range(1, int.MaxValue, ErrorMessage = "Please enter an hourly rate.")]
 		[DisplayName("Hourly rate")]
 		public decimal HourlyRate { get; set; }

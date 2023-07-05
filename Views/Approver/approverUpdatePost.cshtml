@@ -8,7 +8,7 @@
     <div class="row">
         <div class="col pb-2">
             <label asp-for="@Model.post.PostReviewComment"></label>
-            <textarea style="width:100%;border-color: red; border-radius:0;" class="form-control autoresizing" asp-for="@Model.post.PostReviewComment"></textarea>
+            <textarea class="form-control autoresizing" style="width:100%;border: 1px solid red; border-radius:0;" asp-for="@Model.post.PostReviewComment"></textarea>
         </div>
         <div class="col pb-2">
             <label asp-for="@Model.post.JobTitle"></label>
@@ -22,11 +22,11 @@
     <div class="row">
         <div class="col pb-2">
             <label asp-for="@Model.post.JobDescription"></label>
-            <input style="width:100%;" asp-for="@Model.post.JobDescription" readonly />
+            <textarea style="width:100%;border-radius:0;" class="form-control autoresizing" asp-for="@Model.post.JobDescription" readonly > </textarea>
         </div>
         <div class="col pb-2">
             <label asp-for="@Model.post.Responsibilities"></label>
-            <input style="width:100%;" asp-for="@Model.post.Responsibilities" readonly />
+            <textarea style="width:100%;border-radius:0;" class="form-control autoresizing" asp-for="@Model.post.Responsibilities" readonly > </textarea>
         </div>
     </div>
     <div class="row">
@@ -287,11 +287,11 @@
     <div class="row">
         <div class="col pb-2">
             <label asp-for="@Model.post.MinimumRequirement"></label>
-            <input class="form-control" style="width:100%;" asp-for="@Model.post.MinimumRequirement" readonly />
+            <<textarea style="width:100%;border-radius:0;" class="form-control autoresizing" asp-for="@Model.post.MinimumRequirement" readonly > </textarea>
         </div>
         <div class="col pb-2">
             <label asp-for="@Model.post.ApplicationInstruction"></label>
-            <input class="form-control" style="width:100%;" asp-for="@Model.post.ApplicationInstruction" readonly />
+            <textarea style="width:100%;border-radius:0;" class="form-control autoresizing" asp-for="@Model.post.ApplicationInstruction" readonly > </textarea>
         </div>
     </div>
 

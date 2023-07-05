@@ -130,18 +130,14 @@
             function fillTable(posts) {
                 // constructing new table with new filtered posts
                 $('#tbody').empty();
-                $.each(posts, function (index, item) {
-                    var depName = "";
+                $.each(posts, function (index, item) {              
                     $.ajax({
                         type: 'GET',
                         url: '@Url.Action("GetDepartmentNameById")',
                         datatype: 'json',
                         data: { id: item.departmentName },
                         success: function (response) {
-
                             $.each(response, function (indexs, items) {
-
-
                                 $('#tbody').append(
                                     '<tr><td width="15%" >' + item.jobTitle + '</td><td width = "20%">' + items.departmentName + '</td><td width = "15%">' + item.jobType + '</td><td width = "15%">' + item.startDate.split("T")[0] + '</td><td width = "15%" >' + item.endDate.split("T")[0] + '</td> <td width = "20%"> <div class="row" > <div class="col">' + item.postStatus + '</div><div class= "col" ><a href="/Approver/ApproverUpdatePost/' + item.postId + '" class= "btn btn-info btn-sm" value = "" > Review </a></div></div></td></tr>'
                                 );

@@ -168,7 +168,7 @@ namespace SEP.Controllers
         // get Departments by Id for View
         public JsonResult GetDepartmentNameById(int id)
 		{
-			return Json(_db.Departments.Where(d => d.FacultyId.Equals(id)));
+			return Json(_db.Departments.Where(d => d.DepartmentId.Equals(id)));
 		}
 
 		[Authorize(Roles ="Student")]

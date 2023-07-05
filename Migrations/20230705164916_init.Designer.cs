@@ -12,8 +12,8 @@ using SEP.Data;
 namespace SEP.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230627093407_Initial")]
-    partial class Initial
+    [Migration("20230705164916_init")]
+    partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -434,9 +434,8 @@ namespace SEP.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("DepartmentName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("DepartmentName")
+                        .HasColumnType("int");
 
                     b.Property<string>("EmployerId")
                         .HasColumnType("nvarchar(450)");
