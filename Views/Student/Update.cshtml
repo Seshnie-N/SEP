@@ -44,7 +44,7 @@
 
     <form id="addQualificationForm" method="post" data-ajax="true" data-ajax-method="post" data-ajax-complete="OnComplete" asp-action="AddQualification" asp-controller="Student">
         <div id="addQualificationModal" class="modal fade" tabindex="-1" role="dialog" data-bs-backdrop="static">
-            <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title">Add Education</h5>
@@ -123,7 +123,6 @@
 
 @section scripts{
     <partial name="_ValidationScriptsPartial" />
-    <script src="~/lib/jquery-unobtrusive-ajax/dist/jquery.unobtrusive-ajax.js"></script>
     <script type="text/javascript">
         $(document).ready(function () {
             $('#facultyNameID').change(function () {
@@ -142,9 +141,10 @@
                     }
                 });
             });
-
+            
             $('#addQualificationModal').on('hidden.bs.modal', function () {
                 $('#addQualificationForm')[0].reset(); // Reset the form fields
+                
             });
 
 
