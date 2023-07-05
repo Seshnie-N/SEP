@@ -151,7 +151,7 @@ namespace SEP.Controllers
                 {
                     return RedirectToAction("ApplicationHistory");
                 }
-                return RedirectToAction("FilteredJobPosts", "Student");
+                return RedirectToAction("FilteredJobPosts", "Post");
             } else
             {
                 TempData["Message"] = "You cannot submit an empty application. Please upload the necessary documents.";

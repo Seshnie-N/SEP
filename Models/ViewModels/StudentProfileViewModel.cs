@@ -9,6 +9,7 @@ namespace SEP.Models.ViewModels
         public Student Student { get; set; }
         public IEnumerable<Faculty> Faculty { get; set; }
         public IEnumerable<Department> Department { get; set; }
+        public Qualification Qualification { get; set; }
         public IEnumerable<Qualification>? Qualifications { get; set; } = new List<Qualification>();
 		public IEnumerable<WorkExperience>? WorkExperience { get; set; } = new List<WorkExperience>();
 		public IEnumerable<Referee>? Referee { get; set; } = new List<Referee>();

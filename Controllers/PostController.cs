@@ -9,8 +9,8 @@ using SEP.Models.ViewModels;
 
 namespace SEP.Controllers
 {
-    [Authorize]
-    public class PostController : Controller
+	[Authorize]
+	public class PostController : Controller
 	{
 		private readonly ApplicationDbContext _db;
 
@@ -97,9 +97,9 @@ namespace SEP.Controllers
 
 			IEnumerable<Faculty> faculties = _db.Faculties;
 			IEnumerable<Department> departments = _db.Departments.Where(d => d.FacultyId.Equals(facId));
-            IEnumerable<PartTimeHours> partTimeHours = _db.partTimeHours;
+			IEnumerable<PartTimeHours> partTimeHours = _db.partTimeHours;
 
-            PostViewModel postViewModel = new();
+			PostViewModel postViewModel = new();
 
 			if (postObj != null)
 			{
@@ -111,9 +111,9 @@ namespace SEP.Controllers
 			}
 			postViewModel.Faculty = faculties;
 			postViewModel.Department = departments;
-            postViewModel.PartTimeHours = partTimeHours;
+			postViewModel.PartTimeHours = partTimeHours;
 
-            return View(postViewModel);
+			return View(postViewModel);
 		}
 		[HttpPost]
 		public IActionResult UpdatePost(PostViewModel postViewModelObject)
@@ -143,9 +143,10 @@ namespace SEP.Controllers
 		// get Departments by Id
 		public JsonResult GetDepartmentById(int id)
 		{
-			return Json( _db.Departments.Where(d => d.FacultyId.Equals(id)) );
+			return Json(_db.Departments.Where(d => d.FacultyId.Equals(id)));
 		}
 
+		[Authorize(Roles ="Student")]
         public async Task<IActionResult> FilteredJobPosts()
         {
             var user = await _userManager.GetUserAsync(User);

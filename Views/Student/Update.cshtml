@@ -30,74 +30,99 @@
 
     <div class="col pb-2">
         <label asp-for="@Model.User.Email" class="col-3">Email</label>
-        <input asp-for="@Model.User.Email" hidden/>
+        <input asp-for="@Model.User.Email" hidden />
         <input disabled class="form-control disabled" asp-for="@Model.User.Email" />
     </div>
 
-   <partial name = "_StudentDetails"/>
-   </form>
+    <partial name="_StudentDetails" />
+</form>
 
-    <div>
-        <h1>Education</h1>
-        <a class="btn btn-primary" asp-action="AddQualification">Add</a>
-        <table class="table">
-            <tbody>
-                @foreach (var qualification in @Model.Qualifications)
-                {
-                    <tr>
-                        <td>@qualification.QualificationName</td>
-                        <td>@qualification.Institution</td>
-                        <td>
-                            <a class="btn btn-primary" asp-action="ViewQualification" asp-route-id="@qualification.QualificationId">View</a>
-                        </td>
-                    </tr>
-                }
-            </tbody>
-        </table>
-    </div>
+<div>
+    <h1>Education</h1>
+    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addQualificationModal">Add</button>
 
-    <div>
-        <h1>Employment</h1>
-        <a class="btn btn-primary" asp-action="AddWorkExperience">Add</a>
-        <table class="table">
-            <tbody>
-                @foreach (var workExp in @Model.WorkExperience)
-                {
-                    <tr>
-                        <td>@workExp.JobTitle</td>
-                        <td>
-                            <a class="btn btn-primary" asp-action="ViewWorkExperience" asp-route-id="@workExp.WorkExperienceId">View</a>
-                        </td>
-                    </tr>
-                }
-            </tbody>
-        </table>
-    </div>
 
-    <div>
-        <h1>Referees</h1>
-        <a class="btn btn-primary" asp-action="AddReferee">Add</a>
-        <table class="table">
-            <tbody>
-                @foreach (var referee in @Model.Referee)
-                {
-                    <tr>
-                        <td>@referee.Name</td>
-                        <td>@referee.JobTitle</td>
-                        <td>
-                            <a class="btn btn-primary" asp-action="ViewReferee" asp-route-id="@referee.RefereeId">View</a>
-                        </td>
-                    </tr>
-                }
-            </tbody>
-        </table>
-    </div>
+    <form id="addQualificationForm" method="post" data-ajax="true" data-ajax-method="post" data-ajax-complete="OnComplete" asp-action="AddQualification" asp-controller="Student">
+        <div id="addQualificationModal" class="modal fade" tabindex="-1" role="dialog" data-bs-backdrop="static">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Add Education</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true"></span>
+                        </button>
+                    </div>
+                    <div class="modal-body" id="qualificationFormDetails">
+                        <partial name="_QualificationDetails" model="@Model.Qualification" />                        
+                    </div>
+                    <div class="modal-footer">
+                        <input id="btnSubmit" type="submit" value="Submit" class="btn btn-primary" />
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+
+    <table class="table">
+        <tbody>
+            @foreach (var qualification in @Model.Qualifications)
+            {
+                <tr>
+                    <td>@qualification.QualificationName</td>
+                    <td>@qualification.Institution</td>
+                    <td>
+                        <a class="btn btn-primary" asp-action="ViewQualification" asp-route-id="@qualification.QualificationId">View</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<div>
+    <h1>Employment</h1>
+    <a class="btn btn-primary" asp-action="AddWorkExperience">Add</a>
+    <table class="table">
+        <tbody>
+            @foreach (var workExp in @Model.WorkExperience)
+            {
+                <tr>
+                    <td>@workExp.JobTitle</td>
+                    <td>
+                        <a class="btn btn-primary" asp-action="ViewWorkExperience" asp-route-id="@workExp.WorkExperienceId">View</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<div>
+    <h1>Referees</h1>
+    <a class="btn btn-primary" asp-action="AddReferee">Add</a>
+    <table class="table">
+        <tbody>
+            @foreach (var referee in @Model.Referee)
+            {
+                <tr>
+                    <td>@referee.Name</td>
+                    <td>@referee.JobTitle</td>
+                    <td>
+                        <a class="btn btn-primary" asp-action="ViewReferee" asp-route-id="@referee.RefereeId">View</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
 
 <button type="submit" form="detailsForm" class="btn btn-primary">Save Profile</button>
-    <a class="btn btn-primary" asp-controller="Home" asp-action="StudentHome">Back</a>
+<a class="btn btn-primary" asp-controller="Home" asp-action="StudentHome">Back</a>
 
 @section scripts{
     <partial name="_ValidationScriptsPartial" />
+    <script src="~/lib/jquery-unobtrusive-ajax/dist/jquery.unobtrusive-ajax.js"></script>
     <script type="text/javascript">
         $(document).ready(function () {
             $('#facultyNameID').change(function () {
@@ -117,8 +142,14 @@
                 });
             });
 
-
+            $('#addQualificationModal').on('hidden.bs.modal', function () {
+                $('#addQualificationForm')[0].reset(); // Reset the form fields
+            });
         });
+        
+        function OnComplete() {
+            $("#addQualificationModal").modal("hide");
+        }
 
     </script>
 }

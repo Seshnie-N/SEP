@@ -178,7 +178,7 @@ namespace SEP.Controllers
         //POST
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> AddQualificationAsync(Qualification qualification)
+        public async Task<IActionResult> AddQualification(Qualification qualification)
         {
             ApplicationUser user = await _userManager.GetUserAsync(User);
             qualification.StudentId = user.Id;

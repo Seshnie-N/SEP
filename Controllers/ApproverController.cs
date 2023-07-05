@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.EntityFrameworkCore;
 using SEP.Data;
 using SEP.Models.DomainModels;
@@ -37,8 +36,6 @@ namespace SEP.Controllers
         {
             return View();
         }
-
-
 
         public JsonResult GetPendingEmployers()
         {
@@ -172,7 +169,7 @@ namespace SEP.Controllers
             return RedirectToAction("PendingPosts");
         }
 
-        public async Task<IActionResult> Stats()
+        public IActionResult Stats()
         {
             List<Post> postsGroupByDepartment = _db.Posts
                                                 .GroupBy(p => p.DepartmentName)
@@ -195,6 +192,7 @@ namespace SEP.Controllers
             };
             return View(statsViewModel);
         }
+
         //[HttpGet]
         //[ValidateAntiForgeryToken]
         //public async Task<JsonResult> PostData()
