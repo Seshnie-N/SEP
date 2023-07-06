@@ -1,102 +1,123 @@
 ﻿@model SEP.Models.ViewModels.StudentProfileViewModel
 @using SEP.Models.Enums
-<div class="col pb-2">
-    <label asp-for="@Model.Student.Address" class="col-3">Address</label>
-    <input class="form-control" asp-for="@Model.Student.Address" />
-    <span asp-validation-for="@Model.Student.Address" class="text-danger"></span>
-</div>
 
 
-<div class="col pb-2">
-    <label asp-for="@Model.Student.IdNumber" class="col-3">ID Number</label>
-    <input class="form-control" maxlength="13" asp-for="@Model.Student.IdNumber" />
-    <span asp-validation-for="@Model.Student.IdNumber" class="text-danger"></span>
-</div>
+<div class="row">
+    <div class="col-md-6">
+        <div class="form-group">
+            <label asp-for="@Model.Student.Address">Address</label>
+            <input class="form-control" asp-for="@Model.Student.Address" />
+            <span asp-validation-for="@Model.Student.Address" class="text-danger"></span>
+        </div>
 
-<div class="col pb-2">
-    <label asp-for="@Model.Student.Gender" class="col-3"></label>
-    <select class="form-select" asp-for="@Model.Student.Gender" asp-items="@Html.GetEnumSelectList<Gender>()">
-        <option value=@null>Select...</option>
-    </select>
-    <span asp-validation-for="@Model.Student.Gender" class="text-danger"></span>
-</div>
+        <div class="form-group">
+            <label asp-for="@Model.Student.IdNumber">ID Number</label>
+            <input class="form-control" maxlength="13" asp-for="@Model.Student.IdNumber" />
+            <span asp-validation-for="@Model.Student.IdNumber" class="text-danger"></span>
+        </div>
 
-<div class="col pb-2">
-    <label asp-for="@Model.Student.Race" class="col-3"></label>
-    <select class="form-select" asp-for="@Model.Student.Race" asp-items="@Html.GetEnumSelectList<Race>()">
-        <option value=@null>Select...</option>
-    </select>
-    <span asp-validation-for="@Model.Student.Race" class="text-danger"></span>
-</div>
 
-<div class="col pb-2">
-    <label asp-for="@Model.Student.DriversLicense" class="col-3"></label>
-    <select class="form-select" asp-for="@Model.Student.DriversLicense" asp-items="@Html.GetEnumSelectList<DriversLicense>()">
-        <option value=@null>Select...</option>
-    </select>
-    <span asp-validation-for="@Model.Student.DriversLicense" class="text-danger"></span>
-</div>
-
-<div class="col pb-2">
-    <label asp-for="@Model.Student.CareerObjective" class="col-3">Career Objective</label>
-    <textarea class="form-control" asp-for="@Model.Student.CareerObjective"></textarea>
-</div>
-
-<div class="pb-2">
-    <label asp-for="@Model.Student.IsSouthAfrican">Are you a South African citizen?</label>
-    <div class="form-check-inline">
-        <input type="radio" asp-for="@Model.Student.IsSouthAfrican" id="SA" value="true" />
-        <label>Yes</label>
+        <div class="form-group">
+            <label asp-for="@Model.Student.Faculty">Faculty</label>
+            <select id="facultyNameID" class="form-control" asp-for="@Model.Student.Faculty">
+                <option value="@null" selected disabled>Select faculty</option>
+                @foreach (var faculty in @Model.Faculty)
+                {
+                    <option value="@faculty.FacultyId">@faculty.FacultyName</option>
+                }
+            </select>
+            <span asp-validation-for="@Model.Student.Faculty" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="@Model.Student.Race">Race</label>
+            <select class="form-control" asp-for="@Model.Student.Race" asp-items="@Html.GetEnumSelectList<Race>()">
+                <option value="@null">Select...</option>
+            </select>
+            <span asp-validation-for="@Model.Student.Race" class="text-danger"></span>
+        </div>
     </div>
-    <div class="form-check-inline">
-        <input type="radio" asp-for="@Model.Student.IsSouthAfrican" id="NotSA" value="false" />
-        <label>No</label>
+
+    <div class="col-md-6">
+        <div class="form-group">
+            <label asp-for="@Model.Student.YearOfStudy">Year of Study</label>
+            <select class="form-control" asp-for="@Model.Student.YearOfStudy" asp-items="@Html.GetEnumSelectList<YearOfStudy>()">
+                <option value="@null">Select...</option>
+            </select>
+            <span asp-validation-for="@Model.Student.YearOfStudy" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="@Model.Student.Gender">Gender</label>
+            <select class="form-control" asp-for="@Model.Student.Gender" asp-items="@Html.GetEnumSelectList<Gender>()">
+                <option value="@null">Select...</option>
+            </select>
+            <span asp-validation-for="@Model.Student.Gender" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="@Model.Student.Department">Department</label>
+            <select id="departmentNameID" class="form-control" asp-for="@Model.Student.Department">
+                <option value="@null" selected disabled>Select department</option>
+                @foreach (var dep in @Model.Department)
+                {
+                    <option value="@dep.DepartmentName">@dep.DepartmentName</option>
+                }
+            </select>
+            <span asp-validation-for="@Model.Student.Department" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="@Model.Student.DriversLicense">Driver's License</label>
+            <select class="form-control" asp-for="@Model.Student.DriversLicense" asp-items="@Html.GetEnumSelectList<DriversLicense>()">
+                <option value="@null">Select...</option>
+            </select>
+            <span asp-validation-for="@Model.Student.DriversLicense" class="text-danger"></span>
+        </div>
     </div>
-    <span asp-validation-for="@Model.Student.IsSouthAfrican" class="text-danger"></span>
+</div>
+<div class="row mt-2 ">
+    <div class="col-md-6">
+        <div class="form-group">
+            <label asp-for="@Model.Student.IsSouthAfrican" class="mr-2">Is South African?</label>
+            <div class="form-check form-check-inline">
+                <input type="radio" asp-for="@Model.Student.IsSouthAfrican" id="SA" value="true" class="form-check-input" />
+                <label class="form-check-label">Yes</label>
+            </div>
+            <div class="form-check form-check-inline">
+                <input type="radio" asp-for="@Model.Student.IsSouthAfrican" id="NotSA" value="false" class="form-check-input" />
+                <label class="form-check-label">No</label>
+            </div>
+            <span asp-validation-for="@Model.Student.IsSouthAfrican" class="text-danger"></span>
+        </div>
+    </div>
 </div>
 
-<div class="col pb-2">
-    <label asp-for="@Model.Student.YearOfStudy"></label>
-    <select class="form-select" asp-for="@Model.Student.YearOfStudy" asp-items="@Html.GetEnumSelectList<YearOfStudy>()">
-        <option value=@null>Select...</option>
-    </select>
-    <span asp-validation-for="@Model.Student.YearOfStudy" class="text-danger"></span>
-</div>
+<div class="row">
+    <div class="col-md-6">
+        <div class="form-group">
+            <label asp-for="@Model.Student.Skills">Skills</label>
+            <textarea class="form-control" asp-for="@Model.Student.Skills" rows="3"></textarea>
+        </div>
+    </div>
 
-<div class="col pb-2">
-    <label asp-for="@Model.Student.Faculty"></label>
-    <select id="facultyNameID" class="form-select" asp-for="@Model.Student.Faculty">
-        <option value=@null selected disabled>Select faculty</option>
-        @foreach (var faculty in @Model.Faculty)
-        {
-            <option value="@faculty.FacultyId">@faculty.FacultyName</option>
-        }
-    </select>
-    <span asp-validation-for="@Model.Student.Faculty" class="text-danger"></span>
+    <div class="col-md-6">
+        <div class="form-group">
+            <label asp-for="@Model.Student.CareerObjective">Career Objective</label>
+            <textarea class="form-control" asp-for="@Model.Student.CareerObjective" rows="3"></textarea>
+        </div>
+    </div>
 </div>
-<div class="col pb-2">
-    <label asp-for="@Model.Student.Department"></label>
-    <select id="departmentNameID" class="form-select" asp-for="@Model.Student.Department">
-        <option value=@null selected disabled>Select department</option>
-        @foreach (var dep in @Model.Department)
-        {
-            <option value="@dep.DepartmentName">@dep.DepartmentName</option>
-        }
-    </select>
-    <span asp-validation-for="@Model.Student.Department" class="text-danger"></span>
-</div>
+<div class="row">
+    <div class="col-md-6">
+        <div class="form-group">
+            <label asp-for="@Model.Student.Interests">Interests</label>
+            <textarea class="form-control" asp-for="@Model.Student.Interests" rows="3"></textarea>
+        </div> 
+    </div>
 
-<div class="col pb-2">
-    <label asp-for="@Model.Student.Skills" class="col-3">Skills</label>
-    <textarea class="form-control" asp-for="@Model.Student.Skills" class="col-10 row-cols-md-auto"></textarea>
-</div>
-
-<div class="col pb-2">
-    <label asp-for="@Model.Student.Achievements" class="col-3">Achievements</label>
-    <textarea class="form-control" asp-for="@Model.Student.Achievements" class="col-10 row-cols-md-auto"></textarea>
-</div>
-
-<div class="col pb-2">
-    <label asp-for="@Model.Student.Interests" class="col-3">Interests</label>
-    <textarea class="form-control" asp-for="@Model.Student.Interests" class="col-10 row-cols-md-auto"></textarea>
+    <div class="col-md-6">
+        <div class="form-group">
+            <label asp-for="@Model.Student.Achievements">Achievements</label>
+            <textarea class="form-control" asp-for="@Model.Student.Achievements" rows="3"></textarea>
+        </div>
+    </div>
 </div>

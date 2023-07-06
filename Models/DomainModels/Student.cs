@@ -30,7 +30,7 @@ namespace SEP.Models.DomainModels
         public Gender Gender { get; set; }
         [Required(ErrorMessage = "Please select an option")]
         public Race Race { get; set; }
-        [DisplayName("South African?")]
+        [DisplayName("Are you a South African citizen?")]
         public bool IsSouthAfrican { get; set; }
         [DisplayName("Year of study")]
         [Required(ErrorMessage = "Select your year of study")]

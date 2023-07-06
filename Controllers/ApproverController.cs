@@ -104,8 +104,13 @@ namespace SEP.Controllers
             IEnumerable<Post> posts = _db.Posts.Where(p => p.IsApproved == false && p.PostStatus.Equals("Pending"));
             return View(posts);
         }
+		public IActionResult GetPendingPosts()
+		{
+			IEnumerable<Post> posts = _db.Posts.Where(p => p.IsApproved == false && p.PostStatus.Equals("Pending"));
+			return Json(posts);
+		}
 
-        public IActionResult ApproverUpdatePost(Guid id)
+		public IActionResult ApproverUpdatePost(Guid id)
         {
 
             Post postObj = _db.Posts.Find(id);
@@ -185,21 +190,44 @@ namespace SEP.Controllers
                 departments.Add(post.DepartmentName);
                 averageHourlyRate.Add(post.HourlyRate);
             }
-            var statsViewModel = new DepartmentHourlyRateStatViewModel()
+            var departmentRateVM= new DepartmentHourlyRateStatViewModel()
             {
                 Departments = departments,
                 HourlyRates = averageHourlyRate
             };
+
+            List<Post> postsGroupByPartTimeHour = _db.Posts
+                                                  .GroupBy(p =>p.PartTimeHour)
+                                                  .Select(p => new Post
+                                                  {
+                                                      PartTimeHour = p.First().PartTimeHour,
+                                                      HourlyRate = p.Sum(p => p.HourlyRate),
+                                                  })
+                                                  .Where(p => p.PartTimeHour != null).ToList();
+            List<string> hourRange = new();
+            List<decimal> averageRate = new();
+            foreach (Post post in postsGroupByPartTimeHour)
+            {
+                hourRange.Add(post.PartTimeHour);
+                averageRate.Add(post.HourlyRate);
+            }
+            var hoursWorkedRateVM = new HourlyRateByHoursWorkedViewModel()
+            {
+                HourlyRates = averageRate,
+                PartTimeHours = hourRange
+            };
+
+            var statsViewModel = new StatsViewModel()
+            {
+                DepartmentHourlyRateStat = departmentRateVM,
+                HourlyRateByHoursWorked = hoursWorkedRateVM
+            };
+            
+
             return View(statsViewModel);
         }
 
-        //[HttpGet]
-        //[ValidateAntiForgeryToken]
-        //public async Task<JsonResult> PostData()
-        //{
-        //    var posts = _db.Posts.Distinct().Select(p =>new { p.DepartmentName , p.HourlyRate}).ToList();
-        //    return Json(posts);
-        //}
+
 
     }
 }

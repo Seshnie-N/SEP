@@ -217,6 +217,76 @@ namespace SEP.Controllers
             return View(studentPost);
         }
 
+        public async Task<IActionResult> GetFilteredJobPosts()
+        {
+            var user = await _userManager.GetUserAsync(User);
+            var student = await _db.Students.Where(s => s.UserId == user.Id).SingleOrDefaultAsync();
+            var qualifications = await _db.Qualifications.Where(q => q.StudentId == user.Id).FirstOrDefaultAsync();
+            var workExperiences = await _db.WorkExperiences.Where(q => q.StudentId == user.Id).FirstOrDefaultAsync();
+            var referees = await _db.Referees.Where(q => q.StudentId == user.Id).FirstOrDefaultAsync();
+            bool profileCompleted = true;
+            if (qualifications == null)
+            {
+                profileCompleted = false;
+            }
+
+            var predicate = PredicateBuilder.New<Post>();
+            predicate = predicate.And(p => p.IsApproved);
+            predicate = predicate.And(p => p.PostStatus.Equals("Approved"));
+            //filter if student is not a south african citizen
+            if (!student.IsSouthAfrican)
+            {
+                predicate = predicate.And(p => !p.LimitedToSA);
+            }
+
+            //filter by student's year of study
+            string YearOfStudy = student.YearOfStudy.ToString();
+            switch (YearOfStudy)
+            {
+                case "FirstYear":
+                    predicate = predicate.And(p => p.LimitedTo1stYear);
+                    break;
+                case "SecondYear":
+                    predicate = predicate.And(p => p.LimitedTo2ndYear);
+                    break;
+                case "ThirdYear":
+                    predicate = predicate.And(p => p.LimitedTo3rdYear);
+                    break;
+                case "Honours":
+                    predicate = predicate.And(p => p.LimitedToHonours);
+                    break;
+                case "Graduate":
+                    predicate = predicate.And(p => p.LimitedToGraduate);
+                    break;
+                case "Masters":
+                    predicate = predicate.And(p => p.LimitedToMasters);
+                    break;
+                case "PhD":
+                    predicate = predicate.And(p => p.LimitedToPhd);
+                    break;
+                case "Postdoc":
+                    predicate = predicate.And(p => p.LimitedToPostdoc);
+                    break;
+            }
+            predicate = predicate.Or(p => p.IsApproved && p.PostStatus.Equals("Approved") && !p.LimitedTo1stYear && !p.LimitedTo2ndYear && !p.LimitedTo3rdYear && !p.LimitedToHonours && !p.LimitedToGraduate && !p.LimitedToMasters && !p.LimitedToPhd && !p.LimitedToPostdoc);
+
+
+            //filter out job posts that have already been applied to
+            var postsAppliedToIds = _db.JobApplications.Where(a => a.StudentId == user.Id).Select(a => a.PostId);
+
+            var posts = _db.Posts.Where(predicate).ToList();
+            posts = posts.Where(p => !postsAppliedToIds.Contains(p.PostId)).ToList();
+
+
+            StudentPostViewModel studentPost = new()
+            {
+                Posts = posts,
+                ProfileComplete = profileCompleted
+            };
+
+            return Json(posts);
+        }
+
         public async Task<ActionResult> Details(Guid id)
 		{
 			var post = await _db.Posts.FirstAsync(p => p.PostId == id);

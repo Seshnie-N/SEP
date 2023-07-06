@@ -5,6 +5,7 @@
 }
 
 <h1>Job Posts</h1>
+<hr />
 @if (Model.ProfileComplete)
 {
     @if (Model.Posts.Count() == 0)
@@ -13,7 +14,7 @@
     }
     else
     {
-        <table class="table">
+        <table id="postTable" class="table">
             <thead>
                 <tr>
                     <th>
@@ -42,35 +43,7 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach (var item in Model.Posts)
-                {
-                    <tr>
-                        <td>
-                            @item.JobTitle
-                        </td>
-                        <td>
-                            @item.DepartmentName
-                        </td>
-                        <td>
-                            @item.JobType
-                        </td>
-                        <td>
-                            @item.PartTimeHour
-                        </td>
-                        <td>
-                            @item.StartDate.ToString("d")
-                        </td>
-                        <td>
-                            @item.EndDate.ToString("d")
-                        </td>
-                        <td>
-                            @item.HourlyRate
-                        </td>
-                        <td>
-                            <a class="btn btn-primary" asp-controller="Post" asp-action="Details" asp-route-id="@item.PostId">Details</a>
-                        </td>
-                    </tr>
-                }
+
             </tbody>
         </table>
     }
@@ -82,3 +55,39 @@
 <div class="pt-3">
     <a class="btn btn-primary" asp-controller="Home" asp-action="StudentHome">Back</a>
 </div>
+
+@section Scripts{
+    <script>
+        $(document).ready(function(){
+            
+            LoadList();
+        });
+
+        function LoadList(){
+            var postData = [];
+            $.ajax({
+                type:"GET",
+                url:"/Post/GetFilteredJobPosts",
+                async: false,
+                success: function(data){
+                    $.each(data, function(key, value){
+                        var detailsBtn = "<a class='btn btn-primary' href='/Post/Details/" + value.postId + "'>Details</a>";
+                        var hdn = "<input type='hidden' value="+value.postId +"/>";
+                        var action = detailsBtn + hdn;
+                        var startDate = new Date(value.startDate);
+                        var formattedStartDate = startDate.toDateString();
+                        var endDate = new Date(value.endDate);
+                        var formattedEndDate = endDate.toDateString();
+                        postData.push([value.jobTitle, value.departmentName, value.jobType, value.partTimeHour, formattedStartDate, formattedEndDate, value.hourlyRate, action])
+                    });
+                },
+                failure: function(error){
+
+                }
+            });
+            $('#postTable').DataTable({
+                data: postData
+            });
+        }
+    </script>
+}

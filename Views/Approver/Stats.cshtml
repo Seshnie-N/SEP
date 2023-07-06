@@ -1,35 +1,126 @@
-﻿@model SEP.Models.ViewModels.DepartmentHourlyRateStatViewModel
+﻿@model SEP.Models.ViewModels.StatsViewModel
 @inject IJsonHelper Json;
-<h1>Stats</h1>
-<div class="row">
-    <canvas id="myChart"> </canvas>
+<h1>Statistics</h1>
+<hr />
+<div class="container">
+    <div class="row">
+        <canvas id="Chart1"></canvas>
+    </div>
+    <div class="row justify-content-center">
+        <div class="col-6">
+            <canvas id="Chart2"></canvas>
+        </div>
+    </div>
 </div>
+
 @section Scripts{
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.3.0/dist/chart.umd.min.js"></script>
-    <script >
-       
-        const ctx = document.getElementById('myChart');
-        
-        new Chart(ctx, {
+    <script>
+
+        const ctx1 = document.getElementById('Chart1');
+
+        new Chart(ctx1, {
             type: 'bar',
             data: {
-                labels: @Json.Serialize(Model.Departments),
+                labels: @Json.Serialize(Model.DepartmentHourlyRateStat.Departments),
                 datasets: [{
                     label: 'Average Hourly Rate',
-                    data: @Json.Serialize(Model.HourlyRates),
-                    borderWidth: 1
+                    data: @Json.Serialize(Model.DepartmentHourlyRateStat.HourlyRates),
+                    borderWidth: 1,
+                    borderColor: 'rgba(0, 0, 0, 1)',
+                    backgroundColor: 'rgba(184, 134, 11, 0.5)',
                 }]
             },
             options: {
                 responsive: true,
-                maintainAspectRatio: false,
+                maintainAspectRatio: true,
                 scales: {
                     y: {
-                        beginAtZero: true
-                    }
-                }
-            }
+                        beginAtZero: true,
+                        grid: {
+                            drawBorder: false,
+                            color: 'rgba(0, 0, 0, 0)',
+                        },
+                        ticks: {
+                            callback: function (value) {
+                                return 'R' + value;
+                            }
+                        },
+                    },
+                },
+                plugins: {
+                    legend: {
+                        display: false, // Hide legend
+                    },
+                    title: {
+                        display: true,
+                        text: 'Average Hourly Rate by Department',
+                        font: {
+                            size: 18,
+                            weight: 'bold',
+                        },
+                        padding: {
+                            top: 10,
+                            bottom: 20,
+                        },
+                    },
+                },
+            },
         });
+
+        const ctx2 = document.getElementById('Chart2');
+
+        new Chart(ctx2, {
+            type: 'pie', // Convert to a pie chart
+            data: {
+                labels: @Json.Serialize(Model.HourlyRateByHoursWorked.PartTimeHours),
+                datasets: [{
+                    label: 'Average Hourly Rate',
+                    data: @Json.Serialize(Model.HourlyRateByHoursWorked.HourlyRates),
+                    backgroundColor: [
+                        '#ff6384',
+                        '#36a2eb',
+                        '#ffce56',
+                        '#4bc0c0',
+                        '#9966ff',
+                        '#ff9f40',
+                        '#ffcd56',
+                        '#52d726',
+                        '#ff3d67',
+                        '#6699ff'
+                    ],
+                    borderWidth: 1,
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: true,
+                plugins: {
+                    title: {
+                        display: true,
+                        text: 'Hourly Rate by Part Time Hours Worked', // Set the chart title
+                        font: {
+                            size: 18,
+                            weight: 'bold',
+                        },
+                        padding: {
+                            top: 10,
+                            bottom: 20,
+                        },
+                    },
+                    legend: {
+                        display: true,
+                        position: 'bottom',
+                        labels: {
+                            fontColor: 'rgba(0, 0, 0, 0.7)', // Set legend label color
+                        },
+                    },
+                },
+            },
+        });
+
+
+
 
     </script>
 }

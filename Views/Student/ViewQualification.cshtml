@@ -18,6 +18,9 @@
                 <button type="submit" class="btn btn-danger" asp-action="DeleteQualification">Delete</button>
             </div>
             <div class="pt-2">
+                @{
+                    TempData["Tab"] = "education";
+                }
                 <a class="btn btn-primary" asp-controller="Student" asp-action="Update">Back</a>
             </div>
         </form>

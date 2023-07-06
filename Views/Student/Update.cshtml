@@ -1,130 +1,150 @@
 ﻿@model SEP.Models.ViewModels.StudentProfileViewModel
 @using SEP.Models.Enums
+@inject IJsonHelper Json
 
+<h1>Manage Profile</h1>
+<hr />
+<div class="container">
 
-<h1>Personal Details</h1>
+    <ul class="nav nav-tabs">
+        <li class="nav-item">
+            <a class="nav-link active" id="personalTab" data-bs-toggle="tab" href="#personal">Personal Details</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="educationTab" data-bs-toggle="tab" href="#education">Education</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="employmentTab" data-bs-toggle="tab" href="#employment">Employment</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="refereesTab" data-bs-toggle="tab" href="#referees">Referees</a>
+        </li>
+    </ul>
 
-<form id="detailsForm" method="post" asp-action="Update" class="pb-2">
+    <div class="tab-content mt-2 mb-2">
+        <div class="tab-pane fade show active" id="personal">
+            <form id="detailsForm" method="post" asp-action="Update" class="pb-2">
+                <input asp-for="@Model.Student.UserId" hidden />
+                <input asp-for="@Model.User.Id" hidden />
 
-    <input asp-for="@Model.Student.UserId" hidden />
-    <input asp-for="@Model.User.Id" hidden />
+                <div asp-validation-summary="All" class="invalid-feedback"></div>
 
-    <div asp-validation-summary="All" class="invalid-feedback"></div>
-    <div class="col pb-2">
-        <label asp-for="@Model.User.FirstName" class="col-3">First name</label>
-        <input class="form-control" asp-for="@Model.User.FirstName" />
-        <span asp-validation-for="@Model.User.FirstName" class="text-danger"></span>
-    </div>
-
-    <div class="col pb-2">
-        <label asp-for="@Model.User.LastName" class="col-3">Last name</label>
-        <input class="form-control" asp-for="@Model.User.LastName" />
-        <span asp-validation-for="@Model.User.LastName" class="text-danger"></span>
-    </div>
-
-    <div class="col pb-2">
-        <label asp-for="@Model.User.PhoneNumber" class="col-3">Phone number</label>
-        <input class="form-control" asp-for="@Model.User.PhoneNumber" />
-        <span asp-validation-for="@Model.User.PhoneNumber" class="text-danger"></span>
-    </div>
-
-    <div class="col pb-2">
-        <label asp-for="@Model.User.Email" class="col-3">Email</label>
-        <input asp-for="@Model.User.Email" hidden />
-        <input disabled class="form-control disabled" asp-for="@Model.User.Email" />
-    </div>
-
-    <partial name="_StudentDetails" />
-</form>
-
-<div>
-    <h1>Education</h1>
-    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addQualificationModal">Add</button>
-
-
-    <form id="addQualificationForm" method="post" data-ajax="true" data-ajax-method="post" data-ajax-complete="OnComplete" asp-action="AddQualification" asp-controller="Student">
-        <div id="addQualificationModal" class="modal fade" tabindex="-1" role="dialog" data-bs-backdrop="static">
-            <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title">Add Education</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true"></span>
-                        </button>
+                <div class="row">
+                    <div class="col-md-6">
+                        <label asp-for="@Model.User.FirstName" class="form-label">First name</label>
+                        <input class="form-control" asp-for="@Model.User.FirstName" />
+                        <span asp-validation-for="@Model.User.FirstName" class="text-danger"></span>
                     </div>
-                    <div class="modal-body" id="qualificationFormDetails">
-                        <partial name="_QualificationDetails" model="@Model.Qualification"/>                        
+
+                    <div class="col-md-6">
+                        <label asp-for="@Model.User.LastName" class="form-label">Last name</label>
+                        <input class="form-control" asp-for="@Model.User.LastName" />
+                        <span asp-validation-for="@Model.User.LastName" class="text-danger"></span>
                     </div>
-                    <div class="modal-footer">
-                        <input id="btnSubmit" type="submit" value="Submit" class="btn btn-primary" />
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <label asp-for="@Model.User.PhoneNumber" class="form-label">Phone number</label>
+                        <input class="form-control" asp-for="@Model.User.PhoneNumber" />
+                        <span asp-validation-for="@Model.User.PhoneNumber" class="text-danger"></span>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label asp-for="@Model.User.Email" class="form-label">Email</label>
+                        <input id="emailHolder" asp-for="@Model.User.Email" hidden />
+                        <input disabled class="form-control disabled" asp-for="@Model.User.Email" />
+                    </div>
+                </div>
+
+                <partial name="_StudentDetails" />
+            </form>
+        </div>
+
+        <div class="tab-pane fade" id="education">
+            <button type="button" class="btn btn-primary m-2" data-bs-toggle="modal" data-bs-target="#addQualificationModal">Add</button>
+
+            <form id="addQualificationForm" method="post" data-ajax="true" data-ajax-method="post" data-ajax-complete="OnComplete" asp-action="AddQualification" asp-controller="Student">
+                <div id="addQualificationModal" class="modal fade" tabindex="-1" role="dialog" data-bs-backdrop="static">
+                    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title">Add Education</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true"></span>
+                                </button>
+                            </div>
+                            <div class="modal-body" id="qualificationFormDetails">
+                                <partial name="_QualificationDetails" model="@Model.Qualification" />
+                            </div>
+                            <div class="modal-footer">
+                                <input id="btnSubmit" type="submit" value="Submit" class="btn btn-primary" />
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+            <div class="row ms-3 justify-content-start">
+                <div  class="col-md-6">
+                    <div id="qualificationContainer">
+
                     </div>
                 </div>
             </div>
         </div>
-    </form>
 
-    <table class="table">
-        <tbody>
-            @*@foreach (var qualification in @Model.Qualifications)
-            {
-                <tr>
-                    <td>@qualification.QualificationName</td>
-                    <td>@qualification.Institution</td>
-                    <td>
-                        <a class="btn btn-primary" asp-action="ViewQualification" asp-route-id="@qualification.QualificationId">View</a>
-                    </td>
-                </tr>
-            }*@
+        <div class="tab-pane fade" id="employment">
+            <a class="btn btn-primary" asp-action="AddWorkExperience">Add</a>
+            <table class="table">
+                <tbody>
+                    @foreach (var workExp in @Model.WorkExperience)
+                    {
+                        <tr>
+                            <td>@workExp.JobTitle</td>
+                            <td>
+                                <a class="btn btn-primary" asp-action="ViewWorkExperience" asp-route-id="@workExp.WorkExperienceId">View</a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
 
-        </tbody>
-    </table>
+        <div class="tab-pane fade" id="referees">
+            <a class="btn btn-primary" asp-action="AddReferee">Add</a>
+            <table class="table">
+                <tbody>
+                    @foreach (var referee in @Model.Referee)
+                    {
+                        <tr>
+                            <td>@referee.Name</td>
+                            <td>@referee.JobTitle</td>
+                            <td>
+                                <a class="btn btn-primary" asp-action="ViewReferee" asp-route-id="@referee.RefereeId">View</a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
 </div>
-
 <div>
-    <h1>Employment</h1>
-    <a class="btn btn-primary" asp-action="AddWorkExperience">Add</a>
-    <table class="table">
-        <tbody>
-            @foreach (var workExp in @Model.WorkExperience)
-            {
-                <tr>
-                    <td>@workExp.JobTitle</td>
-                    <td>
-                        <a class="btn btn-primary" asp-action="ViewWorkExperience" asp-route-id="@workExp.WorkExperienceId">View</a>
-                    </td>
-                </tr>
-            }
-        </tbody>
-    </table>
+    <button type="submit" form="detailsForm" class="btn btn-primary .text-nowrap">Save Profile</button>
+    <a class="btn btn-primary .text-nowrap" asp-controller="Home" asp-action="StudentHome">Back</a>
 </div>
 
-<div>
-    <h1>Referees</h1>
-    <a class="btn btn-primary" asp-action="AddReferee">Add</a>
-    <table class="table">
-        <tbody>
-            @foreach (var referee in @Model.Referee)
-            {
-                <tr>
-                    <td>@referee.Name</td>
-                    <td>@referee.JobTitle</td>
-                    <td>
-                        <a class="btn btn-primary" asp-action="ViewReferee" asp-route-id="@referee.RefereeId">View</a>
-                    </td>
-                </tr>
-            }
-        </tbody>
-    </table>
-</div>
-
-<button type="submit" form="detailsForm" class="btn btn-primary">Save Profile</button>
-<a class="btn btn-primary" asp-controller="Home" asp-action="StudentHome">Back</a>
+@{
+    var tab = TempData["Tab"]?.ToString();
+    TempData.Remove("Tab");
+}
 
 @section scripts{
     <partial name="_ValidationScriptsPartial" />
     <script type="text/javascript">
         $(document).ready(function () {
+            LoadList();
             $('#facultyNameID').change(function () {
                 var obId = this.value
                 //alert(obId);
@@ -141,17 +161,61 @@
                     }
                 });
             });
-            
-            $('#addQualificationModal').on('hidden.bs.modal', function () {
-                $('#addQualificationForm')[0].reset(); // Reset the form fields
+
+
+            $('#addQualificationModal').on('hide.bs.modal', function () {
+                $('#addQualificationForm')[0].reset();
             });
 
 
+            if ('@tab') {
+                $('a[href="#' + '@tab' + '"]').tab('show');
+            }
+
         });
-        
+
         function OnComplete() {
+            $("#qualificationContainer").empty();
+            LoadList();
             $("#addQualificationModal").modal("hide");
         }
 
+        function LoadList() {
+            var qualificationData = [];
+            $.ajax({
+                type: "GET",
+                url: "/Student/GetQualifications",
+                async: false,
+                success: function (data) {
+                    console.log(data);
+                    $.each(data, function (key, value) {
+                        var viewBtn = "<a class='btn btn-primary' href='/Student/ViewQualification/" + value.qualificationId + "'>View</a>";
+                        var hdn = "<input type='hidden' value=" + value.qualificationId + "/>";
+                        var action = viewBtn + hdn;
+                        var startDate = new Date(value.startDate);
+                        var formattedStartDate = startDate.toDateString();
+                        var endDate = new Date(value.endDate);
+                        var formattedEndDate = endDate.toDateString();
+
+                        var card = $("<div class='card m-2'></div>");
+                        var cardBody = $("<div class='card-body'></div>");
+
+                        cardBody.append("<h5 class='card-title'>" + value.qualificationName + "</h5>");
+                        cardBody.append("<p class='card-text'>Institution: " + value.institution + "</p>");
+                        cardBody.append("<p class='card-text'>Start Date: " + formattedStartDate + "</p>");
+                        cardBody.append("<p class='card-text'>End Date: " + formattedEndDate + "</p>");
+                        cardBody.append(action);
+
+                        card.append(cardBody);
+
+                        $("#qualificationContainer").append(card);
+                    });
+                },
+                failure: function (error) {
+
+                }
+            });
+
+        }
     </script>
 }

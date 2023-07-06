@@ -169,16 +169,11 @@ namespace SEP.Controllers
         }
 
         //qualification 
-        //GET
-        public IActionResult AddQualification()
+        public async Task<IActionResult> GetQualifications()
         {
-            return View();
+            ApplicationUser user = await _userManager.GetUserAsync(User);
+            return Json(_db.Qualifications.Where(q => q.StudentId == user.Id));
         }
-        //GET
-        //public JsonResult GetQualificationsList(int id)
-        //{
-        //    return Json(_db.Qualifications.Where());
-        //}
         //POST
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -188,6 +183,7 @@ namespace SEP.Controllers
             qualification.StudentId = user.Id;
             _db.Qualifications.Add(qualification);
             _db.SaveChanges();
+            TempData["Tab"] = "education";
             return RedirectToAction("Update");
         }
         //GET
@@ -219,6 +215,7 @@ namespace SEP.Controllers
                 qualificationRecord.SubMajors = qualification.SubMajors;
                 qualificationRecord.Research = qualification.Research;
                 _db.SaveChanges();
+                TempData["Tab"] = "education";
                 return RedirectToAction("Update");
             }
 
@@ -234,6 +231,7 @@ namespace SEP.Controllers
             {
                 _db.Qualifications.Remove(qualificationRecord);
                 _db.SaveChanges();
+                TempData["Tab"] = "education";
                 return RedirectToAction("Update");
             }
             return RedirectToAction("Update"); ;
