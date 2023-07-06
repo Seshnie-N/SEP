@@ -15,6 +15,7 @@ namespace SEP.Data
             var partTimeHours = context.partTimeHours.Select(p => p.TimeRange).ToList();
             var statusList = new List<string> {"Pending", "Approved", "Rejected", "Queried" };
             var postStatusList = new List<string> { "Approved", "Withdrawn", "Closed" };
+            var JobTypes = new List<string> { "Fulltime", "Part-time" };
 
             Randomizer.Seed = new Random(1969);
             postFake = new Faker<Post>()
@@ -39,10 +40,7 @@ namespace SEP.Data
                 .RuleFor(p => p.ContactPersonName, f => f.Name.FullName())
                 .RuleFor(p => p.ContactPersonEmail, (f, p) => f.Internet.Email(p.ContactPersonName))
                 .RuleFor(p => p.ContactPersonNumber, f => f.Phone.PhoneNumber("0#########"))
-                .CustomInstantiator(f => new Post
-                {
-                    JobType = f.PickRandom<JobType>().ToString(),
-                })
+                .RuleFor(p=> p.JobType, f => f.PickRandom(JobTypes))
                 .RuleFor(p => p.PartTimeHour, (f,p) => p.JobType == "FullTime" ? null : f.PickRandom(partTimeHours))
                 .RuleFor(p => p.LimitedToSA, f => f.Random.Bool())
                 .RuleFor(p => p.LimitedTo1stYear, f => f.Random.Bool())

@@ -216,14 +216,14 @@
             });
 
             // including search by department
-
+            //filterValue.facultyName == obId &&
             $('#departmentNameID').change(function () {
                 $('#searchDepartmentClear').show();
                 var obId = $('#facultyNameID').val();
                 var dep = $('#departmentNameID').val();
                 console.log($('#departmentNameID').val() )
                 var newPosts = Pendingposts[0].filter((filterValue) => {
-                    if (filterValue.facultyName == obId && filterValue.departmentName == dep) {
+                    if ( filterValue.departmentName == dep) {
                         return filterValue;
                     }
                 });
